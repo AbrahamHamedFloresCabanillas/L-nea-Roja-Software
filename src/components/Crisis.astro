@@ -135,7 +135,9 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
 
   .cx-board { display: grid; gap: 24px; }
   @media (min-width: 1200px) {
-    :global(.js) .cx-board { grid-template-columns: 1fr; }
+    :global(.js) .cx-board { grid-template-columns: 340px 1fr; gap: 32px; align-items: start; }
+    .cx-walk { position: sticky; top: calc(var(--header-h) + 16px); }
+    .cx-svg { max-height: calc(100vh - var(--header-h) - 48px); width: auto; max-width: 100%; margin-inline: auto; }
   }
 
   .cx-walk { max-width: 720px; background: var(--surface); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 16px; align-content: start; }
