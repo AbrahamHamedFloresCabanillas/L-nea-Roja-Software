@@ -1,0 +1,24 @@
+---
+import { caseById, type CaseId } from "../data/cases";
+/** Etiqueta que rastrea un bloque hasta su caso oficial del semestre (ancla en la sección 07). */
+interface Props { id: CaseId; prefix?: string }
+const { id, prefix = "Caso del semestre" } = Astro.props;
+const c = caseById(id);
+---
+<a class="label case-tag" href={`#semestre-${c.id}`}>
+  <span class="case-tag-dot" aria-hidden="true"></span>{prefix} · {c.title}
+</a>
+
+<style>
+  .case-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--graphite); text-decoration: none;
+    font-size: .6875rem; line-height: 1.4;
+    padding: 4px 0;
+  }
+  .case-tag:hover { color: var(--red); }
+  .case-tag-dot { width: 12px; height: 2px; background: var(--red); flex: none; }
+  :global(.on-dark) .case-tag { color: var(--dark-muted); }
+  :global(.on-dark) .case-tag:hover { color: var(--red-on-dark); }
+  :global(.on-dark) .case-tag-dot { background: var(--red-on-dark); }
+</style>

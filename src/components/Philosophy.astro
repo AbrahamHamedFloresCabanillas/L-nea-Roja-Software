@@ -1,0 +1,142 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import CaseTag from "./CaseTag.astro";
+import Icon from "./Icon.astro";
+import { philosophy, concepts, moneyDecisions, internal } from "../data/philosophy";
+---
+<section class="section" id="filosofia" aria-labelledby="filosofia-title">
+  <div class="container">
+    <SectionHeader section="filosofia" titleId="filosofia-title" title={philosophy.title} intro={philosophy.intro} />
+
+    <figure class="statement" data-reveal>
+      <blockquote><p class="display">{philosophy.statement}</p></blockquote>
+      <figcaption class="statement-cap">
+        <p>{philosophy.statementCase.text}</p>
+        <CaseTag id={philosophy.statementCase.caseId} />
+      </figcaption>
+    </figure>
+
+    <div class="block" id="conceptos">
+      <h3 class="h3 block-title">Tres palabras que usamos con cuidado</h3>
+      <dl class="concepts">
+        {concepts.map((c) => (
+          <div class="concept" data-reveal>
+            <dt>
+              <span class="mono concept-num">{c.num}</span>
+              <span class="h3 concept-term">{c.term}</span>
+            </dt>
+            <dd class="concept-def">{c.def}</dd>
+            <dd class="concept-shop">
+              <span class="label">En el taller · {c.ref}</span>
+              <p>{c.workshop}</p>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p class="small concepts-note">La columna “En el taller” sale de nuestra traducción del código de ética de la ACM (trabajo A6).</p>
+    </div>
+
+    <div class="block">
+      <div class="block-head">
+        <h3 class="h3 block-title">Dinero contra buen software, en cuatro decisiones</h3>
+        <p class="block-intro">Abre cada situación. A la izquierda, lo que empuja la métrica de negocio; a la derecha, lo que hacemos.</p>
+      </div>
+      <div class="decisions">
+        {moneyDecisions.map((d, i) => (
+          <details class="dec" id={d.id}>
+            <summary>
+              <span class="mono dec-num">0{i + 1}</span>
+              <span class="dec-q">{d.situation}</span>
+              <Icon name="plus" class="chev" />
+            </summary>
+            <div class="dec-body">
+              <div class="dec-col dec-money">
+                <p class="label">Lo que empuja el dinero</p>
+                <p>{d.money}</p>
+              </div>
+              <div class="dec-col dec-ours">
+                <p class="label">Lo que hacemos</p>
+                <p>{d.ours}</p>
+              </div>
+              <div class="dec-tag"><CaseTag id={d.caseId} /></div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <div class="block" id="por-dentro">
+      <div class="block-head">
+        <h3 class="h3 block-title">Cómo trabajamos por dentro</h3>
+        <p class="block-intro">Un manifiesto que solo mira hacia afuera es fácil de firmar. Estas reglas son para nosotros.</p>
+      </div>
+      <ul class="inside">
+        {internal.map((r) => (
+          <li class="inside-item" data-reveal>
+            <h4 class="h4">{r.title}</h4>
+            <p>{r.body}</p>
+            <CaseTag id={r.caseId} prefix="Sale de" />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .statement { margin: 0 0 96px; padding-top: 40px; border-top: 1px solid var(--ink); }
+  .statement blockquote { margin: 0; }
+  .statement .display { max-width: 22ch; font-weight: 600; font-size: clamp(2rem, 4.6vw, 4.25rem); line-height: 1.02; letter-spacing: -.04em; }
+  .statement-cap { margin-top: 32px; display: grid; gap: 12px; max-width: 60ch; color: var(--graphite); }
+  @media (min-width: 1024px) { .statement-cap { margin-left: auto; margin-right: 0; } }
+
+  .block { margin-top: 96px; }
+  .block-head { display: grid; gap: 12px; margin-bottom: 32px; }
+  @media (min-width: 1024px) { .block-head { grid-template-columns: 7fr 5fr; gap: 48px; align-items: end; } }
+  .block-title { max-width: 24ch; }
+  .block-intro { color: var(--graphite); max-width: 52ch; }
+  #conceptos .block-title { margin-bottom: 32px; }
+
+  .concepts { margin: 0; display: grid; border-top: 1px solid var(--ink); }
+  .concept { padding: 28px 0; border-bottom: 1px solid var(--line); display: grid; gap: 12px; align-content: start; }
+  @media (min-width: 900px) {
+    .concepts { grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+    .concept { border-bottom: 0; padding: 32px 32px 32px 0; }
+    .concept + .concept { border-left: 1px solid var(--line); padding-left: 32px; }
+  }
+  .concept dt { display: flex; align-items: baseline; gap: 14px; }
+  .concept-num { color: var(--red); font-size: .875rem; }
+  .concept dd { margin: 0; }
+  .concept-def { color: var(--graphite); }
+  .concept-shop { margin-top: 8px; padding: 16px; background: var(--surface); border-radius: var(--radius-md); }
+  .concept-shop .label { color: var(--graphite); display: block; margin-bottom: 6px; }
+  .concepts-note { margin-top: 16px; color: var(--muted); }
+
+  .decisions { border-top: 1px solid var(--ink); }
+  .dec { border-bottom: 1px solid var(--line); }
+  .dec summary {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: start;
+    padding: 22px 0; font-size: 1.125rem; font-weight: 500; line-height: 1.4;
+  }
+  .dec summary:hover .dec-q { text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: .2em; }
+  .dec-num { font-size: .8125rem; color: var(--muted); padding-top: 4px; }
+  .dec .chev { margin-top: 3px; }
+  .dec-body { display: grid; gap: 16px; padding: 0 0 28px; }
+  @media (min-width: 768px) { .dec-body { grid-template-columns: 1fr 1fr; gap: 24px; padding-left: 40px; } }
+  .dec-col { padding: 4px 0 4px 18px; border-left: 3px solid; }
+  .dec-col .label { margin-bottom: 6px; }
+  .dec-money { border-color: var(--red); }
+  .dec-money .label { color: var(--red); }
+  .dec-ours { border-color: var(--positive); }
+  .dec-ours .label { color: var(--positive); }
+  .dec-tag { grid-column: 1 / -1; }
+
+  .inside { list-style: none; display: grid; border-top: 1px solid var(--ink); }
+  .inside-item { padding: 28px 0; border-bottom: 1px solid var(--line); display: grid; gap: 10px; align-content: start; }
+  .inside-item p { color: var(--graphite); }
+  @media (min-width: 900px) {
+    .inside { grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+    .inside-item { border-bottom: 0; padding: 32px 32px 32px 0; }
+    .inside-item + .inside-item { border-left: 1px solid var(--line); padding-left: 32px; }
+  }
+</style>
