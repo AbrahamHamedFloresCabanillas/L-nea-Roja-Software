@@ -6,7 +6,7 @@ import Icon from "./Icon.astro";
 import { investorsIntro, investorGroups, originLabel } from "../data/investors";
 const total = investorGroups.reduce((a, g) => a + g.items.length, 0);
 ---
-<section class="section" id="inversores" aria-labelledby="inversores-title">
+<section class="section cv" id="inversores" aria-labelledby="inversores-title">
   <div class="container">
     <SectionHeader section="inversores" titleId="inversores-title" title={investorsIntro.title} intro={investorsIntro.intro}>
       <p class="label inv-count">{total} preguntas</p>

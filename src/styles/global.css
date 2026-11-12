@@ -70,7 +70,6 @@ img { height: auto; }
 
 h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; }
 p { margin: 0; }
-p, li { text-wrap: pretty; }
 ul, ol { margin: 0; padding: 0; }
 
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .2em; }
@@ -80,6 +79,10 @@ button { font: inherit; color: inherit; }
 
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
 .on-dark :focus-visible { outline-color: var(--dark-text); }
+
+/* color de las referencias numeradas según el fondo */
+.on-dark { --cite: var(--dark-muted); --cite-hover: var(--red-on-dark); }
+.pc, .device, .evo-meter-box, .sm-device { --cite: var(--muted); --cite-hover: var(--red-text); }
 
 ::selection { background: var(--red-soft); color: var(--ink); }
 
@@ -136,6 +139,8 @@ button { font: inherit; color: inherit; }
 .prose > * + * { margin-top: 1em; }
 
 .section { padding-block: var(--section-gap) 0; }
+/* Bloques fuera de pantalla: el navegador los maqueta al acercarse; un script los libera en tiempo ocioso (src/scripts/defer-layout.ts). */
+.js .cv { content-visibility: auto; contain-intrinsic-size: auto 1400px; }
 .section:last-of-type { padding-bottom: var(--section-gap); }
 
 /* ---------- botones (§18) ---------- */

@@ -13,7 +13,7 @@ const { rule } = Astro.props;
 const photos = { "centro-datos-cern": cern, "pantalla-frustracion": pantalla, agbogbloshie: agbo } as const;
 const titleId = `${rule.id}-title`;
 ---
-<article class="mr" id={rule.id} aria-labelledby={titleId}>
+<article class="mr cv" id={rule.id} aria-labelledby={titleId}>
   <div class="mr-side">
     <div class="mr-sticky">
       <p class="mr-num mono" aria-hidden="true">{rule.num}</p>

@@ -10,9 +10,7 @@ const refs = ids.map((id) => ({ n: sourceNumber(id), s: sources.find((x) => x.id
 ))}</sup>
 
 <style>
-  .cite { font-family: var(--font-mono); font-size: .7em; line-height: 0; margin-left: 2px; white-space: nowrap; }
-  .cite a { text-decoration: none; color: var(--muted); padding: 2px 1px; }
-  .cite a:hover { color: var(--red); }
-  :global(.on-dark) .cite a { color: var(--dark-muted); }
-  :global(.on-dark) .cite a:hover { color: var(--red-on-dark); }
+  .cite { font-family: var(--font-mono); font-size: max(.75em, 11px); line-height: 0; margin-left: 2px; white-space: nowrap; }
+  .cite a { text-decoration: none; color: var(--cite, var(--muted)); padding: 2px 1px; }
+  .cite a:hover { color: var(--cite-hover, var(--red-text)); }
 </style>

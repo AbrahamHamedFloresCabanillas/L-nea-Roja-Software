@@ -63,7 +63,8 @@ const mark = (n: number) => {
     </div>
   </div>
 
-  <ol class="sm-tricks" aria-label="Los trucos del modal original">
+  <p class="sr-only">Los trucos del modal original:</p>
+  <ol class="sm-tricks">
     {shameParts.map((p) => (
       <li data-trick={p.n}>
         <span class="mono sm-n" aria-hidden="true">{p.n}</span>
@@ -98,7 +99,7 @@ const mark = (n: number) => {
   .sm-bad-price { font-size: 1.75rem; font-weight: 700; letter-spacing: -.02em; }
   .sm-bad-fine { font-size: 10px; color: #686868; line-height: 1.3; }
   .sm-mock { display: block; text-align: center; border-radius: 10px; }
-  .sm-mock-primary { background: #1f8f3a; color: #fff; font-weight: 700; padding: 14px 10px; }
+  .sm-mock-primary { background: #1a7a32; color: #fff; font-weight: 700; padding: 14px 10px; }
   .sm-mock-shame { font-size: .75rem; color: var(--graphite); text-decoration: underline; padding: 4px 18px; line-height: 1.35; }
 
   .sm-mark {

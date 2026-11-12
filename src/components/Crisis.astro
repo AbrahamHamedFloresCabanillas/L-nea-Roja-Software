@@ -44,7 +44,7 @@ const groups = [
 ];
 const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, next, redline, final }) => ({ id, title, time, body, q, choices, next, redline, final })));
 ---
-<section class="section crisis" id="crisis" aria-labelledby="crisis-title">
+<section class="section crisis cv" id="crisis" aria-labelledby="crisis-title">
   <div class="container">
     <SectionHeader section="crisis" titleId="crisis-title" title={crisisIntro.title} intro={crisisIntro.intro} />
 
@@ -75,7 +75,8 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
           <p class="label">Recorrido interactivo</p>
           <button type="button" class="btn btn-secondary cx-reset" data-walk-reset><Icon name="rotate" size={16} /> Reiniciar</button>
         </div>
-        <ol class="cx-trail" data-walk-trail aria-label="Pasos recorridos"></ol>
+        <p class="sr-only">Pasos recorridos:</p>
+        <ol class="cx-trail" data-walk-trail></ol>
         <div class="cx-current" data-walk-current aria-live="polite"></div>
       </div>
 
