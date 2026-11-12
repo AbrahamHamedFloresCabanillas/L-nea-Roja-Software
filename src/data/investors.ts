@@ -24,7 +24,7 @@ export const investors: readonly QA[] = [
   {
     id: "q-sin-cliente", caseId: "bossware",
     q: "Este mes no tienen otro cliente. ¿De verdad van a rechazar el contrato?",
-    stance: "Sí, si el contrato es espiar o engañar a alguien.",
+    stance: "Si implica espiar o engañar a alguien, sí.",
     argument: "Un mes sin cliente se recupera; la fama de haber construido bossware, no. Antes proponemos la versión que sí hacemos.",
   },
   {
@@ -42,7 +42,7 @@ export const investors: readonly QA[] = [
   {
     id: "q-rescate", caseId: "filtracion",
     q: "Pagar el rescate sale más barato que la demanda. ¿Por qué no pagan?",
-    stance: "Porque pagar no compra nada.",
+    stance: "Porque pagar no resuelve el problema.",
     argument: "Los datos ya se copiaron y el pago financia el siguiente ataque. Ese dinero va a las personas afectadas.",
   },
   {

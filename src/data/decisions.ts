@@ -52,7 +52,7 @@ export const decisionCases: readonly DecisionCase[] = [
     title: "La degradación del buscador",
     situation: "Los clics en anuncios bajaron. El cliente pide que los anuncios se vean igual que los resultados normales y llenar la primera página con artículos generados por IA.",
     options: [
-      { key: "A", text: "Lo hacemos: los clics suben.", verdict: "cruza", why: "Disfrazar un anuncio de respuesta es mentirle al usuario." },
+      { key: "A", text: "Lo hacemos: los clics suben.", verdict: "cruza", why: "Un anuncio disfrazado de respuesta confunde al usuario." },
       { key: "B", text: "Ponemos “Patrocinado” en gris claro y tamaño 9.", verdict: "no-alcanza", why: "Una etiqueta hecha para no verse es el mismo truco." },
       { key: "C", text: "El anuncio se ve como anuncio y no publicamos relleno.", verdict: "nuestra" },
     ],
@@ -66,7 +66,7 @@ export const decisionCases: readonly DecisionCase[] = [
     situation: "El mejor programador se aprueba sus propios PRs, no documenta, maltrata a los juniors y dice que la accesibilidad es “para diseñadores débiles”.",
     options: [
       { key: "A", text: "Lo dejamos: entrega rápido.", verdict: "cruza", why: "Así se normaliza que el talento compra impunidad." },
-      { key: "B", text: "Lo exhibimos en la junta semanal.", verdict: "no-alcanza", why: "Corregir en público humilla y endurece la defensa." },
+      { key: "B", text: "Lo exhibimos en la junta semanal.", verdict: "no-alcanza", why: "Corregir en público lastima y pone a la persona a la defensiva." },
       { key: "C", text: "Junta privada con datos y un acuerdo medible.", verdict: "nuestra" },
     ],
     decision: "Llegamos con hechos: once semanas sin aprobar un PR ajeno. “No te pido que estés de acuerdo; te pido que el estándar se cumpla.”",

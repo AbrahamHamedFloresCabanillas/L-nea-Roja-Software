@@ -31,7 +31,7 @@ export const team: readonly Member[] = [
   {
     name: "Alexandro Fregoso Castro", short: "Alexandro Fregoso",
     role: "Diseñador de Producto (UX/UI)",
-    does: "Diseña pantallas y flujos. Si una interfaz confunde o presiona al usuario, no sale de su mesa.",
+    does: "Diseña pantallas y flujos. Si una interfaz confunde o presiona al usuario, la corrige antes de que salga.",
     respondsFor: [{ label: "Regla 02", href: "#regla-patrones" }],
     owns: ["codigo"],
   },
@@ -73,4 +73,4 @@ export const howWeWork = [
 ];
 
 export const aboutText =
-  "Línea Roja Software es un equipo de seis ingenieros de la FIM-UABC. Hacemos sitios, apps y sistemas a la medida. Antes de cotizar, el cliente lee lo que no vamos a hacer. Si no está de acuerdo, no trabajamos juntos.";
+  "Línea Roja Software es un equipo de seis ingenieros de la FIM-UABC. Hacemos sitios, apps y sistemas a la medida. Antes de cotizar, el cliente conoce lo que haremos y nuestros límites. Si no llegamos a un acuerdo, no trabajamos juntos.";

@@ -64,6 +64,6 @@ export const moneyDecisions: readonly {
     caseId: "bossware",
     situation: "Nos ofrecen un contrato grande para vigilar empleados sin avisarles.",
     money: "Foto por webcam cada 5 minutos y registro de pestañas, en secreto.",
-    ours: "Medimos resultados por equipo, con aviso y consentimiento. Si insisten en espiar, no firmamos.",
+    ours: "Medimos resultados por equipo, con aviso y consentimiento. Si no hay acuerdo, declinamos.",
   },
 ];

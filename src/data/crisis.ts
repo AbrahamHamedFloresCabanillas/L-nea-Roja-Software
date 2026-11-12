@@ -86,7 +86,7 @@ export const nodes: readonly CrisisNode[] = [
   {
     id: "v_ocultar", route: "vulnerabilidad", x: C, row: 4, redline: true,
     title: "Línea roja: no se oculta", time: "decisión del equipo",
-    body: "Si el cliente insiste en esconderlo, terminamos el contrato por escrito.",
+    body: "Si el cliente prefiere esconderlo, dejamos el proyecto y lo documentamos.",
     next: "v_extorsion",
   },
   {
