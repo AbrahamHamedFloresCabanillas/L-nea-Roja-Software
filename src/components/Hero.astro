@@ -1,0 +1,63 @@
+---
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+import metro from "../assets/photos/metro-kuala-lumpur.jpg";
+---
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <p class="label hero-kicker">LSC / Manifiesto 2026 · FIM-UABC</p>
+      <h1 id="hero-title" class="hero-title">No escribimos software a cualquier costo.</h1>
+      <span class="hero-line" aria-hidden="true"></span>
+      <p class="lead hero-lead">
+        Somos Línea Roja Software. Construimos lo que el cliente necesita hasta donde la ética lo permite.
+        Este documento dice dónde termina ese punto y qué hacemos cuando alguien nos pide cruzarlo.
+      </p>
+      <a class="btn-text hero-cta" href="#filosofia">Leer el manifiesto <Icon name="arrow-down" size={18} /></a>
+      <p class="label hero-meta">IA generativa · Patrones oscuros · Impacto ambiental</p>
+    </div>
+    <figure class="photo hero-photo">
+      <Image
+        src={metro}
+        alt="Pasajeros de pie en un vagón de metro lleno; casi todos miran la pantalla de su teléfono."
+        widths={[480, 720, 960]}
+        sizes="(min-width: 1024px) 38vw, 1px"
+        loading="lazy"
+      />
+      <figcaption>Cada pantalla es una decisión que alguien diseñó. Metro de Kuala Lumpur, 2024.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: 56px 24px; }
+  @media (min-width: 1024px) { .hero { min-height: calc(88vh - var(--header-h)); display: flex; align-items: center; padding-block: 64px; } }
+  .hero-grid { display: grid; gap: 48px; }
+  @media (min-width: 1024px) { .hero-grid { grid-template-columns: 7fr 4fr; align-items: center; gap: 64px; } }
+
+  .hero-kicker { color: var(--muted); margin-bottom: 28px; }
+  .hero-title {
+    font-size: clamp(2.6rem, 11vw, 7rem);
+    line-height: .94; letter-spacing: -.055em; font-weight: 600;
+    max-width: 14ch;
+    hyphens: manual;
+  }
+  @media (min-width: 480px) { .hero-title { font-size: clamp(3.25rem, 7vw, 7rem); } }
+  .hero-line {
+    display: block; height: 4px; width: min(100%, 520px);
+    background: var(--red); margin-block: 32px;
+    transform-origin: left center;
+  }
+  .hero-lead { margin-bottom: 32px; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 1.0625rem; min-height: 44px; }
+  .hero-meta { color: var(--graphite); margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); }
+
+  .hero-photo { display: none; }
+  @media (min-width: 1024px) { .hero-photo { display: block; } }
+  .hero-photo :global(img) { aspect-ratio: 4 / 5; object-fit: cover; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .hero-line { animation: draw 900ms var(--ease) 200ms both; }
+    @keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  }
+</style>

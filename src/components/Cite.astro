@@ -1,0 +1,18 @@
+---
+import { sourceNumber, sources } from "../data/sources";
+/** Referencia numerada a la lista de Fuentes. */
+interface Props { ids: string | string[] }
+const ids = Array.isArray(Astro.props.ids) ? Astro.props.ids : [Astro.props.ids];
+const refs = ids.map((id) => ({ n: sourceNumber(id), s: sources.find((x) => x.id === id)! }));
+---
+<sup class="cite">{refs.map((r, i) => (
+  <>{i > 0 && ","}<a href={`#fuente-${r.n}`} aria-label={`Fuente ${r.n}: ${r.s.outlet}, ${r.s.year}`}>[{r.n}]</a></>
+))}</sup>
+
+<style>
+  .cite { font-family: var(--font-mono); font-size: .7em; line-height: 0; margin-left: 2px; white-space: nowrap; }
+  .cite a { text-decoration: none; color: var(--muted); padding: 2px 1px; }
+  .cite a:hover { color: var(--red); }
+  :global(.on-dark) .cite a { color: var(--dark-muted); }
+  :global(.on-dark) .cite a:hover { color: var(--red-on-dark); }
+</style>

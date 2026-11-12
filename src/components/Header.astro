@@ -1,0 +1,160 @@
+---
+import { nav } from "../data/site";
+---
+<header class="hdr">
+  <div class="container hdr-in">
+    <a class="brand" href="#inicio" aria-label="Línea Roja Software, ir al inicio">
+      <span class="brand-line" aria-hidden="true"></span>
+      <span class="brand-text"><span class="brand-name">Línea Roja/</span><span class="brand-sub">software practice</span></span>
+    </a>
+
+    <nav class="hdr-nav" aria-label="Secciones del manifiesto">
+      <ul>
+        {nav.map((n) => (
+          <li><a href={`#${n.id}`} data-nav-link={n.id}>{n.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <a class="hdr-index" href="#indice">Índice</a>
+    <button class="hdr-menu" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-open>
+      Menú
+    </button>
+  </div>
+
+  <div class="mm" id="menu-movil" role="dialog" aria-modal="true" aria-label="Menú de secciones" hidden>
+    <div class="container mm-top">
+      <span class="brand-name">Línea Roja/</span>
+      <button class="hdr-menu" type="button" data-menu-close>Cerrar</button>
+    </div>
+    <nav class="container" aria-label="Secciones">
+      <ol class="mm-list">
+        {nav.map((n) => (
+          <li>
+            <a href={`#${n.id}`} data-menu-link>
+              <span class="mono mm-num">{n.num}</span>
+              <span>{n.label}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: sticky; top: 0; z-index: 50;
+    height: var(--header-h);
+    background: rgba(245, 244, 239, .92);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+  }
+  .hdr-in { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: none; }
+  .brand-line { width: 24px; height: 3px; background: var(--red); }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-name { font-weight: 600; font-size: 1.0625rem; letter-spacing: -.02em; }
+  .brand-sub { font-family: var(--font-mono); font-size: .6875rem; color: var(--muted); letter-spacing: .02em; }
+
+  .hdr-nav { display: none; }
+  .hdr-nav ul { list-style: none; display: flex; gap: clamp(14px, 1.4vw, 24px); }
+  .hdr-nav a {
+    display: block; padding: 6px 0;
+    font-size: .875rem; font-weight: 500; color: var(--graphite);
+    text-decoration: none; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 160ms var(--ease), border-color 160ms var(--ease);
+  }
+  .hdr-nav a:hover { color: var(--ink); }
+  .hdr-nav a[aria-current="location"] { color: var(--ink); border-bottom-color: var(--red); }
+
+  .hdr-menu, .hdr-index {
+    min-height: 44px; padding: 0 16px;
+    background: transparent; border: 1px solid var(--line-strong); border-radius: 8px;
+    font-size: .9375rem; font-weight: 500; cursor: pointer;
+    display: inline-flex; align-items: center; text-decoration: none;
+  }
+  .hdr-menu:hover, .hdr-index:hover { border-color: var(--ink); }
+  .hdr-menu { display: none; }
+  :global(.js) .hdr-in .hdr-menu { display: inline-flex; }
+  :global(.js) .hdr-index { display: none; }
+
+  @media (min-width: 1280px) {
+    .hdr-nav { display: block; }
+    .hdr-index, :global(.js) .hdr-in .hdr-menu { display: none; }
+  }
+
+  .mm {
+    position: fixed; inset: 0; z-index: 60;
+    background: var(--paper);
+    overflow-y: auto;
+  }
+  .mm[hidden] { display: none; }
+  .mm-top { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+  .mm-top .hdr-menu { display: inline-flex; }
+  .mm-list { list-style: none; padding-block: 16px 48px; }
+  .mm-list a {
+    display: flex; align-items: baseline; gap: 16px;
+    padding: 16px 0; border-bottom: 1px solid var(--line);
+    font-size: clamp(1.375rem, 5vw, 2rem); font-weight: 600; letter-spacing: -.025em; line-height: 1.15;
+    text-decoration: none;
+  }
+  .mm-list a:hover { color: var(--red); }
+  .mm-num { font-size: .8125rem; color: var(--red); letter-spacing: .06em; font-weight: 500; }
+</style>
+
+<script>
+  const openBtn = document.querySelector<HTMLButtonElement>("[data-menu-open]");
+  const panel = document.getElementById("menu-movil");
+  const closeBtn = panel?.querySelector<HTMLButtonElement>("[data-menu-close]");
+
+  function focusables(): HTMLElement[] {
+    return panel ? Array.from(panel.querySelectorAll<HTMLElement>("a[href], button")) : [];
+  }
+
+  function open() {
+    if (!panel || !openBtn) return;
+    panel.hidden = false;
+    openBtn.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+    closeBtn?.focus();
+  }
+
+  function close(restoreFocus = true) {
+    if (!panel || !openBtn) return;
+    panel.hidden = true;
+    openBtn.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+    if (restoreFocus) openBtn.focus();
+  }
+
+  openBtn?.addEventListener("click", open);
+  closeBtn?.addEventListener("click", () => close());
+  panel?.querySelectorAll("[data-menu-link]").forEach((a) => a.addEventListener("click", () => close(false)));
+
+  panel?.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { e.preventDefault(); close(); return; }
+    if (e.key !== "Tab") return;
+    const f = focusables();
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  window.matchMedia("(min-width: 1280px)").addEventListener("change", (m) => { if (m.matches && panel && !panel.hidden) close(false); });
+
+  // Sección visible → subrayado rojo en la navegación
+  const links = new Map<string, HTMLAnchorElement>();
+  document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]").forEach((a) => links.set(a.dataset.navLink!, a));
+  const visible = new Set<string>();
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) e.isIntersecting ? visible.add(e.target.id) : visible.delete(e.target.id);
+    let current: string | null = null;
+    for (const id of links.keys()) if (visible.has(id)) { current = id; break; }
+    links.forEach((a, id) => id === current ? a.setAttribute("aria-current", "location") : a.removeAttribute("aria-current"));
+  }, { rootMargin: "-35% 0px -60% 0px" });
+  links.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
+</script>

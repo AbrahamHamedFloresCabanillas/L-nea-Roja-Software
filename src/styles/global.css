@@ -1,0 +1,199 @@
+/* Línea Roja Software — sistema de diseño (design.md §3–§5, §18–§23) */
+
+:root {
+  --paper: #F5F4EF;
+  --surface: #ECEBE5;
+  --ink: #161616;
+  --graphite: #3F403C;
+  --muted: #696B65; /* §3 pide #73756F; se oscurece un punto para pasar AA sobre --surface */
+  --line: #D8D7D0;
+  --line-strong: #C7C6BF;
+
+  --red: #C23A2F;
+  --red-soft: #F6E3E0;
+  --positive: #237A4B;
+  --positive-soft: #E2EFE6;
+  --warning: #B36A12;
+
+  --dark: #181917;
+  --dark-surface: #222320;
+  --dark-text: #F3F2ED;
+  --dark-muted: #A9ABA5;
+  --red-on-dark: #E8574B;
+
+  --font-sans: "Inter Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .04);
+
+  --content-width: 1440px;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --header-h: 64px;
+  --section-gap: 80px;
+}
+
+@media (min-width: 768px) { :root { --section-gap: 112px; } }
+@media (min-width: 1024px) { :root { --header-h: 72px; --section-gap: 144px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+
+h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; }
+p { margin: 0; }
+p, li { text-wrap: pretty; }
+ul, ol { margin: 0; padding: 0; }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { text-decoration-color: var(--red); }
+
+button { font: inherit; color: inherit; }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+.on-dark :focus-visible { outline-color: var(--dark-text); }
+
+::selection { background: var(--red-soft); color: var(--ink); }
+
+/* ---------- utilidades ---------- */
+
+.container {
+  width: calc(100% - 40px);
+  max-width: var(--content-width);
+  margin-inline: auto;
+}
+@media (min-width: 768px) { .container { width: min(100% - 48px, var(--content-width)); } }
+@media (min-width: 1024px) { .container { width: min(100% - 64px, var(--content-width)); } }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: 16px; top: -100px; z-index: 100;
+  background: var(--ink); color: var(--paper);
+  padding: 12px 16px; border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+.label {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  line-height: 1.4;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.mono { font-family: var(--font-mono); }
+
+.lead {
+  font-size: clamp(1.15rem, 1.5vw, 1.4rem);
+  line-height: 1.55;
+  color: var(--graphite);
+  max-width: 52ch;
+}
+
+.h2 { font-size: clamp(2rem, 3vw, 3.25rem); line-height: 1.05; letter-spacing: -.035em; }
+.h3 { font-size: clamp(1.5rem, 2vw, 2rem); line-height: 1.15; letter-spacing: -.025em; }
+.h4 { font-size: 1.25rem; line-height: 1.25; letter-spacing: -.01em; }
+.display { font-size: clamp(2.75rem, 5vw, 5rem); line-height: .98; letter-spacing: -.045em; }
+.small { font-size: .875rem; line-height: 1.5; }
+.prose { max-width: 68ch; }
+.prose > * + * { margin-top: 1em; }
+
+.section { padding-block: var(--section-gap) 0; }
+.section:last-of-type { padding-bottom: var(--section-gap); }
+
+/* ---------- botones (§18) ---------- */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 0 20px;
+  border-radius: 8px;
+  font-size: .9375rem; font-weight: 500; line-height: 1.2;
+  text-decoration: none; cursor: pointer;
+  transition: background-color 160ms var(--ease), border-color 160ms var(--ease), color 160ms var(--ease);
+}
+.btn-primary { background: var(--ink); color: var(--paper); border: 1px solid var(--ink); }
+.btn-primary:hover { background: var(--red); border-color: var(--red); }
+.btn-primary:active { background: #9e2f26; }
+.btn-secondary { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+.btn-secondary:hover { border-color: var(--ink); }
+.btn-secondary[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+.btn-text {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font-weight: 500; text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.btn-text:hover { border-bottom-color: var(--red); }
+
+.on-dark .btn-primary { background: var(--dark-text); color: var(--dark); border-color: var(--dark-text); }
+.on-dark .btn-primary:hover { background: var(--red-on-dark); border-color: var(--red-on-dark); color: var(--dark); }
+.on-dark .btn-secondary { color: var(--dark-text); border-color: #4a4b47; }
+.on-dark .btn-secondary:hover, .on-dark .btn-secondary[aria-pressed="true"] { border-color: var(--dark-text); box-shadow: none; }
+
+/* ---------- detalles nativos ---------- */
+
+summary { cursor: pointer; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+
+.chev {
+  flex: none; width: 20px; height: 20px;
+  transition: transform 200ms var(--ease);
+}
+details[open] > summary .chev { transform: rotate(45deg); }
+
+/* ---------- fotos (§16) ---------- */
+
+.photo { margin: 0; }
+.photo img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  filter: grayscale(.15);
+  background: var(--surface);
+}
+.photo figcaption { margin-top: 8px; font-size: .875rem; color: var(--muted); }
+.on-dark .photo figcaption { color: var(--dark-muted); }
+
+/* ---------- movimiento (§19) — solo con JS y sin reduced-motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 500ms var(--ease), transform 500ms var(--ease);
+  }
+  .js [data-reveal].is-visible { opacity: 1; transform: none; }
+}
