@@ -1,0 +1,84 @@
+---
+import { team, visibleRole } from "../data/team";
+import { sources, photoCredits } from "../data/sources";
+import { site } from "../data/site";
+---
+<section class="section team" id="equipo" aria-labelledby="equipo-title">
+  <div class="container team-grid">
+    <div>
+      <p class="label team-label">Equipo</p>
+      <h2 id="equipo-title" class="h3">Quienes firman este manifiesto</h2>
+      <p class="small team-sub">{site.career} · {site.school}</p>
+    </div>
+    <ul class="team-list">
+      {team.map((m) => {
+        const role = visibleRole(m);
+        return <li><span class="team-name">{m.name}</span>{role && <span class="team-role">{role}</span>}</li>;
+      })}
+    </ul>
+  </div>
+</section>
+
+<section class="section final" aria-labelledby="final-title">
+  <div class="container">
+    <h2 id="final-title" class="sr-only">Declaración final</h2>
+    <blockquote class="final-quote" data-reveal>
+      <p class="display">El software que construimos habla de las decisiones que estamos dispuestos a tomar.</p>
+      <p class="display final-2">Y también de las que no.</p>
+    </blockquote>
+    <span class="final-line" aria-hidden="true"></span>
+  </div>
+</section>
+
+<section class="section sources" id="fuentes" aria-labelledby="fuentes-title">
+  <div class="container">
+    <p class="label sources-label">Fuentes</p>
+    <h2 id="fuentes-title" class="h3">De dónde salen las cifras</h2>
+    <p class="small sources-intro">Cada cifra externa se verificó con búsqueda web en noviembre de {site.year}. Los números entre corchetes en el sitio apuntan aquí.</p>
+    <ol class="src-list">
+      {sources.map((s, i) => (
+        <li id={`fuente-${i + 1}`}>
+          <span class="mono src-n">{i + 1}</span>
+          <span><a href={s.url} rel="noopener" target="_blank">{s.title}</a>. {s.outlet}, {s.year}.</span>
+        </li>
+      ))}
+    </ol>
+
+    <h3 class="label sources-label photos-label">Fotografías</h3>
+    <ul class="src-list">
+      {photoCredits.map((p) => (
+        <li>
+          <span class="mono src-n" aria-hidden="true">·</span>
+          <span><a href={p.url} rel="noopener" target="_blank">{p.title}</a>, {p.author}. Wikimedia Commons, <a href={p.licenseUrl} rel="noopener license" target="_blank">{p.license}</a>. Optimizada para web.</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .team-grid { display: grid; gap: 24px; }
+  @media (min-width: 1024px) { .team-grid { grid-template-columns: 4fr 8fr; gap: 48px; } }
+  .team-label { color: var(--red); margin-bottom: 12px; }
+  .team-sub { color: var(--graphite); margin-top: 8px; }
+  .team-list { list-style: none; border-top: 1px solid var(--ink); }
+  .team-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .team-name { font-size: clamp(1.125rem, 1.6vw, 1.375rem); font-weight: 500; letter-spacing: -.015em; }
+  .team-role { font-family: var(--font-mono); font-size: .8125rem; color: var(--graphite); }
+
+  .final-quote { margin: 0; }
+  .final-quote .display { font-weight: 600; max-width: 17ch; }
+  .final-2 { color: var(--red); margin-top: .2em; }
+  .final-line { display: block; height: 4px; width: min(100%, 520px); background: var(--red); margin-top: 48px; }
+
+  .sources-label { color: var(--graphite); margin-bottom: 12px; }
+  .sources-intro { color: var(--graphite); margin: 8px 0 24px; max-width: 68ch; }
+  .src-list { list-style: none; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  @media (min-width: 1024px) { .src-list { grid-template-columns: 1fr 1fr; column-gap: 40px; } }
+  .src-list li { display: grid; grid-template-columns: 28px 1fr; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .875rem; line-height: 1.5; color: var(--graphite); }
+  .src-list li:target { background: var(--red-soft); }
+  .src-list a { color: var(--ink); overflow-wrap: anywhere; }
+  .src-n { color: var(--muted); font-size: .8125rem; }
+  .photos-label { margin-top: 40px; }
+
+</style>

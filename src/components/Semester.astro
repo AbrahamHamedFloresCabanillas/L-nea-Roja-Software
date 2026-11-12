@@ -1,0 +1,78 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import Icon from "./Icon.astro";
+import { cases, tools } from "../data/cases";
+---
+<section class="section" id="semestre" aria-labelledby="semestre-title">
+  <div class="container">
+    <SectionHeader
+      section="semestre"
+      titleId="semestre-title"
+      title="Diez casos, un manifiesto."
+      intro="Nada de lo anterior salió de la nada. Estos son los diez casos que nos tocaron en el semestre, lo que aprendimos de cada uno y a qué parte del manifiesto lo convertimos."
+    />
+
+    <ol class="tl">
+      {cases.map((c, i) => (
+        <li class="tl-stop" id={`semestre-${c.id}`} data-reveal>
+          <span class="tl-dot" aria-hidden="true"></span>
+          <p class="label tl-label"><span class="tl-n">{String(i + 1).padStart(2, "0")}</span> Caso · {c.title}</p>
+          <h3 class="h4 tl-hook">{c.hook}</h3>
+          <p class="tl-lesson"><span class="label">Lo que aprendimos</span> {c.lesson}</p>
+          <p class="small tl-work">{c.work}</p>
+          <ul class="tl-feeds" aria-label={`Partes del manifiesto que alimentó ${c.title}`}>
+            {c.feeds.map((f) => <li><Icon name="arrow-right" size={14} /><a href={f.href}>{f.label}</a></li>)}
+          </ul>
+        </li>
+      ))}
+    </ol>
+
+    <div class="tools">
+      <h3 class="label tools-title">Herramientas que usamos</h3>
+      <ul class="tools-list">
+        {tools.map((t) => (
+          <li>
+            <p class="tools-name">{t.title}</p>
+            <p class="small">{t.use}</p>
+            <a class="small" href={t.href}>Ver dónde se usa</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tl { list-style: none; position: relative; display: grid; }
+  /* móvil: eje vertical a la izquierda */
+  .tl::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--red); }
+  .tl-stop { position: relative; padding: 0 0 36px 32px; display: grid; gap: 8px; align-content: start; }
+  .tl-dot { position: absolute; left: 0; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--red); }
+  .tl-label { color: var(--graphite); }
+  .tl-n { color: var(--red); margin-right: 4px; }
+  .tl-hook { max-width: 26ch; }
+  .tl-lesson { color: var(--graphite); }
+  .tl-lesson .label { display: block; color: var(--ink); margin-bottom: 2px; }
+  .tl-work { color: var(--muted); font-family: var(--font-mono); font-size: .75rem; }
+  .tl-feeds { list-style: none; display: grid; gap: 4px; font-size: .875rem; }
+  .tl-feeds li { display: grid; grid-template-columns: 14px 1fr; gap: 6px; align-items: start; }
+  .tl-feeds :global(svg) { margin-top: 4px; color: var(--red); }
+
+  /* escritorio: dos filas horizontales con la línea roja como eje */
+  @media (min-width: 1024px) {
+    .tl { grid-template-columns: repeat(5, 1fr); column-gap: 28px; row-gap: 56px; }
+    .tl::before { display: none; }
+    .tl-stop { padding: 28px 0 0; border-top: 2px solid var(--red); }
+    .tl-dot { top: -7px; left: 0; }
+  }
+
+  .tools { margin-top: 64px; display: grid; gap: 16px; }
+  @media (min-width: 1024px) { .tools { grid-template-columns: 4fr 8fr; gap: 48px; } }
+  .tools-title { color: var(--graphite); padding-top: 16px; }
+  .tools-list { list-style: none; display: grid; gap: 0; border-top: 1px solid var(--ink); }
+  @media (min-width: 768px) { .tools-list { grid-template-columns: 1fr 1fr; } }
+  .tools-list li { padding: 16px 0; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+  @media (min-width: 768px) { .tools-list li + li { padding-left: 24px; border-left: 1px solid var(--line); } .tools-list li:first-child { padding-right: 24px; } }
+  .tools-name { font-weight: 600; }
+  .tools-list p.small { color: var(--graphite); }
+</style>
