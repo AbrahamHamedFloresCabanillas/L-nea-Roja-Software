@@ -10,8 +10,10 @@ if (location.hash) {
   releaseAll();
   requestAnimationFrame(() => document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView({ behavior: "instant" }));
 } else {
-  const idle = (cb: () => void) =>
-    "requestIdleCallback" in window ? window.requestIdleCallback(cb, { timeout: 1500 }) : window.setTimeout(cb, 60);
+  const idle = (cb: () => void): void => {
+    if (typeof window.requestIdleCallback === "function") window.requestIdleCallback(cb, { timeout: 1500 });
+    else setTimeout(cb, 60);
+  };
   const next = () => {
     const b = blocks.shift();
     if (!b) return;
