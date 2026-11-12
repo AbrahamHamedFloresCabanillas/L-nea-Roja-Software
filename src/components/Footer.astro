@@ -8,7 +8,6 @@ import { site, nav } from "../data/site";
       <p class="ftr-name"><span class="ftr-line" aria-hidden="true"></span>{site.name}</p>
       <p>Manifiesto de Identidad Profesional, {site.year}</p>
       <p>{site.course} · {site.career} · {site.schoolShort}</p>
-      <p class="ftr-ai">{site.aiNotice}</p>
     </div>
     <nav id="indice" aria-label="Índice del manifiesto" class="ftr-nav">
       <p class="ftr-nav-title">Índice</p>
@@ -28,7 +27,6 @@ import { site, nav } from "../data/site";
   .ftr-id { display: grid; gap: 6px; color: var(--dark-muted); font-size: .9375rem; }
   .ftr-name { display: flex; align-items: center; gap: 10px; color: var(--dark-text); font-weight: 600; font-size: 1.25rem; letter-spacing: -.02em; margin-bottom: 8px; }
   .ftr-line { width: 24px; height: 3px; background: var(--red-on-dark); }
-  .ftr-ai { margin-top: 12px; padding-top: 12px; border-top: 1px solid #34352f; color: var(--dark-text); max-width: 56ch; }
   .ftr-nav-title { color: var(--dark-text); font-weight: 600; margin-bottom: 8px; }
   .ftr-nav ol { list-style: none; display: grid; gap: 2px; }
   .ftr-nav a { display: inline-flex; gap: 10px; padding: 6px 0; color: var(--dark-text); text-decoration: none; font-size: .9375rem; }

@@ -10,8 +10,6 @@ export const site = {
   career: "Licenciatura en Sistemas Computacionales",
   place: "Mexicali, B.C.",
   year: 2026,
-  aiNotice:
-    "Construido con apoyo de herramientas de IA. Cada texto fue revisado y es defendido por el equipo.",
 };
 
 /** Navegación principal. Las cuatro secciones obligatorias usan el nombre exacto de la actividad. */

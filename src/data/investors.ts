@@ -63,7 +63,7 @@ export const investorGroups: readonly { title: string; items: QA[] }[] = [
       {
         id: "q-ia-sitio", caseId: "prompt-ia",
         q: "¿Ustedes usaron IA para hacer este mismo sitio?",
-        stance: "Sí, y lo dice el pie de página.",
+        stance: "Sí, y lo decimos aquí mismo.",
         argument: "Usamos herramientas de IA para programar y redactar borradores. Cada texto lo revisamos, cada cifra la verificamos con su fuente y todo lo defendemos aquí, frente a ustedes. Esconderlo violaría nuestra regla 01 en el mismo documento que la anuncia.",
       },
     ],
