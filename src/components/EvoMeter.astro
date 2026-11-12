@@ -93,6 +93,9 @@ const total = evoToggles.reduce((a, t) => a + t.weight, 0);
   .evo-meter i.is-low { background: var(--positive); }
   .evo-note { color: var(--graphite); }
   .evo-apply[hidden] { display: none; }
+  .evo-meter-box .evo-apply { background: var(--ink); color: var(--paper); border-color: var(--ink); justify-self: start; }
+  .evo-meter-box .evo-apply:hover { background: var(--red); border-color: var(--red); color: #fff; }
+  .evo-meter-box .evo-apply:focus-visible { outline-color: var(--ink); }
   .evo-promise { font-weight: 600; letter-spacing: -.01em; padding-top: 12px; border-top: 1px solid var(--line); }
 
   .gate { margin-top: 16px; padding: 20px; border: 1px solid #3a3b37; border-radius: var(--radius-md); display: grid; gap: 16px; }

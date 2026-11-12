@@ -87,6 +87,7 @@ const mark = (n: number) => {
 
   .sm-device { background: #cfcec7; border-radius: 22px; padding: 22px 16px; border: 6px solid #2e2f2b; height: 100%; }
   .sm-modal { position: relative; background: #fff; color: var(--ink); border-radius: 14px; padding: 26px 18px 18px; display: grid; gap: 12px; }
+  :global(.js) .sm-bad { padding-left: 30px; }
 
   .sm-part { position: relative; border-radius: 6px; transition: box-shadow 160ms var(--ease), background-color 160ms var(--ease); }
   .sm-part.is-hl, .sm-x.is-hl { box-shadow: 0 0 0 2px var(--red); background: var(--red-soft); }
@@ -101,7 +102,7 @@ const mark = (n: number) => {
   .sm-mock-shame { font-size: .75rem; color: var(--graphite); text-decoration: underline; padding: 4px 18px; line-height: 1.35; }
 
   .sm-mark {
-    position: absolute; left: -12px; top: -10px; z-index: 1;
+    position: absolute; left: -28px; top: -4px; z-index: 1;
     width: 26px; height: 26px; border-radius: 50%;
     background: var(--ink); color: #fff; border: 2px solid #fff;
     font-family: var(--font-mono); font-size: .75rem; font-weight: 500; line-height: 1;

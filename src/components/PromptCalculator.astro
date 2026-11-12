@@ -3,7 +3,7 @@ import Cite from "./Cite.astro";
 import CaseTag from "./CaseTag.astro";
 import { promptOptions, promptFacts, TEXT_WH } from "../data/demos";
 
-const fmt = (n: number) => n.toLocaleString("es-MX", { maximumFractionDigits: n < 10 ? 2 : 0 });
+const fmt = (n: number) => n.toLocaleString("es-MX", { maximumFractionDigits: n < 10 ? 2 : n < 100 ? 1 : 0 });
 const range = (a: number, b: number) => (a === b ? `${fmt(a)}` : `${fmt(a)}–${fmt(b)}`);
 const eq = (a: number, b: number) => {
   const lo = Math.round(a / TEXT_WH), hi = Math.round(b / TEXT_WH);
@@ -96,7 +96,7 @@ const def = promptOptions.find((o) => o.id === "imagenes")!;
   .pc-out { border: 1px solid var(--ink); border-radius: var(--radius-md); padding: 24px; display: grid; gap: 10px; background: #fff; }
   @container (min-width: 700px) { .pc-out { position: sticky; top: calc(var(--header-h) + 24px); } }
   .pc-out-label { color: var(--graphite); }
-  .pc-out-num { font-family: var(--font-mono); font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1; font-weight: 500; letter-spacing: -.03em; }
+  .pc-out-num { font-family: var(--font-mono); font-size: clamp(1.75rem, 6cqw, 2.75rem); line-height: 1; font-weight: 500; letter-spacing: -.03em; }
   .pc-unit { font-size: .45em; color: var(--graphite); }
   .pc-out-eq, .pc-out-scale { color: var(--graphite); }
   .pc-out strong { color: var(--ink); }
@@ -116,7 +116,7 @@ const def = promptOptions.find((o) => o.id === "imagenes")!;
 
 <script>
   const TEXT_WH = 0.24;
-  const fmt = (n: number) => n.toLocaleString("es-MX", { maximumFractionDigits: n < 10 ? 2 : 0 });
+  const fmt = (n: number) => n.toLocaleString("es-MX", { maximumFractionDigits: n < 10 ? 2 : n < 100 ? 1 : 0 });
   const range = (a: number, b: number) => (a === b ? fmt(a) : `${fmt(a)}–${fmt(b)}`);
   const eq = (a: number, b: number) => {
     const lo = Math.round(a / TEXT_WH), hi = Math.round(b / TEXT_WH);

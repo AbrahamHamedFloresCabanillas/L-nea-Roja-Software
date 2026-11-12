@@ -1,0 +1,96 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import CaseTag from "./CaseTag.astro";
+import Icon from "./Icon.astro";
+import { promiseIntro, clauses, breach } from "../data/promise";
+import { team } from "../data/team";
+import { site } from "../data/site";
+---
+<section class="section" id="promesa" aria-labelledby="promesa-title">
+  <div class="container">
+    <SectionHeader section="promesa" titleId="promesa-title" title={promiseIntro.title} intro={promiseIntro.intro} />
+
+    <article class="doc" aria-labelledby="doc-title" data-reveal>
+      <header class="doc-head">
+        <p class="label doc-ref">LRS-PROMESA · Versión 1.0 · {site.year}</p>
+        <h3 id="doc-title" class="h3">{promiseIntro.documentTitle}</h3>
+        <p class="doc-parties">Entre <strong>Línea Roja Software</strong> y cada persona que usa lo que construimos.</p>
+      </header>
+
+      <ol class="clauses">
+        {clauses.map((c) => (
+          <li class="clause" id={c.id}>
+            <div class="clause-name">
+              <p class="label clause-num">{c.num}</p>
+              <h4 class="h4">{c.name}</h4>
+            </div>
+            <div class="clause-body">
+              <p class="clause-promise">{c.promise}</p>
+              <p class="clause-check"><span class="label">Cómo lo compruebas</span> {c.check}</p>
+              <details class="clause-more">
+                <summary class="btn btn-secondary clause-btn">
+                  <Icon name="eye" size={18} /> Ver en el producto
+                </summary>
+                <ul class="clause-product">
+                  {c.product.map((p) => <li><Icon name="check" size={16} /><span>{p}</span></li>)}
+                </ul>
+              </details>
+              <p class="clause-cases">{c.caseIds.map((id) => <CaseTag id={id} prefix="Sale de" />)}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <p class="breach">{breach}</p>
+
+      <footer class="sign">
+        <p class="label sign-label">Firmado por</p>
+        <ul class="sign-names">
+          {team.map((m) => <li>{m.name}</li>)}
+        </ul>
+        <span class="sign-line" aria-hidden="true"></span>
+        <p class="mono sign-place">Línea Roja Software · {site.place} · {site.year}</p>
+      </footer>
+    </article>
+  </div>
+</section>
+
+<style>
+  .doc {
+    background: var(--surface);
+    border: 1px solid var(--ink);
+    border-top: 4px solid var(--red);
+    border-radius: 4px;
+    padding: clamp(24px, 5vw, 64px);
+    max-width: 1080px;
+  }
+  .doc-head { display: grid; gap: 10px; padding-bottom: 28px; border-bottom: 1px solid var(--ink); }
+  .doc-ref { color: var(--graphite); }
+  .doc-parties { color: var(--graphite); }
+
+  .clauses { list-style: none; }
+  .clause { display: grid; gap: 16px; padding-block: 32px; border-bottom: 1px solid #cfcec6; }
+  @media (min-width: 900px) { .clause { grid-template-columns: 220px 1fr; gap: 40px; } }
+  .clause-num { color: var(--red); margin-bottom: 4px; }
+  .clause-body { display: grid; gap: 14px; }
+  .clause-promise { font-size: 1.125rem; line-height: 1.55; max-width: 60ch; }
+  .clause-check { color: var(--graphite); max-width: 62ch; }
+  .clause-check .label { color: var(--ink); margin-right: 6px; }
+
+  .clause-more summary { width: fit-content; }
+  .clause-more[open] summary { border-color: var(--ink); }
+  .clause-product { list-style: none; display: grid; gap: 10px; margin-top: 14px; padding: 18px; background: var(--paper); border-radius: var(--radius-md); }
+  .clause-product li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; }
+  .clause-product :global(svg) { margin-top: 4px; color: var(--positive); }
+  .clause-cases { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+
+  .breach { margin-top: 32px; padding: 18px 20px; border-left: 3px solid var(--ink); background: var(--paper); font-weight: 500; max-width: 70ch; }
+
+  .sign { margin-top: 48px; }
+  .sign-label { color: var(--graphite); margin-bottom: 16px; }
+  .sign-names { list-style: none; display: grid; gap: 8px 32px; }
+  @media (min-width: 640px) { .sign-names { grid-template-columns: 1fr 1fr; } }
+  .sign-names li { font-weight: 500; }
+  .sign-line { display: block; height: 2px; background: var(--red); margin-block: 24px 12px; max-width: 520px; }
+  .sign-place { font-size: .8125rem; color: var(--graphite); }
+</style>
