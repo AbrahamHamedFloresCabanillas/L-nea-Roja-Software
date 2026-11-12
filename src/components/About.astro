@@ -1,0 +1,48 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import { team, howWeWork, aboutText } from "../data/team";
+---
+<section class="section" id="nosotros" aria-labelledby="nosotros-title">
+  <div class="container">
+    <SectionHeader titleId="nosotros-title" name="Quiénes somos" />
+    <p class="lead about-text">{aboutText}</p>
+
+    <ul class="team">
+      {team.map((m) => (
+        <li class="member">
+          <div class="member-id">
+            <p class="member-name">{m.name}</p>
+            <p class="member-role">{m.role}</p>
+          </div>
+          <p class="member-does">{m.does}</p>
+          <p class="member-for">
+            Responde por: {m.respondsFor.map((r, i) => (
+              <>{i > 0 && ", "}<a href={r.href}>{r.label}</a></>
+            ))}.
+          </p>
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="h4 how-title">Cómo trabajamos</h3>
+    <ul class="how">
+      {howWeWork.map((h) => <li><strong>{h.title}</strong> {h.body}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .about-text { max-width: 56ch; margin: -24px 0 48px; color: var(--ink); }
+  .team { list-style: none; border-top: 1px solid var(--ink); }
+  .member { display: grid; gap: 6px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  @media (min-width: 900px) { .member { grid-template-columns: 4fr 5fr 3fr; gap: 32px; align-items: baseline; } }
+  .member-name { font-weight: 600; font-size: 1.125rem; letter-spacing: -.01em; }
+  .member-role { color: var(--graphite); font-size: .9375rem; }
+  .member-does { color: var(--graphite); }
+  .member-for { font-size: .9375rem; color: var(--graphite); }
+  .member-for a { color: var(--ink); }
+  .how-title { margin: 48px 0 12px; }
+  .how { list-style: none; border-top: 1px solid var(--ink); }
+  .how li { padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--graphite); }
+  .how strong { color: var(--ink); font-weight: 600; }
+</style>

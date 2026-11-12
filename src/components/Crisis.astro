@@ -4,7 +4,7 @@ import SectionHeader from "./SectionHeader.astro";
 import { sectionName } from "../data/site";
 import CaseTag from "./CaseTag.astro";
 import Icon from "./Icon.astro";
-import { crisisIntro, nodes, nodeById, routes, type CrisisNode, type NodeId } from "../data/crisis";
+import { crisisIntro, nodes, nodeById, type CrisisNode, type NodeId } from "../data/crisis";
 import noc from "../assets/photos/centro-operaciones.jpg";
 
 /* ---------- geometría del diagrama (SVG generado desde los datos) ---------- */
@@ -37,12 +37,6 @@ for (const n of nodes) {
   }
 }
 
-const routeNodes = (r: string) => nodes.filter((n) => n.route === r);
-const groups = [
-  { title: "Inicio", items: routeNodes("inicio") },
-  ...routes.map((r) => ({ title: r.title, caseId: r.caseId, items: routeNodes(r.id) })),
-  { title: "Cierre de cualquier ruta", items: routeNodes("cierre") },
-];
 const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, next, redline, final }) => ({ id, title, time, body, q, choices, next, redline, final })));
 ---
 <section class="section crisis cv" id="crisis" aria-labelledby="crisis-title">
@@ -65,7 +59,7 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
       </div>
       <figure class="photo cx-photo">
         <Image src={noc} alt="Sala de operaciones de red con varios monitores en los escritorios y mapas en pantallas grandes." widths={[480, 800]} sizes="(min-width: 1024px) 36vw, 100vw" loading="lazy" />
-        <figcaption>Un incidente se atiende en una sala así, con una persona coordinando. Centro de operaciones de red, IUPUI.</figcaption>
+        <figcaption>Una persona coordina; nadie improvisa. Centro de operaciones, IUPUI.</figcaption>
       </figure>
     </div>
 
@@ -118,37 +112,9 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
       </figure>
     </div>
 
-    <p class="cx-nojs">Sin JavaScript no hay recorrido interactivo, pero todos los pasos están aquí abajo.</p>
+    <p class="cx-final">{crisisIntro.closing}</p>
+    <p class="cx-nojs">Sin JavaScript no hay recorrido, pero el diagrama muestra el árbol completo.</p>
 
-    <!-- Secuencia en texto: versión móvil del diagrama y lectura completa en escritorio -->
-    <div class="cx-steps cv">
-      <h3 class="h3 cx-steps-title">Cada paso, en detalle</h3>
-      {groups.map((g) => (
-        <section class="cx-group" aria-label={g.title}>
-          <div class="cx-group-head">
-            <h4 class="sub">{g.title}</h4>
-            {"caseId" in g && g.caseId && <CaseTag id={g.caseId} />}
-          </div>
-          <ol class="cx-list">
-            {g.items.map((n) => (
-              <li class:list={["cx-step", { "is-red": n.redline }]} id={`paso-${n.id}`}>
-                <p class="cx-step-time tnum">{n.time}</p>
-                <p class="cx-step-title">{n.title}</p>
-                <p class="cx-step-body">{n.body}</p>
-                {n.q && n.choices && (
-                  <p class="cx-step-branch">
-                    <span class="cx-step-q">{n.q}</span>
-                    {n.choices.map((c) => <span class="cx-branch"><Icon name="arrow-right" size={14} /> {c.label}: <a href={`#paso-${c.to}`}>{nodeById(c.to).title}</a></span>)}
-                  </p>
-                )}
-                {n.next && <p class="cx-step-branch"><span class="cx-branch"><Icon name="arrow-right" size={14} /> Sigue: <a href={`#paso-${n.next}`}>{nodeById(n.next).title}</a></span></p>}
-                {n.final && <p class="cx-closing">{crisisIntro.closing}</p>}
-              </li>
-            ))}
-          </ol>
-        </section>
-      ))}
-    </div>
   </div>
 
   <script type="application/json" id="crisis-data" set:html={walkData}></script>
@@ -197,7 +163,6 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
 
   .cx-figure { margin: 0; min-width: 0; }
   .cx-svg { width: 100%; height: auto; background: var(--surface); border-radius: var(--radius-lg); padding: 8px; }
-  @media (max-width: 767px) { .cx-figure { display: none; } }
 
   .cx-svg :global(text) { font-family: var(--font-sans); }
   .cx-edge path { fill: none; stroke: #B5B4AC; stroke-width: 1.5; transition: stroke 250ms var(--ease); }
@@ -226,6 +191,7 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
   .js-only { display: none !important; }
   :global(.js) .js-only { display: inline-flex !important; }
 
+  .cx-final { margin-top: 32px; font-size: clamp(1.5rem, 2.4vw, 2.25rem); font-weight: 600; letter-spacing: -.025em; padding-top: 14px; border-top: 3px solid var(--red); width: fit-content; }
   .cx-nojs { margin-top: 16px; color: var(--graphite); }
   :global(.js) .cx-nojs { display: none; }
 

@@ -1,7 +1,7 @@
 # DESIGN SYSTEM — Línea Roja Software
 ## Manifiesto de Identidad Profesional y Ética · LSC 2026
 
-**Versión:** 2.2 (sin etiquetas monoespaciadas; todo en Inter)
+**Versión:** 3.0 (Quiénes somos + índice; texto recortado a ~2,700 palabras)
 **Producto:** sitio web editorial interactivo de una sola página
 **Stack:** Astro (salida estática) + CSS propio con variables + TypeScript vanilla para la interacción. Sin frameworks de UI, sin Tailwind, sin librerías de animación.
 **Deploy:** Vercel, conectado al repositorio en GitHub.
@@ -132,24 +132,31 @@ Preferir divisiones horizontales a encerrar todo en tarjetas.
 ## 6. Arquitectura de la página
 
 ```
-HEADER (sticky)
-HERO
-01 / FILOSOFÍA
-02 / CÓDIGO LSC          ← sección oscura, 3 reglas
-03 / PROMESA AL USUARIO  ← contrato
-04 / PON A PRUEBA NUESTRO CRITERIO ← casos interactivos
-05 / PROTOCOLO DE CRISIS ← diagrama de flujo interactivo
-06 / SALA DE INVERSORES  ← preguntas difíciles
-07 / DE DÓNDE SALE ESTO  ← el semestre: 10 casos → 1 manifiesto
-EQUIPO
+HEADER (sticky)          ← Nosotros · Filosofía · Código · Promesa · Crisis · Casos · Inversores
+HERO                     ← H1, una frase, botón "Conócenos"
+QUIÉNES SOMOS  #nosotros ← párrafo, equipo con puesto y "Responde por", cómo trabajamos
+EL MANIFIESTO  #indice   ← 4 filas grandes (secciones obligatorias) + fila chica
+NUESTRA FILOSOFÍA
+EL CÓDIGO LSC MODERNO    ← sección oscura, 3 reglas, un demo por regla
+LA PROMESA AL USUARIO    ← contrato
+PLAN DE ACCIÓN DE CRISIS ← diagrama + recorrido + franja de cifras
+CASOS                    ← 4 casos para decidir
+INVERSORES               ← 8 preguntas
+DE DÓNDE SALE ESTO       ← 10 casos, una fila cada uno
 DECLARACIÓN FINAL
 FUENTES
 FOOTER
 ```
 
-Recorrido emocional: **declaración → principios → compromisos → decisiones → protocolo → personas.**
+Recorrido: **personas → índice → principios → compromisos → protocolo → decisiones.** En los primeros segundos el visitante sabe quiénes somos, quién responde por qué y dónde está cada parte obligatoria.
 
-En los primeros segundos el visitante debe entender: quiénes somos, qué defendemos, qué no haremos.
+**Índice (#indice).** h2 "El manifiesto", sin intro. Cuatro filas grandes, una por sección obligatoria ("01 · Nuestra Filosofía — Cómo separamos hacer dinero de hacer buen software." …), separadas por líneas y clicables completas. Debajo, una fila chica: Casos · Inversores · De dónde sale esto · Fuentes. A la derecha de cada fila, quién responde por ella (sale de `team.ts`). En hover/focus aparece la línea roja corta a la izquierda. Sin tarjetas ni iconos.
+
+**Límites de texto (todo el sitio, ~2,700 palabras en total):**
+- Párrafos de máximo 2 frases y 40 palabras.
+- Ninguna intro que repita lo que dice el h2.
+- Listas de máximo 3 puntos y 12 palabras por punto.
+- Presupuesto aproximado: Filosofía 250 · Código 700 · Promesa 200 · Crisis 250 · Casos 400 · Inversores 400 · De dónde sale esto 200.
 
 ---
 
@@ -158,11 +165,11 @@ En los primeros segundos el visitante debe entender: quiénes somos, qué defend
 Desktop (72px, sticky, `background: rgba(245,244,239,.92)`, `backdrop-filter: blur(16px)`, borde inferior fino, sin sombra):
 
 ```
-— Línea Roja/      Nuestra Filosofía  El Código LSC Moderno  La Promesa al Usuario  Casos
-  software practice  Plan de Acción de Crisis  Inversores  De dónde sale esto
+— Línea Roja/      Nosotros  Filosofía  Código  Promesa  Crisis  Casos  Inversores
+  software practice
 ```
 
-Las cuatro secciones obligatorias usan el nombre exacto de la actividad. "software practice" va en Inter `.75rem`, `--graphite`, sin mayúsculas. La navegación completa se muestra desde 1280px; abajo de eso, botón "Menú".
+El header usa nombres cortos; los nombres completos (los exactos de la actividad) quedan en el índice y en los h2. "software practice" va en Inter `.75rem`, `--graphite`, sin mayúsculas. La navegación se muestra desde 1024px; abajo de eso, botón "Menú".
 
 El wordmark es texto en Inter 600 precedido de un trazo rojo corto (24×3px). Nada de isotipos complejos ni símbolos de IA o robots.
 
@@ -172,22 +179,22 @@ Mobile: `Línea Roja/` + botón "Menú" (texto, no hamburguesa animada) que abre
 
 ---
 
-## 8. Hero (80–95vh en desktop, libre en mobile)
+## 8. Hero (≈78vh en desktop, libre en mobile)
 
 ```
 No escribimos software
 a cualquier costo.
 ━━━━━━━━━━━━━━━━━━━━  ← línea roja que se dibuja
 
-Construimos lo que el cliente necesita hasta donde la ética lo
-permite. Este documento dice dónde termina ese punto.
+Somos una agencia de software de Mexicali. Construimos lo que el
+cliente necesita hasta donde la ética lo permite.
 
-[Leer el manifiesto ↓]
+[Conócenos ↓]   ← botón primario, lleva a #nosotros
 ```
 
-Sin kicker arriba del título ni línea de metadata abajo: el `h1` abre la página.
+Solo H1, una frase y el botón. Sin foto, sin kicker, sin metadata.
 
-Composición tipográfica sobre grid. A la derecha (solo ≥1024px) puede ir **una** fotografía documental en blanco y negro ligero relacionada con el concepto (ver §16).
+**Quiénes somos (#nosotros).** h2 "Quiénes somos" y un párrafo de máximo 50 palabras. El equipo en lista separada por líneas (sin tarjetas): nombre, puesto, una línea de qué hace y "Responde por:" con enlace a su sección. Debajo, "Cómo trabajamos": los tres compromisos internos (no hay rockstars; la conducta se nombra por sus efectos; cualquiera puede detener una tarea), una línea cada uno.
 
 ---
 
@@ -203,7 +210,7 @@ Responde: *¿quiénes somos y cómo entendemos la diferencia entre hacer dinero 
 3. **Ética / Moral / Deontología** en composición horizontal separada por líneas verticales (no tres tarjetas idénticas): término (sin número encima), definición corta, y "En el taller" (subtítulo `.sub`) con la aplicación práctica y la referencia al código de la ACM en texto `.meta`.
    La columna "En el taller" usa ejemplos de nuestra traducción del código ACM (`semestre.md` · A6): p. ej. Deontología → *"Callar por no hacer olas también es una decisión"* (4.1).
 4. **"Dinero contra buen software, en cuatro decisiones":** las 4 situaciones del HTML original como acordeón. Al abrir, dos columnas: *Lo que empuja el dinero* (borde izquierdo rojo) / *Lo que hacemos* (borde izquierdo verde). `<details>` nativo o botón con `aria-expanded`. Las cuatro decisiones se reescriben con los casos oficiales: retención (`cancelacion`), métricas de clics contra respuestas útiles (`buscador`), comisión del 30% y pagos externos (`tienda-apps`) y rastrear empleados sin avisarles (`bossware`). La declaración editorial grande puede usar el caso del buscador: el producto empeoró mientras los números subían.
-5. **"Cómo trabajamos por dentro"** (sale del caso del Rockstar): tres compromisos internos en una fila separada por líneas:
+5. ~~Cómo trabajamos por dentro~~ — se movió a "Quiénes somos" (§8). Texto original de referencia: tres compromisos internos en una fila separada por líneas:
    - **No hay rockstars.** Todo PR lleva revisión y todo módulo, documentación mínima. El talento no compra impunidad.
    - **La conducta se nombra por sus efectos.** Hablamos con datos, no con adjetivos. La corrección es en privado; el reconocimiento, en público.
    - **Cualquiera puede detener una tarea.** Botón de objeción técnica: si alguien del equipo cree que algo daña al usuario, se para y se revisa (EvoPhone, P5).
@@ -211,6 +218,8 @@ Responde: *¿quiénes somos y cómo entendemos la diferencia entre hacer dinero 
 ---
 
 ## 10. 02 / Código LSC (sección oscura)
+
+> **v3.0:** un solo demo por regla. 01 → calculadora del gato astronauta (deepfakes queda en "no haremos" y en la tarjeta de Arup). 02 → flujo de cancelación y modal de la farmacia, con texto mínimo; sin "Lo que diría la competencia". 03 → medidor de EvoPhone y compuerta. Por regla: enunciado en una frase, 3 "sí hacemos", 3 "no haremos", caso real en 2 líneas.
 
 Subtítulo: **"Tres reglas que no negociamos."** Intro: por qué elegimos estos tres dilemas.
 
@@ -250,6 +259,8 @@ Lo que sí hacemos      │  Lo que no haremos
 
 ## 11. 03 / Promesa al usuario
 
+> **v3.0:** por cláusula, promesa en una frase, "Cómo lo compruebas" en una línea y "Ver en el producto" con 2 puntos.
+
 Subtítulo: **"Esto es lo que puedes exigirnos."**
 
 Debe parecer un documento firmado: fondo `--surface`, borde `--ink`, una línea roja de 4px arriba, cláusulas numeradas ("Cláusula 1") en Inter `.meta`. Sin código de documento tipo "LRS-PROMESA · Versión 1.0".
@@ -270,6 +281,8 @@ Línea Roja Software · Mexicali, B.C. · 2026
 ---
 
 ## 12. 04 / Pon a prueba nuestro criterio
+
+> **v3.0:** situación ≤ 40 palabras, opciones ≤ 12, decisión ≤ 50.
 
 Casos de decisión sin puntuación ni gamificación. El objetivo es comunicar criterio, no un examen.
 
@@ -298,6 +311,8 @@ Selector con `role="radiogroup"` o botones `aria-pressed`, navegable con teclado
 
 ## 13. 05 / Protocolo de crisis
 
+> **v3.0:** sin "Cada paso, en detalle". Texto de cada nodo ≤ 20 palabras. Se quedan el diagrama (también en móvil), el recorrido y la franja de cifras.
+
 Subtítulo: **"Cuando el problema es nuestro, la prioridad cambia."**
 
 Dos vistas de lo mismo:
@@ -323,11 +338,15 @@ Mobile: el diagrama se convierte en secuencia vertical; el recorrido interactivo
 
 ## 14. 06 / Sala de inversores
 
+> **v3.0:** 8 preguntas, sin grupos ni contador; respuesta ≤ 40 palabras (postura en negritas + una o dos frases).
+
 Subtítulo: **"Las preguntas que nos harán."** Acordeón con las preguntas del HTML original más las nuevas y las que ya respondimos en clase: el escrutinio de la Mesa Directiva de EvoPhone y las contrarréplicas del caso del Rockstar. Sin etiquetas de origen ("Pregunta original", "Contrarréplica…") ni contador de preguntas; cada respuesta cierra con "Del caso: …". Cada respuesta: postura en una línea en negritas + argumento en 2–4 líneas. Tono firme, sin ceder.
 
 ---
 
 ## 14b. 07 / De dónde sale esto
+
+> **v3.0:** lista compacta, una fila por caso: nombre, lo que aprendimos en una línea y "Ver dónde se usa". Sin enunciados ni herramientas.
 
 Subtítulo: **"Diez casos, un manifiesto."** Es la prueba de que el manifiesto sintetiza el semestre (lo pide la actividad).
 
@@ -349,24 +368,24 @@ Paradas: los 10 casos de la lista oficial de `semestre.md`, con su título del c
 
 ## 15. Equipo, declaración final, fuentes y footer
 
-**Equipo:** lista separada por líneas, sin tarjetas tipo LinkedIn. Nombre completo + rol. Los nombres van **escritos en el código**, nunca editables ni en `localStorage`.
+**Equipo:** vive en "Quiénes somos" (§8), no al final. `src/data/team.ts` guarda nombre, puesto, descripción, secciones de las que responde y anclas. Nunca editable ni en `localStorage`. En la firma del contrato van solo los nombres.
 
-**Declaración final** (Display, centrada a la izquierda):
+**Declaración final** (Display, alineada a la izquierda):
 > El software que construimos habla de las decisiones que estamos dispuestos a tomar.
 > Y también de las que no.
 
-**Fuentes:** lista numerada pequeña con cada caso real citado (título, medio, año, enlace) y créditos de fotografías con licencia.
+**Fuentes:** lista numerada pequeña, solo con lo que el sitio cita, y créditos de fotografías con licencia. Si se borra una sección o pregunta, se borra su fuente.
 
 **Footer:**
 ```
 Línea Roja Software
-Manifiesto de Identidad Profesional · LSC 2026
-[Materia] · Facultad de Ingeniería Mexicali · UABC
-Construido con apoyo de herramientas de IA. Cada texto fue revisado y es defendido por el equipo.
+Manifiesto de Identidad Profesional, 2026
+[Materia] · Licenciatura en Sistemas Computacionales · FIM-UABC
+Índice
 ↑ Volver arriba
 ```
 
-La línea de IA no es opcional en espíritu: nuestra regla 01 exige avisar cuando algo fue generado con IA. Ocultarlo sería contradecir el manifiesto en el mismo sitio.
+El aviso de uso de IA ya no va en el footer (decisión del equipo). La pregunta "¿Usaron IA para hacer este sitio?" se responde en Inversores.
 
 ---
 

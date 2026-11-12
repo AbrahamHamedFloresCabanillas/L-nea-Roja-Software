@@ -1,6 +1,5 @@
 ---
 import Icon from "./Icon.astro";
-import CaseTag from "./CaseTag.astro";
 import { shameParts, shameOriginal as o, shameRedesign as r } from "../data/demos";
 const mark = (n: number) => {
   const p = shameParts.find((x) => x.n === n)!;
@@ -9,36 +8,26 @@ const mark = (n: number) => {
 ---
 <section class="sm cv" id="demo-verguenza" aria-labelledby="sm-title" data-shame>
   <h4 id="sm-title" class="h3">La vergüenza de confirmación</h4>
-  <p class="sm-intro">
-    Una farmacia en línea con suscripción mensual. Para cerrar la ventana de cobro había que pulsar
-    “No, prefiero arriesgar mi salud, pagar más caro y ser irresponsable”. El reto: venderla sin culpa.
-    Toca los números del original para ver qué truco usa cada parte.
-  </p>
+  <p class="sm-intro">Una farmacia vendía su suscripción con culpa. Toca los números para ver cada truco.</p>
 
   <div class="sm-grid">
     <div class="sm-col">
       <h5 class="sub sm-ver sm-ver-bad">Como venía en el caso</h5>
       <div class="sm-device" aria-label="Maqueta del modal original" role="group">
         <div class="sm-modal sm-bad">
-          <span class="sm-x" data-part="5" aria-hidden="true"><Icon name="x" size={10} /></span>
-          <button type="button" class="sm-mark sm-mark-x" data-mark="5" aria-pressed="false" aria-label={mark(5).label}>5</button>
-
+          <span class="sm-x" aria-hidden="true"><Icon name="x" size={10} /></span>
           <div class="sm-part" data-part="1">
             <button type="button" class="sm-mark" data-mark="1" aria-pressed="false" aria-label={mark(1).label}>1</button>
             <p class="sm-bad-title">{o.title}</p>
           </div>
           <div class="sm-part" data-part="2">
             <button type="button" class="sm-mark" data-mark="2" aria-pressed="false" aria-label={mark(2).label}>2</button>
-            <p class="sm-bad-social">{o.social}</p>
-          </div>
-          <div class="sm-part" data-part="3">
-            <button type="button" class="sm-mark" data-mark="3" aria-pressed="false" aria-label={mark(3).label}>3</button>
             <p class="sm-bad-price">{o.price}</p>
             <p class="sm-bad-fine">{o.fine}</p>
           </div>
           <span class="sm-mock sm-mock-primary">{o.accept}</span>
-          <div class="sm-part" data-part="4">
-            <button type="button" class="sm-mark" data-mark="4" aria-pressed="false" aria-label={mark(4).label}>4</button>
+          <div class="sm-part" data-part="3">
+            <button type="button" class="sm-mark" data-mark="3" aria-pressed="false" aria-label={mark(3).label}>3</button>
             <span class="sm-mock sm-mock-shame">{o.reject}</span>
           </div>
         </div>
@@ -56,7 +45,6 @@ const mark = (n: number) => {
             <span class="sm-mock sm-even">{r.accept}</span>
             <span class="sm-mock sm-even">{r.reject}</span>
           </div>
-          <p class="sm-note">{r.note}</p>
         </div>
       </div>
     </div>
@@ -72,7 +60,6 @@ const mark = (n: number) => {
     ))}
   </ol>
   <p class="sm-live sr-only" aria-live="polite" data-shame-live></p>
-  <CaseTag id="verguenza" />
 </section>
 
 <style>

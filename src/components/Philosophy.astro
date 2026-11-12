@@ -3,7 +3,7 @@ import SectionHeader from "./SectionHeader.astro";
 import { sectionName } from "../data/site";
 import CaseTag from "./CaseTag.astro";
 import Icon from "./Icon.astro";
-import { philosophy, concepts, moneyDecisions, internal } from "../data/philosophy";
+import { philosophy, concepts, moneyDecisions } from "../data/philosophy";
 ---
 <section class="section cv" id="filosofia" aria-labelledby="filosofia-title">
   <div class="container">
@@ -27,18 +27,15 @@ import { philosophy, concepts, moneyDecisions, internal } from "../data/philosop
             <dd class="concept-shop">
               <p class="sub">En el taller</p>
               <p>{c.workshop}</p>
-              <p class="meta">{c.ref}.</p>
             </dd>
           </div>
         ))}
       </dl>
-      <p class="small concepts-note">Los ejemplos “En el taller” salen de nuestra traducción del código de ética de la ACM a decisiones de todos los días.</p>
     </div>
 
     <div class="block">
       <div class="block-head">
-        <h3 class="h3 block-title">Dinero contra buen software, en cuatro decisiones</h3>
-        <p class="block-intro">Abre cada situación. A la izquierda, lo que empuja la métrica de negocio; a la derecha, lo que hacemos.</p>
+        <h3 class="h3 block-title">Dinero contra buen software</h3>
       </div>
       <div class="decisions">
         {moneyDecisions.map((d) => (
@@ -56,28 +53,12 @@ import { philosophy, concepts, moneyDecisions, internal } from "../data/philosop
                 <h4 class="sub">Lo que hacemos</h4>
                 <p>{d.ours}</p>
               </div>
-              <div class="dec-tag"><CaseTag id={d.caseId} /></div>
             </div>
           </details>
         ))}
       </div>
     </div>
 
-    <div class="block" id="por-dentro">
-      <div class="block-head">
-        <h3 class="h3 block-title">Cómo trabajamos por dentro</h3>
-        <p class="block-intro">Un manifiesto que solo mira hacia afuera es fácil de firmar. Estas reglas son para nosotros.</p>
-      </div>
-      <ul class="inside">
-        {internal.map((r) => (
-          <li class="inside-item" data-reveal>
-            <h4 class="h4">{r.title}</h4>
-            <p>{r.body}</p>
-            <CaseTag id={r.caseId} />
-          </li>
-        ))}
-      </ul>
-    </div>
   </div>
 </section>
 

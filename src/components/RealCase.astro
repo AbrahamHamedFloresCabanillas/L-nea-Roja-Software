@@ -8,7 +8,6 @@ const { data } = Astro.props;
 <article class="rc" data-reveal>
   <h4 class="h4 rc-title">{data.title}</h4>
   <p class="rc-what">{data.what}<Cite ids={data.sources} /></p>
-  <p class="rc-learned"><strong>Qué aprendimos:</strong> {data.learned}</p>
   <CaseTag id={data.caseId} />
 </article>
 

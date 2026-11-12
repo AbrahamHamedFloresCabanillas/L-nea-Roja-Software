@@ -1,78 +1,31 @@
 ---
 import SectionHeader from "./SectionHeader.astro";
 import { sectionName } from "../data/site";
-import Icon from "./Icon.astro";
-import { cases, tools } from "../data/cases";
+import { cases } from "../data/cases";
 ---
 <section class="section cv" id="semestre" aria-labelledby="semestre-title">
   <div class="container">
-    <SectionHeader
-      titleId="semestre-title"
-      name={sectionName("semestre")}
-      subtitle="Diez casos, un manifiesto."
-      intro="Nada de lo anterior salió de la nada. Estos son los diez casos que nos tocaron en el semestre, lo que aprendimos de cada uno y a qué parte del manifiesto lo convertimos."
-    />
-
-    <ol class="tl cv">
+    <SectionHeader titleId="semestre-title" name={sectionName("semestre")} subtitle="Diez casos, un manifiesto." />
+    <ol class="sm-list">
       {cases.map((c) => (
-        <li class="tl-stop" id={`semestre-${c.id}`} data-reveal>
-          <span class="tl-dot" aria-hidden="true"></span>
-          <h3 class="h4 tl-title">{c.title}</h3>
-          <p class="tl-hook">{c.hook}</p>
-          <h4 class="sub tl-sub">Lo que aprendimos</h4>
-          <p class="tl-lesson">{c.lesson}</p>
-          <p class="sr-only">Alimentó:</p>
-          <ul class="tl-feeds">
-            {c.feeds.map((f) => <li><Icon name="arrow-right" size={14} /><a href={f.href}>{f.label}</a></li>)}
-          </ul>
+        <li class="sm-row" id={`semestre-${c.id}`}>
+          <span class="sm-dot" aria-hidden="true"></span>
+          <p class="sm-name">{c.title}</p>
+          <p class="sm-lesson">{c.lesson}</p>
+          <a class="sm-link" href={c.href}>Ver dónde se usa</a>
         </li>
       ))}
     </ol>
-
-    <div class="tools">
-      <h3 class="h4 tools-title">Herramientas que usamos</h3>
-      <ul class="tools-list">
-        {tools.map((t) => (
-          <li>
-            <p class="tools-name">{t.title}</p>
-            <p class="small">{t.use}</p>
-            <a class="small" href={t.href}>Ver dónde se usa</a>
-          </li>
-        ))}
-      </ul>
-    </div>
   </div>
 </section>
 
 <style>
-  .tl { list-style: none; position: relative; display: grid; }
-  /* móvil: eje vertical a la izquierda */
-  .tl::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--red); }
-  .tl-stop { position: relative; padding: 0 0 36px 32px; display: grid; gap: 8px; align-content: start; }
-  .tl-dot { position: absolute; left: 0; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--red); }
-  .tl-title { max-width: 22ch; }
-  .tl-hook { color: var(--graphite); font-style: italic; }
-  .tl-sub { margin-top: 4px; font-size: .9375rem; }
-  .tl-lesson { color: var(--graphite); }
-  .tl-feeds { list-style: none; display: grid; gap: 4px; font-size: .875rem; }
-  .tl-feeds li { display: grid; grid-template-columns: 14px 1fr; gap: 6px; align-items: start; }
-  .tl-feeds :global(svg) { margin-top: 4px; color: var(--red); }
-
-  /* escritorio: dos filas horizontales con la línea roja como eje */
-  @media (min-width: 1024px) {
-    .tl { grid-template-columns: repeat(5, 1fr); column-gap: 28px; row-gap: 56px; }
-    .tl::before { display: none; }
-    .tl-stop { padding: 28px 0 0; border-top: 2px solid var(--red); }
-    .tl-dot { top: -7px; left: 0; }
-  }
-
-  .tools { margin-top: 64px; display: grid; gap: 16px; }
-  @media (min-width: 1024px) { .tools { grid-template-columns: 4fr 8fr; gap: 48px; } }
-  .tools-title { padding-top: 14px; }
-  .tools-list { list-style: none; display: grid; gap: 0; border-top: 1px solid var(--ink); }
-  @media (min-width: 768px) { .tools-list { grid-template-columns: 1fr 1fr; } }
-  .tools-list li { padding: 16px 0; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
-  @media (min-width: 768px) { .tools-list li + li { padding-left: 24px; border-left: 1px solid var(--line); } .tools-list li:first-child { padding-right: 24px; } }
-  .tools-name { font-weight: 600; }
-  .tools-list p.small { color: var(--graphite); }
+  .sm-list { list-style: none; border-top: 2px solid var(--red); }
+  .sm-row { position: relative; display: grid; gap: 4px; padding: 16px 0 16px 24px; border-bottom: 1px solid var(--line); }
+  @media (min-width: 900px) { .sm-row { grid-template-columns: 4fr 6fr 2fr; gap: 24px; align-items: baseline; } }
+  .sm-dot { position: absolute; left: 0; top: 24px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--red); }
+  .sm-name { font-weight: 600; }
+  .sm-lesson { color: var(--graphite); }
+  .sm-link { font-size: .9375rem; min-height: 24px; }
+  @media (min-width: 900px) { .sm-link { justify-self: end; } }
 </style>

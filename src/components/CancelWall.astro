@@ -1,14 +1,10 @@
 ---
-import CaseTag from "./CaseTag.astro";
 import { cancelWall, cancelFair, cancelBot } from "../data/demos";
 ---
 <section class="cw cv" id="demo-cancelacion" aria-labelledby="cw-title" data-cancel
   data-bot-waiting={cancelBot.waiting} data-bot-error={cancelBot.error} data-bot-retry={cancelBot.retry}>
   <h4 id="cw-title" class="h3">El muro de la cancelación</h4>
-  <p class="cw-intro">
-    El CEO pidió siete pantallas, un bot que simula fallas técnicas y el botón final en gris claro, porque “cancela demasiada gente”.
-    Intenta cancelar en las dos versiones. El contador corre desde tu primer clic.
-  </p>
+  <p class="cw-intro">Intenta cancelar en las dos versiones. El contador corre desde tu primer clic.</p>
 
   <div class="cw-devices">
     <!-- Versión del CEO -->
@@ -21,7 +17,7 @@ import { cancelWall, cancelFair, cancelBot } from "../data/demos";
         <ol class="cw-screens">
           {cancelWall.map((s, i) => (
             <li class="cw-screen" data-screen={i} data-kind={s.kind ?? "plain"}>
-              <p class="cw-step tnum" aria-hidden="true">Pantalla {i + 1} de 7</p>
+              <p class="cw-step tnum" aria-hidden="true">{i + 1}/7</p>
               <p class="cw-title">{s.title}</p>
               <p class="cw-body">{s.body}</p>
               {s.kind === "survey" && (
@@ -56,7 +52,7 @@ import { cancelWall, cancelFair, cancelBot } from "../data/demos";
       <div class="device" role="group" aria-label="Simulación: cancelar con la versión Línea Roja">
         <ol class="cw-screens">
           <li class="cw-screen" data-screen="0">
-            <p class="cw-step tnum" aria-hidden="true">Pantalla 1 de 1</p>
+            <p class="cw-step tnum" aria-hidden="true">1/1</p>
             <p class="cw-title">{cancelFair.title}</p>
             <p class="cw-body">{cancelFair.body}</p>
             <div class="cw-pair">
@@ -75,11 +71,6 @@ import { cancelWall, cancelFair, cancelBot } from "../data/demos";
   </div>
 
   <p class="cw-result" aria-live="polite" data-compare></p>
-  <p class="small cw-foot">
-    Nuestra regla: cancelar cuesta lo mismo que contratar. Mismos pasos, mismo tamaño de botón.
-    Si la gente se va, se arregla el producto, no la salida.
-  </p>
-  <CaseTag id="cancelacion" />
 
 </section>
 

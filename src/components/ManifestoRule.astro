@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
 import RealCase from "./RealCase.astro";
+import Cite from "./Cite.astro";
 import CaseTag from "./CaseTag.astro";
 import type { Rule } from "../data/rules";
 import cern from "../assets/photos/centro-datos-cern.jpg";
@@ -23,8 +24,6 @@ const titleId = `${rule.id}-title`;
   </div>
 
   <div class="mr-main">
-    <p class="mr-detail">{rule.detail}</p>
-
     <div class="mr-lists" data-reveal>
       <div class="mr-list mr-yes">
         <h4 class="sub">Lo que sí hacemos</h4>
@@ -47,8 +46,7 @@ const titleId = `${rule.id}-title`;
     <slot />
 
     <div class="mr-foot">
-      <p class="mr-backing">Respaldo: {rule.backing}.</p>
-      <p><CaseTag ids={rule.caseIds} /></p>
+      <p class="mr-backing">Respaldo: {rule.backing}.<Cite ids={rule.num === "03" ? "se-code" : "acm"} /></p>
     </div>
   </div>
 </article>

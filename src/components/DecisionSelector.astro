@@ -33,25 +33,10 @@ const titleId = `${data.id}-title`;
 
   <details class="ds-answer" data-answer>
     <summary class="ds-answer-sum">
-      <span class="ds-answer-link">Ver nuestra decisión y por qué las otras no</span>
+      <span class="ds-answer-link">Ver nuestra decisión</span>
     </summary>
     <div class="ds-answer-body">
-      <div class="ds-decision"><SubH class="sub">Nuestra decisión</SubH><p>{data.decision}</p></div>
-      <ul class="ds-verdicts">
-        {data.options.map((o) => (
-          <li class={`v-${o.verdict}`} data-verdict-for={o.key}>
-            <span class="ds-vkey">{o.key}</span>
-            <div>
-              <strong>{verdictLabel[o.verdict]}.</strong> {o.why}
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div class="ds-reasoning">
-        {data.reasoning.map((r, i) => (
-          <p>{r}{i === data.reasoning.length - 1 && data.sources && <Cite ids={data.sources} />}</p>
-        ))}
-      </div>
+      <div class="ds-decision"><SubH class="sub">Nuestra decisión</SubH><p>{data.decision}{data.sources && <Cite ids={data.sources} />}</p></div>
       <CaseTag id={data.caseId} />
     </div>
   </details>
@@ -88,7 +73,7 @@ const titleId = `${data.id}-title`;
 
   .ds-feedback:empty { display: none; }
   .ds-feedback { padding: 16px 18px; border-radius: var(--radius-md); border-left: 3px solid; }
-  .ds-feedback :global(strong) { display: block; font-weight: 600; margin-bottom: 2px; }
+  .ds-feedback :global(strong) { display: block; font-weight: 600; }
   .ds-feedback.f-nuestra { background: var(--positive-soft); border-color: var(--positive); color: var(--ink); }
   .ds-feedback.f-cruza { background: var(--red-soft); border-color: var(--red); color: var(--ink); }
   .ds-feedback.f-no-alcanza { background: #F4EBDD; border-color: var(--warning); color: var(--ink); }
@@ -138,14 +123,12 @@ const titleId = `${data.id}-title`;
         const key = b.dataset.key!;
         const verdict = b.dataset.verdict as Verdict;
         buttons.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-        const why = root.querySelector<HTMLElement>(`[data-verdict-for="${key}"] div`)?.textContent?.replace(/^[^.]+\.\s*/, "") ?? "";
+        
         feedback.className = `ds-feedback f-${verdict}`;
         feedback.innerHTML = "";
         const s = document.createElement("strong");
         s.textContent = `Opción ${key} · ${verdictLabel[verdict]}`;
-        const p = document.createElement("span");
-        p.textContent = why;
-        feedback.append(s, p);
+        feedback.append(s);
         answer.open = true;
       });
     });

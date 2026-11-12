@@ -1,5 +1,5 @@
 ---
-import { nav } from "../data/site";
+import { headerNav, sections } from "../data/site";
 ---
 <header class="hdr">
   <div class="container hdr-in">
@@ -10,8 +10,8 @@ import { nav } from "../data/site";
 
     <nav class="hdr-nav" aria-label="Secciones del manifiesto">
       <ul>
-        {nav.map((n) => (
-          <li><a href={`#${n.id}`} data-nav-link={n.id}>{n.label}</a></li>
+        {headerNav.map((n) => (
+          <li><a href={`#${n.id}`} data-nav-link={n.id}>{n.short}</a></li>
         ))}
       </ul>
     </nav>
@@ -29,10 +29,9 @@ import { nav } from "../data/site";
     </div>
     <nav class="container" aria-label="Secciones">
       <ol class="mm-list">
-        {nav.map((n) => (
+        {sections.map((n) => (
           <li>
             <a href={`#${n.id}`} data-menu-link>
-              <span class="mm-num tnum">{n.num}</span>
               <span>{n.label}</span>
             </a>
           </li>
@@ -82,7 +81,7 @@ import { nav } from "../data/site";
   :global(.js) .hdr-in .hdr-menu { display: inline-flex; }
   :global(.js) .hdr-index { display: none; }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) {
     .hdr-nav { display: block; }
     .hdr-index, :global(.js) .hdr-in .hdr-menu { display: none; }
   }
@@ -144,7 +143,7 @@ import { nav } from "../data/site";
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
 
-  window.matchMedia("(min-width: 1280px)").addEventListener("change", (m) => { if (m.matches && panel && !panel.hidden) close(false); });
+  window.matchMedia("(min-width: 1024px)").addEventListener("change", (m) => { if (m.matches && panel && !panel.hidden) close(false); });
 
   // Sección visible → subrayado rojo en la navegación
   const links = new Map<string, HTMLAnchorElement>();

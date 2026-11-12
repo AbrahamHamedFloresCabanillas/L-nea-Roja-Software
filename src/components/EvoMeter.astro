@@ -1,16 +1,12 @@
 ---
 import Cite from "./Cite.astro";
-import CaseTag from "./CaseTag.astro";
 import Icon from "./Icon.astro";
 import { evoToggles, evoFacts, gateSteps } from "../data/demos";
 const total = evoToggles.reduce((a, t) => a + t.weight, 0);
 ---
 <section class="evo cv" id="demo-evophone" aria-labelledby="evo-title" data-evo>
-  <h4 id="evo-title" class="h3">EvoPhone: cuánto pesa una decisión de diseño</h4>
-  <p class="evo-intro">
-    {evoFacts.diagnosis} Su modelo de negocio era volver lentos sus propios teléfonos cada año.
-    Esta versión acumula sus decisiones. Apaga las que no le sirven al usuario.
-  </p>
+  <h4 id="evo-title" class="h3">EvoPhone: cuánto pesa una decisión</h4>
+  <p class="evo-intro">EvoPhone volvía lentos sus propios teléfonos cada año. Apaga sus decisiones.</p>
 
   <div class="evo-grid">
     <fieldset class="evo-toggles">
@@ -20,7 +16,6 @@ const total = evoToggles.reduce((a, t) => a + t.weight, 0);
           <input type="checkbox" checked data-w={t.weight} />
           <span>
             <span class="evo-tg-label">{t.label}</span>
-            <span class="evo-tg-note">{t.note}</span>
           </span>
           <span class="evo-tg-w tnum">+{t.weight}</span>
         </label>
@@ -33,7 +28,6 @@ const total = evoToggles.reduce((a, t) => a + t.weight, 0);
       <div class="evo-meter" aria-hidden="true"><i data-evo-bar></i></div>
       <p class="small evo-note">{evoFacts.note}</p>
       <button type="button" class="btn btn-primary evo-apply" data-evo-apply hidden>Aplicar Línea Roja</button>
-      <p class="evo-promise">“{evoFacts.promise}”</p>
     </div>
   </div>
 
@@ -43,22 +37,18 @@ const total = evoToggles.reduce((a, t) => a + t.weight, 0);
       {gateSteps.map((s) => (
         <li class:list={["gate-step", { "gate-q": "question" in s }]}>
           <span class="gate-label">{s.label}</span>
-          <span class="gate-detail">{s.detail}</span>
         </li>
       ))}
     </ol>
     <div class="gate-out">
-      <p class="gate-no"><Icon name="x" size={18} /><span><strong>Sí:</strong> la versión no se publica. Se corrige o se publica un perfil ligero para ese modelo.</span></p>
-      <p class="gate-yes"><Icon name="check" size={18} /><span><strong>No:</strong> se publica, con actualización delta en horario de menor intensidad de carbono.</span></p>
+      <p class="gate-no"><Icon name="x" size={18} /><span><strong>Sí:</strong> no se publica.</span></p>
+      <p class="gate-yes"><Icon name="check" size={18} /><span><strong>No:</strong> se publica.</span></p>
     </div>
   </section>
 
   <div class="evo-facts">
     <p>{evoFacts.manufacturing}<Cite ids="apple-per" /></p>
-    <p>{evoFacts.ewaste}<Cite ids="ewaste" /></p>
-    <p>{evoFacts.eu}<Cite ids={["eu-ecodesign", "eu-batteries"]} /></p>
   </div>
-  <CaseTag id="evophone" />
 </section>
 
 <style>
@@ -118,7 +108,7 @@ const total = evoToggles.reduce((a, t) => a + t.weight, 0);
   .gate-yes :global(svg), .gate-yes strong { color: #8fd1aa; }
 
   .evo-facts { display: grid; gap: 12px; color: var(--dark-muted); max-width: 72ch; }
-  @container (min-width: 640px) { .evo-facts { grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: none; font-size: .9375rem; } }
+
 </style>
 
 <script>

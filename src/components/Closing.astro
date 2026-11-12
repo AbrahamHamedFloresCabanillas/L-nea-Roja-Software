@@ -1,20 +1,8 @@
 ---
 import SectionHeader from "./SectionHeader.astro";
-import { team, visibleRole } from "../data/team";
 import { sources, photoCredits } from "../data/sources";
 import { site } from "../data/site";
 ---
-<section class="section team" id="equipo" aria-labelledby="equipo-title">
-  <div class="container">
-    <SectionHeader titleId="equipo-title" name="Equipo" subtitle="Quienes firman este manifiesto." />
-    <ul class="team-list">
-      {team.map((m) => {
-        const role = visibleRole(m);
-        return <li><span class="team-name">{m.name}</span>{role && <span class="team-role">{role}</span>}</li>;
-      })}
-    </ul>
-  </div>
-</section>
 
 <section class="section final" aria-labelledby="final-title">
   <div class="container">

@@ -1,6 +1,5 @@
 ---
 import Cite from "./Cite.astro";
-import CaseTag from "./CaseTag.astro";
 import { promptOptions, promptFacts, TEXT_WH } from "../data/demos";
 
 const fmt = (n: number) => n.toLocaleString("es-MX", { maximumFractionDigits: n < 10 ? 2 : n < 100 ? 1 : 0 });
@@ -15,7 +14,7 @@ const def = promptOptions.find((o) => o.id === "imagenes")!;
 ---
 <section class="pc cv" id="demo-gato" aria-labelledby="pc-title" data-calc>
   <h4 id="pc-title" class="h3 pc-title">¿Cuánto cuesta un gato astronauta?</h4>
-  <p class="pc-intro">Elige qué le pides a la IA. La energía es por cada vez que lo pides.</p>
+  <p class="pc-intro">Elige qué le pides a la IA. Energía por cada vez.</p>
 
   <div class="pc-grid">
     <fieldset class="pc-options">
@@ -26,7 +25,7 @@ const def = promptOptions.find((o) => o.id === "imagenes")!;
             data-lo={o.wh[0]} data-hi={o.wh[1]} data-label={o.label} />
           <span class="pc-opt-text">
             <span class="pc-opt-label">{o.label}</span>
-            <span class="pc-opt-detail">{o.detail}<Cite ids={o.sources} /></span>
+            <Cite ids={o.sources} />
           </span>
           <span class="pc-opt-wh tnum">{range(o.wh[0], o.wh[1])} Wh</span>
           <span class="pc-bar" aria-hidden="true"><i style={`width:${bar(o.wh[1])}%`}></i></span>
@@ -38,27 +37,12 @@ const def = promptOptions.find((o) => o.id === "imagenes")!;
       <p class="meta pc-out-label" data-out-label>{def.label}</p>
       <p class="pc-out-num"><span data-out-wh>{range(def.wh[0], def.wh[1])}</span> <span class="pc-unit">Wh</span></p>
       <p class="pc-out-eq">Equivale a <strong data-out-eq>{eq(def.wh[0], def.wh[1])}</strong> preguntas de texto.</p>
-      <p class="pc-out-scale">Si un millón de personas lo piden una vez al día: <strong data-out-scale>{range(def.wh[0], def.wh[1])} MWh</strong> diarios.</p>
+      <p class="pc-out-scale">Un millón de personas al día: <strong data-out-scale>{range(def.wh[0], def.wh[1])} MWh</strong>.</p>
       <p class="small pc-note">{promptFacts.note}</p>
     </div>
   </div>
 
-  <div class="pc-facts">
-    <div>
-      <h5 class="sub">La ruta física de un prompt</h5>
-      <p>{promptFacts.path}</p>
-    </div>
-    <div>
-      <h5 class="sub">Agua y red eléctrica</h5>
-      <p>{promptFacts.water}<Cite ids={["google-gemini", "li-water"]} /> {promptFacts.grid}<Cite ids="iea-supply" /> {promptFacts.datacenters}<Cite ids="iea" /></p>
-    </div>
-    <div>
-      <h5 class="sub">Lo que hacemos por defecto</h5>
-      <ul>{promptFacts.practices.map((p) => <li>{p}</li>)}</ul>
-    </div>
-  </div>
-
-  <p class="pc-thesis">“{promptFacts.thesis}” <CaseTag id="prompt-ia" /></p>
+  <p class="pc-thesis">“{promptFacts.thesis}”</p>
 </section>
 
 <style>

@@ -4,43 +4,30 @@ import { sectionName } from "../data/site";
 import CaseTag from "./CaseTag.astro";
 import Cite from "./Cite.astro";
 import Icon from "./Icon.astro";
-import { investorsIntro, investorGroups } from "../data/investors";
+import { investorsIntro, investors } from "../data/investors";
 ---
 <section class="section cv" id="inversores" aria-labelledby="inversores-title">
   <div class="container">
-    <SectionHeader titleId="inversores-title" name={sectionName("inversores")} subtitle={investorsIntro.title} intro={investorsIntro.intro} />
-
-    <div class="inv">
-      {investorGroups.map((g) => (
-        <div class="inv-group cv">
-          <h3 class="h4 inv-group-title">{g.title}</h3>
-          <div class="inv-list">
-            {g.items.map((qa) => (
-              <details class="inv-q" id={qa.id}>
-                <summary>
-                  <span class="inv-q-text">{qa.q}</span>
-                  <Icon name="plus" class="chev" />
-                </summary>
-                <div class="inv-a">
-                  <p class="inv-stance">{qa.stance}</p>
-                  <p class="inv-arg">{qa.argument}{qa.sources && <Cite ids={qa.sources} />}</p>
-                  <p class="inv-meta"><CaseTag id={qa.caseId} /></p>
-                </div>
-              </details>
-            ))}
+    <SectionHeader titleId="inversores-title" name={sectionName("inversores")} subtitle={investorsIntro.title} />
+    <div class="inv-list">
+      {investors.map((qa) => (
+        <details class="inv-q" id={qa.id}>
+          <summary>
+            <span class="inv-q-text">{qa.q}</span>
+            <Icon name="plus" class="chev" />
+          </summary>
+          <div class="inv-a">
+            <p><strong>{qa.stance}</strong> {qa.argument}{qa.sources && <Cite ids={qa.sources} />}</p>
+            <p><CaseTag id={qa.caseId} /></p>
           </div>
-        </div>
+        </details>
       ))}
     </div>
   </div>
 </section>
 
 <style>
-  .inv { display: grid; gap: 48px; }
-  .inv-group { display: grid; gap: 12px; }
-  @media (min-width: 1024px) { .inv-group { grid-template-columns: 4fr 8fr; gap: 48px; } }
-  .inv-group-title { padding-top: 20px; max-width: 18ch; }
-  .inv-list { border-top: 1px solid var(--ink); }
+  .inv-list { border-top: 1px solid var(--ink); max-width: 960px; }
   .inv-q { border-bottom: 1px solid var(--line); }
   .inv-q summary {
     display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start;
@@ -48,8 +35,6 @@ import { investorsIntro, investorGroups } from "../data/investors";
   }
   .inv-q summary:hover .inv-q-text { text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: .2em; }
   .inv-q .chev { margin-top: 4px; }
-  .inv-a { display: grid; gap: 10px; padding: 0 40px 24px 0; max-width: 72ch; }
-  .inv-stance { font-weight: 700; font-size: 1.125rem; padding-left: 14px; border-left: 3px solid var(--ink); }
-  .inv-arg { color: var(--graphite); padding-left: 17px; }
-  .inv-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: center; padding-left: 17px; }
+  .inv-a { display: grid; gap: 8px; padding: 0 40px 24px 17px; border-left: 3px solid var(--ink); margin-bottom: 20px; max-width: 72ch; color: var(--graphite); }
+  .inv-a strong { color: var(--ink); font-weight: 600; }
 </style>
