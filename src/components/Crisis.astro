@@ -1,0 +1,358 @@
+---
+import { Image } from "astro:assets";
+import SectionHeader from "./SectionHeader.astro";
+import CaseTag from "./CaseTag.astro";
+import Icon from "./Icon.astro";
+import { crisisIntro, nodes, nodeById, routes, type CrisisNode, type NodeId } from "../data/crisis";
+import noc from "../assets/photos/centro-operaciones.jpg";
+
+/* ---------- geometría del diagrama (SVG generado desde los datos) ---------- */
+const W = 1280, BW = 212, BH = 76, ROW = 120, TOP = 16;
+const H = TOP + 9 * ROW + BH + 16;
+const yOf = (n: CrisisNode) => TOP + n.row * ROW;
+
+interface Edge { id: string; from: NodeId; to: NodeId; d: string; label?: { x: number; y: number; anchor: "start" | "end"; text: string } }
+const edges: Edge[] = [];
+for (const n of nodes) {
+  const outs = n.choices ? n.choices.map((c) => ({ to: c.to, text: c.edge })) : n.next ? [{ to: n.next, text: undefined as string | undefined }] : [];
+  const bendsRight = outs.some((o) => nodeById(o.to).x > n.x);
+  for (const o of outs) {
+    const t = nodeById(o.to);
+    const y1 = yOf(n), y2 = yOf(t);
+    let d: string; let label: Edge["label"];
+    if (n.row === t.row) {
+      const dir = t.x > n.x ? 1 : -1;
+      d = `M ${n.x + (dir * BW) / 2} ${y1 + BH / 2} H ${t.x - (dir * BW) / 2}`;
+    } else if (n.x === t.x) {
+      d = `M ${n.x} ${y1 + BH} V ${y2}`;
+      if (o.text) label = { x: n.x + (bendsRight ? -8 : 8), y: y1 + BH + 17, anchor: bendsRight ? "end" : "start", text: o.text };
+    } else {
+      const ymid = y2 - 22;
+      const dir = t.x > n.x ? 1 : -1;
+      d = `M ${n.x} ${y1 + BH} V ${ymid} H ${t.x} V ${y2}`;
+      if (o.text) label = { x: n.x + dir * 8, y: ymid - 6, anchor: dir > 0 ? "start" : "end", text: o.text };
+    }
+    edges.push({ id: `${n.id}>${o.to}`, from: n.id, to: o.to, d, label });
+  }
+}
+
+const routeNodes = (r: string) => nodes.filter((n) => n.route === r);
+const groups = [
+  { title: "Inicio", items: routeNodes("inicio") },
+  ...routes.map((r) => ({ title: r.title, from: r.from, caseId: r.caseId, items: routeNodes(r.id) })),
+  { title: "Cierre de cualquier ruta", items: routeNodes("cierre") },
+];
+const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, next, redline, final }) => ({ id, title, time, body, q, choices, next, redline, final })));
+---
+<section class="section crisis" id="crisis" aria-labelledby="crisis-title">
+  <div class="container">
+    <SectionHeader section="crisis" titleId="crisis-title" title={crisisIntro.title} intro={crisisIntro.intro} />
+
+    <div class="cx-top" data-reveal>
+      <div class="cx-counter" data-counter>
+        <p class="label cx-counter-label">El caso con el que lo probamos</p>
+        <ul class="cx-nums">
+          {crisisIntro.counter.map((c) => (
+            <li>
+              <span class="cx-num mono">{c.prefix}<span data-count={c.value} data-fmt={c.fmt}>{c.fmt === "decimal" ? c.value.toFixed(1) : c.value}</span></span>
+              <span class="cx-num-label">{c.unit} {c.label}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="small cx-counter-note">{crisisIntro.counterNote}</p>
+        <CaseTag id="filtracion" />
+      </div>
+      <figure class="photo cx-photo">
+        <Image src={noc} alt="Sala de operaciones de red con varios monitores en los escritorios y mapas en pantallas grandes." widths={[480, 800]} sizes="(min-width: 1024px) 36vw, 100vw" loading="lazy" />
+        <figcaption>Un incidente se atiende en una sala así, con una persona coordinando. Centro de operaciones de red, IUPUI.</figcaption>
+      </figure>
+    </div>
+
+    <div class="cx-board" data-walk-root>
+      <!-- Recorrido interactivo (solo con JS) -->
+      <div class="cx-walk" data-walk hidden>
+        <div class="cx-walk-head">
+          <p class="label">Recorrido interactivo</p>
+          <button type="button" class="btn btn-secondary cx-reset" data-walk-reset><Icon name="rotate" size={16} /> Reiniciar</button>
+        </div>
+        <ol class="cx-trail" data-walk-trail aria-label="Pasos recorridos"></ol>
+        <div class="cx-current" data-walk-current aria-live="polite"></div>
+      </div>
+
+      <!-- Diagrama completo -->
+      <figure class="cx-figure">
+        <svg class="cx-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="cx-svg-title cx-svg-desc" data-diagram>
+          <title id="cx-svg-title">Diagrama completo del plan de acción de crisis</title>
+          <desc id="cx-svg-desc">Árbol con la ruta de vulnerabilidad a la izquierda y la ruta ambiental a la derecha. Ambas terminan en el postmortem público. Los pasos en texto están debajo del diagrama.</desc>
+          <defs>
+            <marker id="cx-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B5B4AC" /></marker>
+            <marker id="cx-arrow-on" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#161616" /></marker>
+          </defs>
+          {edges.map((e) => (
+            <g class="cx-edge" data-edge={e.id}>
+              <path d={e.d} marker-end="url(#cx-arrow)" />
+              {e.label && <text x={e.label.x} y={e.label.y} text-anchor={e.label.anchor}>{e.label.text}</text>}
+            </g>
+          ))}
+          {nodes.map((n) => {
+            const x = n.x - BW / 2, y = yOf(n);
+            return (
+              <g class:list={["cx-node", { "is-red": n.redline, "is-final": n.final }]} data-node={n.id}>
+                <rect x={x} y={y} width={BW} height={BH} rx="10" />
+                <text class="cx-t-time" x={x + 14} y={y + 21}>{n.time}</text>
+                <text class="cx-t-title" x={x + 14} y={y + 44}>{n.title}</text>
+                {n.qShort && <text class="cx-t-q" x={x + 14} y={y + 63}>{n.qShort}</text>}
+              </g>
+            );
+          })}
+          <text class="cx-route-label" x="124" y={TOP + 1 * ROW - 30} text-anchor="middle">RUTA DE VULNERABILIDAD</text>
+          <text class="cx-route-label" x="1032" y={TOP + 1 * ROW - 30} text-anchor="middle">RUTA AMBIENTAL</text>
+        </svg>
+        <figcaption class="small cx-legend">
+          <span><i class="lg lg-red"></i> Línea roja: decisión que no negociamos</span>
+          <span class="js-only"><i class="lg lg-cur"></i> Paso actual del recorrido</span>
+          <span class="js-only"><i class="lg lg-path"></i> Camino recorrido</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <p class="cx-nojs">Sin JavaScript no hay recorrido interactivo, pero todos los pasos están aquí abajo.</p>
+
+    <!-- Secuencia en texto: versión móvil del diagrama y lectura completa en escritorio -->
+    <div class="cx-steps">
+      <h3 class="h3 cx-steps-title">Cada paso, en detalle</h3>
+      {groups.map((g) => (
+        <section class="cx-group" aria-label={g.title}>
+          <div class="cx-group-head">
+            <h4 class="label">{g.title}</h4>
+            {"caseId" in g && g.caseId && <CaseTag id={g.caseId} prefix="Sale de" />}
+          </div>
+          <ol class="cx-list">
+            {g.items.map((n) => (
+              <li class:list={["cx-step", { "is-red": n.redline }]} id={`paso-${n.id}`}>
+                <p class="mono cx-step-time">{n.time}</p>
+                <p class="cx-step-title">{n.title}</p>
+                <p class="cx-step-body">{n.body}</p>
+                {n.q && n.choices && (
+                  <p class="cx-step-branch">
+                    <span class="cx-step-q">{n.q}</span>
+                    {n.choices.map((c) => <span class="cx-branch"><Icon name="arrow-right" size={14} /> {c.label}: <a href={`#paso-${c.to}`}>{nodeById(c.to).title}</a></span>)}
+                  </p>
+                )}
+                {n.next && <p class="cx-step-branch"><span class="cx-branch"><Icon name="arrow-right" size={14} /> Sigue: <a href={`#paso-${n.next}`}>{nodeById(n.next).title}</a></span></p>}
+                {n.final && <p class="cx-closing">{crisisIntro.closing}</p>}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <script type="application/json" id="crisis-data" set:html={walkData}></script>
+</section>
+
+<style>
+  .cx-top { display: grid; gap: 32px; margin-bottom: 64px; }
+  @media (min-width: 1024px) { .cx-top { grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; } }
+  .cx-counter { display: grid; gap: 16px; padding-top: 24px; border-top: 1px solid var(--ink); }
+  .cx-counter-label { color: var(--graphite); }
+  .cx-nums { list-style: none; display: grid; gap: 16px; }
+  @media (min-width: 640px) { .cx-nums { grid-template-columns: repeat(3, 1fr); } }
+  .cx-nums li { display: grid; gap: 4px; }
+  .cx-num { font-size: clamp(2rem, 4vw, 3rem); line-height: 1; font-weight: 500; letter-spacing: -.03em; }
+  .cx-nums li:last-child .cx-num { color: var(--red); }
+  .cx-num-label { font-size: .875rem; color: var(--graphite); }
+  .cx-counter-note { color: var(--graphite); max-width: 60ch; }
+  .cx-photo :global(img) { aspect-ratio: 16 / 10; object-fit: cover; }
+
+  .cx-board { display: grid; gap: 24px; }
+  @media (min-width: 1200px) {
+    :global(.js) .cx-board { grid-template-columns: 360px 1fr; gap: 32px; align-items: start; }
+    .cx-walk { position: sticky; top: calc(var(--header-h) + 16px); max-height: calc(100vh - var(--header-h) - 32px); overflow-y: auto; }
+  }
+
+  .cx-walk { background: var(--surface); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 16px; align-content: start; }
+  .cx-walk[hidden] { display: none; }
+  .cx-walk-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .cx-walk-head .label { color: var(--graphite); }
+  .cx-reset { min-height: 40px; padding: 0 14px; font-size: .875rem; background: var(--paper); }
+  .cx-trail { list-style: none; display: grid; gap: 6px; }
+  .cx-trail:empty { display: none; }
+  .cx-trail :global(li) { font-size: .8125rem; color: var(--graphite); display: grid; grid-template-columns: 22px 1fr; gap: 8px; }
+  .cx-trail :global(.mono) { color: var(--muted); }
+  .cx-trail :global(b) { color: var(--ink); font-weight: 500; }
+  .cx-current { display: grid; gap: 10px; background: var(--paper); border: 2px solid var(--ink); border-radius: var(--radius-md); padding: 18px; }
+  .cx-current.is-red { border-color: var(--red); }
+  .cx-current :global(.cx-c-time) { font-family: var(--font-mono); font-size: .75rem; color: var(--graphite); letter-spacing: .04em; }
+  .cx-current :global(.cx-c-title) { font-size: 1.25rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.2; }
+  .cx-current.is-red .cx-c-title { color: var(--red); }
+  .cx-current :global(.cx-c-title:focus) { outline: none; }
+  .cx-current :global(.cx-c-title:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .cx-current :global(.cx-c-body) { color: var(--graphite); font-size: .9375rem; }
+  .cx-current :global(.cx-c-q) { font-weight: 600; margin-top: 4px; }
+  .cx-current :global(.cx-c-choices) { display: grid; gap: 8px; }
+  .cx-current :global(.cx-c-choices .btn) { justify-content: flex-start; text-align: left; height: auto; min-height: 44px; padding: 10px 14px; line-height: 1.3; }
+  .cx-current :global(.cx-closing) { margin-top: 6px; font-weight: 600; font-size: 1.25rem; letter-spacing: -.015em; padding-top: 10px; border-top: 2px solid var(--red); width: fit-content; }
+
+  .cx-figure { margin: 0; min-width: 0; }
+  .cx-svg { width: 100%; height: auto; background: var(--surface); border-radius: var(--radius-lg); padding: 8px; }
+  @media (max-width: 767px) { .cx-figure { display: none; } }
+
+  .cx-svg :global(text) { font-family: var(--font-sans); }
+  .cx-edge path { fill: none; stroke: #B5B4AC; stroke-width: 1.5; transition: stroke 250ms var(--ease); }
+  .cx-edge text { font-family: var(--font-mono) !important; font-size: 12px; fill: var(--graphite); }
+  .cx-edge.is-walked path { stroke: var(--ink); stroke-width: 2.25; marker-end: url(#cx-arrow-on); }
+  .cx-edge.is-walked text { fill: var(--ink); font-weight: 600; }
+  .cx-node rect { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1; transition: stroke 200ms var(--ease), fill 200ms var(--ease); }
+  .cx-t-time { font-family: var(--font-mono) !important; font-size: 11.5px; fill: var(--graphite); letter-spacing: .03em; }
+  .cx-t-title { font-size: 15px; font-weight: 600; fill: var(--ink); letter-spacing: -.01em; }
+  .cx-t-q { font-size: 12.5px; fill: var(--graphite); }
+  .cx-node.is-red rect { stroke: var(--red); stroke-width: 1.5; fill: #FBF1EF; }
+  .cx-node.is-red .cx-t-title { fill: var(--red-text); }
+  .cx-node.is-final rect { stroke: var(--ink); }
+  .cx-node.is-past rect { fill: #fff; stroke: var(--ink); }
+  .cx-node.is-current rect { stroke: var(--ink); stroke-width: 2.5; fill: #fff; }
+  .cx-node.is-red.is-current rect, .cx-node.is-red.is-past rect { stroke: var(--red); stroke-width: 2.5; }
+  .cx-svg.is-walking .cx-node:not(.is-past):not(.is-current) { opacity: .55; }
+  .cx-route-label { font-family: var(--font-mono) !important; font-size: 11px; letter-spacing: .1em; fill: var(--graphite); }
+
+  .cx-legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 12px; color: var(--graphite); }
+  .cx-legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .lg { display: inline-block; width: 18px; height: 12px; border-radius: 3px; border: 1.5px solid; }
+  .lg-red { border-color: var(--red); background: #FBF1EF; }
+  .lg-cur { border: 2.5px solid var(--ink); background: #fff; }
+  .lg-path { border: 0; height: 2.5px; background: var(--ink); }
+  .js-only { display: none !important; }
+  :global(.js) .js-only { display: inline-flex !important; }
+
+  .cx-nojs { margin-top: 16px; color: var(--graphite); }
+  :global(.js) .cx-nojs { display: none; }
+
+  .cx-steps { margin-top: 72px; }
+  .cx-steps-title { margin-bottom: 24px; }
+  .cx-group { margin-top: 32px; }
+  .cx-group-head { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--ink); }
+  .cx-group-head h4 { color: var(--ink); }
+  .cx-list { list-style: none; display: grid; }
+  @media (min-width: 768px) { .cx-list { grid-template-columns: repeat(2, 1fr); column-gap: 32px; } }
+  @media (min-width: 1200px) { .cx-list { grid-template-columns: repeat(3, 1fr); } }
+  .cx-step { display: grid; gap: 6px; align-content: start; padding: 20px 0 20px 16px; border-bottom: 1px solid var(--line); border-left: 2px solid var(--line); position: relative; }
+  .cx-step.is-red { border-left-color: var(--red); }
+  .cx-step-time { font-size: .75rem; color: var(--graphite); }
+  .cx-step-title { font-weight: 600; font-size: 1.0625rem; }
+  .cx-step.is-red .cx-step-title { color: var(--red); }
+  .cx-step-body { color: var(--graphite); font-size: .9375rem; }
+  .cx-step-branch { display: grid; gap: 4px; font-size: .875rem; margin-top: 4px; }
+  .cx-step-q { font-weight: 500; }
+  .cx-branch { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--graphite); }
+  .cx-branch a { color: var(--ink); }
+  .cx-closing { font-weight: 600; font-size: 1.25rem; letter-spacing: -.015em; margin-top: 8px; padding-top: 10px; border-top: 2px solid var(--red); width: fit-content; }
+</style>
+
+<script>
+  interface WNode { id: string; title: string; time: string; body: string; q?: string; choices?: { label: string; to: string }[]; next?: string; redline?: boolean; final?: boolean }
+  const dataEl = document.getElementById("crisis-data");
+  const root = document.querySelector<HTMLElement>("[data-walk-root]");
+  if (dataEl && root) {
+    const N = new Map<string, WNode>((JSON.parse(dataEl.textContent || "[]") as WNode[]).map((n) => [n.id, n]));
+    const walk = root.querySelector<HTMLElement>("[data-walk]")!;
+    const trail = root.querySelector<HTMLOListElement>("[data-walk-trail]")!;
+    const current = root.querySelector<HTMLElement>("[data-walk-current]")!;
+    const svg = root.querySelector<SVGSVGElement>("[data-diagram]")!;
+    const closing = "La responsabilidad es nuestra.";
+    let path: { id: string; took: string | null }[] = [];
+
+    const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) => {
+      const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e;
+    };
+
+    function paintDiagram() {
+      const ids = path.map((p) => p.id);
+      svg.classList.toggle("is-walking", ids.length > 0);
+      svg.querySelectorAll<SVGGElement>("[data-node]").forEach((g) => {
+        const id = g.dataset.node!;
+        g.classList.toggle("is-current", id === ids[ids.length - 1]);
+        g.classList.toggle("is-past", ids.slice(0, -1).includes(id));
+      });
+      const walked = new Set(ids.slice(1).map((id, i) => `${ids[i]}>${id}`));
+      svg.querySelectorAll<SVGGElement>("[data-edge]").forEach((g) => g.classList.toggle("is-walked", walked.has(g.dataset.edge!)));
+    }
+
+    function render(focus: boolean) {
+      trail.innerHTML = "";
+      path.slice(0, -1).forEach((p, i) => {
+        const li = el("li");
+        li.append(el("span", "mono", String(i + 1).padStart(2, "0")));
+        const t = el("span"); const b = el("b", undefined, N.get(p.id)!.title);
+        t.append(b);
+        const took = path[i + 1].took;
+        if (took) t.append(document.createTextNode(` → ${took}`));
+        li.append(t); trail.append(li);
+      });
+
+      current.innerHTML = "";
+      const last = path[path.length - 1];
+      if (!last) {
+        current.classList.remove("is-red");
+        current.append(el("p", "cx-c-body", "Simula un incidente real. En cada bifurcación elige lo que está pasando y mira cómo responde la agencia en el diagrama."));
+        const start = el("button", "btn btn-primary", "Iniciar el incidente");
+        start.type = "button";
+        start.addEventListener("click", () => { path = [{ id: "start", took: null }]; render(true); });
+        current.append(start);
+        paintDiagram();
+        return;
+      }
+      const n = N.get(last.id)!;
+      current.classList.toggle("is-red", !!n.redline);
+      current.append(el("p", "cx-c-time", `Paso ${path.length} · ${n.time}`));
+      const title = el("p", "cx-c-title", n.title); title.tabIndex = -1; current.append(title);
+      current.append(el("p", "cx-c-body", n.body));
+      const go = (to: string, took: string) => { path.push({ id: to, took }); render(true); };
+      if (n.q && n.choices) {
+        current.append(el("p", "cx-c-q", n.q));
+        const box = el("div", "cx-c-choices");
+        n.choices.forEach((c) => {
+          const b = el("button", "btn btn-secondary", c.label); b.type = "button";
+          b.addEventListener("click", () => go(c.to, c.label)); box.append(b);
+        });
+        current.append(box);
+      } else if (n.next) {
+        const b = el("button", "btn btn-primary", "Continuar"); b.type = "button";
+        b.addEventListener("click", () => go(n.next!, "")); current.append(b);
+      } else if (n.final) {
+        current.append(el("p", "cx-closing", closing));
+        const b = el("button", "btn btn-secondary", "Probar otra ruta"); b.type = "button";
+        b.addEventListener("click", () => { path = [{ id: "start", took: null }]; render(true); }); current.append(b);
+      }
+      paintDiagram();
+      if (focus) title.focus({ preventScroll: true });
+    }
+
+    root.querySelector("[data-walk-reset]")!.addEventListener("click", () => { path = []; render(false); });
+    walk.hidden = false;
+    render(false);
+  }
+
+  // Contador del caso: cuenta hacia arriba al entrar en pantalla (sin animación si se pide menos movimiento)
+  const counter = document.querySelector<HTMLElement>("[data-counter]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (counter && !reduce && "IntersectionObserver" in window) {
+    const spans = Array.from(counter.querySelectorAll<HTMLElement>("[data-count]"));
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      const t0 = performance.now(), dur = 1100;
+      const step = (t: number) => {
+        const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        spans.forEach((s) => {
+          const v = Number(s.dataset.count) * e;
+          s.textContent = s.dataset.fmt === "decimal" ? v.toFixed(1) : String(Math.round(v));
+        });
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, { threshold: 0.6 });
+    io.observe(counter);
+  }
+</script>
