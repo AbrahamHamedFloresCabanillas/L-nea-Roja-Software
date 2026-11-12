@@ -1,0 +1,29 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import DecisionSelector from "./DecisionSelector.astro";
+import { decisionCases } from "../data/decisions";
+---
+<section class="section" id="casos" aria-labelledby="casos-title">
+  <div class="container">
+    <SectionHeader
+      section="casos"
+      titleId="casos-title"
+      title="Pon a prueba nuestro criterio."
+      intro="Cuatro casos del semestre. Elige qué harías antes de ver nuestra respuesta. No hay puntos: lo que importa es el razonamiento."
+    />
+    <div class="cases">
+      {decisionCases.map((c) => (
+        <div class="case" data-reveal>
+          <DecisionSelector data={c} kicker={`Caso ${c.num}`} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cases { display: grid; gap: 24px; }
+  @media (min-width: 1100px) { .cases { grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; } }
+  .case { background: var(--surface); border-radius: var(--radius-lg); padding: clamp(20px, 3.5vw, 40px); }
+  .case :global(.ds-opt) { background: var(--paper); }
+</style>

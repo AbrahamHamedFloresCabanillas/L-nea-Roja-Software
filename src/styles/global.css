@@ -11,6 +11,9 @@
 
   --red: #C23A2F;
   --red-soft: #F6E3E0;
+  --red-text: #B23328; /* rojo para texto pequeño sobre --surface y --red-soft (AA) */
+  --positive-text: #1F6E43;
+  --red-on-dark-surface: #EE6A5E;
   --positive: #237A4B;
   --positive-soft: #E2EFE6;
   --warning: #B36A12;

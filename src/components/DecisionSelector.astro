@@ -60,7 +60,7 @@ const titleId = `${data.id}-title`;
 
 <style>
   .ds { display: grid; gap: 16px; }
-  .ds-kicker { color: var(--red); }
+  .ds-kicker { color: var(--red-text); }
   .ds-dark .ds-kicker { color: var(--red-on-dark); }
   .ds-title { max-width: 26ch; }
   .ds-situation { max-width: 62ch; color: var(--graphite); font-size: 1.0625rem; }
@@ -95,8 +95,8 @@ const titleId = `${data.id}-title`;
   .ds-feedback.f-nuestra { background: var(--positive-soft); border-color: var(--positive); color: var(--ink); }
   .ds-feedback.f-cruza { background: var(--red-soft); border-color: var(--red); color: var(--ink); }
   .ds-feedback.f-no-alcanza { background: #F4EBDD; border-color: var(--warning); color: var(--ink); }
-  .ds-feedback.f-nuestra strong { color: var(--positive); }
-  .ds-feedback.f-cruza strong { color: var(--red); }
+  .ds-feedback.f-nuestra strong { color: var(--positive-text); }
+  .ds-feedback.f-cruza strong { color: var(--red-text); }
   .ds-feedback.f-no-alcanza strong { color: #8a520d; }
 
   .ds-answer { border-top: 1px solid var(--line); }
@@ -107,7 +107,7 @@ const titleId = `${data.id}-title`;
   .ds-dark .ds-answer-sum:hover .label { color: var(--red-on-dark); }
   .ds-answer-body { display: grid; gap: 16px; padding-bottom: 8px; }
   .ds-decision { font-size: 1.125rem; font-weight: 500; line-height: 1.45; padding-left: 16px; border-left: 3px solid var(--positive); max-width: 62ch; }
-  .ds-decision .label { display: block; color: var(--positive); margin-bottom: 4px; }
+  .ds-decision .label { display: block; color: var(--positive-text); margin-bottom: 4px; }
   .ds-dark .ds-decision { border-left-color: #8fd1aa; color: var(--dark-text); }
   .ds-dark .ds-decision .label { color: #8fd1aa; }
 
@@ -116,9 +116,9 @@ const titleId = `${data.id}-title`;
   .ds-dark .ds-verdicts li { color: var(--dark-muted); }
   .ds-verdicts .mono { font-weight: 500; color: var(--ink); }
   .ds-dark .ds-verdicts .mono { color: var(--dark-text); }
-  .ds-verdicts .v-cruza strong { color: var(--red); }
+  .ds-verdicts .v-cruza strong { color: var(--red-text); }
   .ds-verdicts .v-no-alcanza strong { color: #8a520d; }
-  .ds-verdicts .v-nuestra strong { color: var(--positive); }
+  .ds-verdicts .v-nuestra strong { color: var(--positive-text); }
   .ds-dark .ds-verdicts .v-cruza strong { color: var(--red-on-dark); }
   .ds-dark .ds-verdicts .v-no-alcanza strong { color: #e0a457; }
   .ds-dark .ds-verdicts .v-nuestra strong { color: #8fd1aa; }
