@@ -12,13 +12,14 @@ import Icon from "./Icon.astro";
 
 <style>
   .hero { padding-block: 64px 32px; }
-  @media (min-width: 1024px) { .hero { min-height: calc(78vh - var(--header-h)); display: flex; align-items: center; padding-block: 80px; } }
+  @media (min-width: 1024px) { .hero { min-height: calc(60vh - var(--header-h)); display: flex; align-items: center; padding-block: 56px; } }
   .hero-title {
     font-size: clamp(2.6rem, 11vw, 7rem);
     line-height: .94; letter-spacing: -.055em; font-weight: 600;
     max-width: 14ch;
   }
   @media (min-width: 480px) { .hero-title { font-size: clamp(3.25rem, 7.5vw, 7.5rem); } }
+  @media (min-width: 1024px) { .hero-title { font-size: clamp(3.5rem, 6vw, 5.75rem); max-width: 16ch; } .hero-line { margin-block: 24px; } .hero-lead { margin-bottom: 24px; } }
   .hero-line {
     display: block; height: 4px; width: min(100%, 520px);
     background: var(--red); margin-block: 32px;

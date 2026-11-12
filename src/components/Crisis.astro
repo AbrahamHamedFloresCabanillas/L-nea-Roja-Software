@@ -8,7 +8,7 @@ import { crisisIntro, nodes, nodeById, type CrisisNode, type NodeId } from "../d
 import noc from "../assets/photos/centro-operaciones.jpg";
 
 /* ---------- geometría del diagrama (SVG generado desde los datos) ---------- */
-const W = 1280, BW = 212, BH = 76, ROW = 120, TOP = 16;
+const W = 1280, BW = 224, BH = 82, ROW = 124, TOP = 16;
 const H = TOP + 9 * ROW + BH + 16;
 const yOf = (n: CrisisNode) => TOP + n.row * ROW;
 
@@ -95,9 +95,9 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
             return (
               <g class:list={["cx-node", { "is-red": n.redline, "is-final": n.final }]} data-node={n.id}>
                 <rect x={x} y={y} width={BW} height={BH} rx="10" />
-                <text class="cx-t-time" x={x + 14} y={y + 21}>{n.time}</text>
-                <text class="cx-t-title" x={x + 14} y={y + 44}>{n.title}</text>
-                {n.qShort && <text class="cx-t-q" x={x + 14} y={y + 63}>{n.qShort}</text>}
+                <text class="cx-t-time" x={x + 14} y={y + 23}>{n.time}</text>
+                <text class="cx-t-title" x={x + 14} y={y + 47}>{n.title}</text>
+                {n.qShort && <text class="cx-t-q" x={x + 14} y={y + 69}>{n.qShort}</text>}
               </g>
             );
           })}
@@ -135,11 +135,10 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
 
   .cx-board { display: grid; gap: 24px; }
   @media (min-width: 1200px) {
-    :global(.js) .cx-board { grid-template-columns: 360px 1fr; gap: 32px; align-items: start; }
-    .cx-walk { position: sticky; top: calc(var(--header-h) + 16px); max-height: calc(100vh - var(--header-h) - 32px); overflow-y: auto; }
+    :global(.js) .cx-board { grid-template-columns: 1fr; }
   }
 
-  .cx-walk { background: var(--surface); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 16px; align-content: start; }
+  .cx-walk { max-width: 720px; background: var(--surface); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 16px; align-content: start; }
   .cx-walk[hidden] { display: none; }
   .cx-walk-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
   .cx-reset { min-height: 40px; padding: 0 14px; font-size: .875rem; background: var(--paper); }
@@ -166,13 +165,13 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
 
   .cx-svg :global(text) { font-family: var(--font-sans); }
   .cx-edge path { fill: none; stroke: #B5B4AC; stroke-width: 1.5; transition: stroke 250ms var(--ease); }
-  .cx-edge text { font-size: 12.5px; fill: var(--graphite); }
+  .cx-edge text { font-size: 14px; fill: var(--graphite); }
   .cx-edge.is-walked path { stroke: var(--ink); stroke-width: 2.25; marker-end: url(#cx-arrow-on); }
   .cx-edge.is-walked text { fill: var(--ink); font-weight: 600; }
   .cx-node rect { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1; transition: stroke 200ms var(--ease), fill 200ms var(--ease); }
-  .cx-t-time { font-size: 12.5px; fill: var(--graphite); font-variant-numeric: tabular-nums; }
-  .cx-t-title { font-size: 15px; font-weight: 600; fill: var(--ink); letter-spacing: -.01em; }
-  .cx-t-q { font-size: 12.5px; fill: var(--graphite); }
+  .cx-t-time { font-size: 14px; fill: var(--graphite); font-variant-numeric: tabular-nums; }
+  .cx-t-title { font-size: 16px; font-weight: 600; fill: var(--ink); letter-spacing: -.01em; }
+  .cx-t-q { font-size: 14px; fill: var(--graphite); }
   .cx-node.is-red rect { stroke: var(--red); stroke-width: 1.5; fill: #FBF1EF; }
   .cx-node.is-red .cx-t-title { fill: var(--red-text); }
   .cx-node.is-final rect { stroke: var(--ink); }
@@ -180,7 +179,7 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
   .cx-node.is-current rect { stroke: var(--ink); stroke-width: 2.5; fill: #fff; }
   .cx-node.is-red.is-current rect, .cx-node.is-red.is-past rect { stroke: var(--red); stroke-width: 2.5; }
   .cx-svg.is-walking .cx-node:not(.is-past):not(.is-current) { opacity: .55; }
-  .cx-route-label { font-size: 13px; font-weight: 600; fill: var(--graphite); }
+  .cx-route-label { font-size: 14px; font-weight: 600; fill: var(--graphite); }
 
   .cx-legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 12px; color: var(--graphite); }
   .cx-legend span { display: inline-flex; align-items: center; gap: 8px; }

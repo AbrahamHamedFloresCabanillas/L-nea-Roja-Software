@@ -22,6 +22,11 @@ export const promptOptions: readonly PromptOption[] = [
 export const promptFacts = {
   thesis: "El costo no lo decide el usuario, lo decide quien diseña el sistema.",
   note: "Estimaciones publicadas con métodos distintos: sirven para comparar, no para facturar.",
+  method: [
+    "Texto: 0.24 Wh, mediana de Gemini medida por Google (2025).",
+    "Imágenes: de 4,402 J por imagen (Stable Diffusion 3, MIT Technology Review, 2025) a 2.9 Wh de promedio (Luccioni et al., 2024), por 4.",
+    "Video: 3.4 millones de J por un video de 5 s (CogVideoX, MIT Technology Review, 2025) ≈ 944 Wh. La versión anterior, de 6 s, gastaba unos 30 Wh.",
+  ],
 };
 
 /* ---------- Regla 02 · El muro de la cancelación (cancelacion) ---------- */

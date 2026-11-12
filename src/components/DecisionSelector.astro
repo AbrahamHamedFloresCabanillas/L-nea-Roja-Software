@@ -21,7 +21,7 @@ const titleId = `${data.id}-title`;
   <ol class="ds-opts" aria-labelledby={`${data.id}-prompt`}>
     {data.options.map((o) => (
       <li>
-        <button type="button" class="ds-opt" aria-pressed="false" data-key={o.key} data-verdict={o.verdict} disabled>
+        <button type="button" class="ds-opt" aria-pressed="false" data-key={o.key} data-verdict={o.verdict} data-why={o.why ?? ""} disabled>
           <span class="ds-key" aria-hidden="true">{o.key}</span>
           <span><span class="sr-only">Opción {o.key}: </span>{o.text}</span>
         </button>
@@ -129,6 +129,7 @@ const titleId = `${data.id}-title`;
         const s = document.createElement("strong");
         s.textContent = `Opción ${key} · ${verdictLabel[verdict]}`;
         feedback.append(s);
+        if (b.dataset.why) { const w = document.createElement("span"); w.textContent = b.dataset.why; feedback.append(w); }
         answer.open = true;
       });
     });
