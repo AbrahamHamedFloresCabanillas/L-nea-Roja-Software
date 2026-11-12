@@ -1,0 +1,49 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import ManifestoRule from "./ManifestoRule.astro";
+import DecisionSelector from "./DecisionSelector.astro";
+import PromptCalculator from "./PromptCalculator.astro";
+import CancelWall from "./CancelWall.astro";
+import ShameModal from "./ShameModal.astro";
+import Excuses from "./Excuses.astro";
+import EvoMeter from "./EvoMeter.astro";
+import { codeIntro, rules } from "../data/rules";
+import { deepfakeCase } from "../data/decisions";
+const [ia, patrones, ambiental] = rules;
+---
+<section class="section code on-dark" id="codigo" aria-labelledby="codigo-title">
+  <div class="container">
+    <SectionHeader section="codigo" titleId="codigo-title" title={codeIntro.title} intro={codeIntro.intro} dark />
+
+    <ManifestoRule rule={ia}>
+      <div class="demo-stack">
+        <DecisionSelector data={deepfakeCase} kicker="Demo · Caso para decidir" headingLevel="h4" dark />
+        <PromptCalculator />
+      </div>
+    </ManifestoRule>
+
+    <ManifestoRule rule={patrones}>
+      <div class="demo-stack">
+        <CancelWall />
+        <ShameModal />
+        <Excuses />
+      </div>
+    </ManifestoRule>
+
+    <ManifestoRule rule={ambiental}>
+      <div class="demo-stack">
+        <EvoMeter />
+      </div>
+    </ManifestoRule>
+  </div>
+</section>
+
+<style>
+  .code {
+    background: var(--dark); color: var(--dark-text);
+    margin-top: var(--section-gap);
+    padding-block: var(--section-gap);
+  }
+  .demo-stack { display: grid; gap: 72px; padding-top: 8px; }
+  .demo-stack > :global(*) { padding-top: 40px; border-top: 1px solid #3a3b37; }
+</style>

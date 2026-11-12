@@ -1,0 +1,96 @@
+---
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+import RealCase from "./RealCase.astro";
+import CaseTag from "./CaseTag.astro";
+import type { Rule } from "../data/rules";
+import cern from "../assets/photos/centro-datos-cern.jpg";
+import pantalla from "../assets/photos/pantalla-frustracion.jpg";
+import agbo from "../assets/photos/agbogbloshie.jpg";
+
+interface Props { rule: Rule }
+const { rule } = Astro.props;
+const photos = { "centro-datos-cern": cern, "pantalla-frustracion": pantalla, agbogbloshie: agbo } as const;
+const titleId = `${rule.id}-title`;
+---
+<article class="mr" id={rule.id} aria-labelledby={titleId}>
+  <div class="mr-side">
+    <div class="mr-sticky">
+      <p class="mr-num mono" aria-hidden="true">{rule.num}</p>
+      <p class="label mr-pillar"><span class="sr-only">Regla {rule.num}: </span>{rule.pillar}</p>
+      <h3 id={titleId} class="h3 mr-rule">{rule.rule}</h3>
+      <p class="label mr-backing">Respaldo · {rule.backing}</p>
+    </div>
+  </div>
+
+  <div class="mr-main">
+    <p class="mr-detail">{rule.detail}</p>
+
+    <div class="mr-lists" data-reveal>
+      <div class="mr-list mr-yes">
+        <h4 class="label">Lo que sí hacemos</h4>
+        <ul>{rule.yes.map((t) => <li><Icon name="check" size={18} /><span>{t}</span></li>)}</ul>
+      </div>
+      <div class="mr-list mr-no">
+        <h4 class="label">Lo que no haremos</h4>
+        <ul>{rule.no.map((t) => <li><Icon name="x" size={18} /><span>{t}</span></li>)}</ul>
+      </div>
+    </div>
+
+    <div class="mr-evidence">
+      <figure class="photo mr-photo">
+        <Image src={photos[rule.photo.file]} alt={rule.photo.alt} widths={[480, 800, 1100]} sizes="(min-width: 1024px) 34vw, 100vw" loading="lazy" />
+        <figcaption>{rule.photo.caption}</figcaption>
+      </figure>
+      <RealCase data={rule.realCase} />
+    </div>
+
+    <slot />
+
+    <p class="mr-cases label">
+      <span>Casos que sostienen esta regla:</span>
+      {rule.caseIds.map((id) => <CaseTag id={id} prefix="Caso" />)}
+    </p>
+  </div>
+</article>
+
+<style>
+  .mr { display: grid; gap: 32px; padding-block: 64px; border-top: 1px solid #34352f; }
+  .mr:first-of-type { border-top-color: var(--dark-text); }
+  @media (min-width: 1024px) {
+    .mr { grid-template-columns: 4fr 8fr; gap: 64px; padding-block: 96px; }
+    .mr-sticky { position: sticky; top: calc(var(--header-h) + 40px); }
+  }
+
+  .mr-num { font-size: clamp(4.5rem, 10vw, 9rem); line-height: .85; color: var(--red-on-dark); letter-spacing: -.04em; font-weight: 500; }
+  .mr-pillar { color: var(--dark-muted); margin-top: 20px; }
+  .mr-rule { margin-top: 12px; max-width: 18ch; color: var(--dark-text); }
+  .mr-backing { color: var(--dark-muted); margin-top: 20px; padding-top: 12px; border-top: 1px solid #3a3b37; }
+
+  .mr-main { display: grid; gap: 48px; min-width: 0; }
+  .mr-detail { font-size: clamp(1.15rem, 1.5vw, 1.4rem); line-height: 1.5; color: var(--dark-text); max-width: 52ch; }
+
+  .mr-lists { display: grid; gap: 0; }
+  @media (min-width: 768px) {
+    .mr-lists { grid-template-columns: 1fr 1fr; }
+    .mr-no { border-left: 1px solid #3a3b37; padding-left: 28px; }
+    .mr-yes { padding-right: 28px; }
+  }
+  @media (max-width: 767px) {
+    .mr-no { margin-top: 24px; padding-top: 24px; border-top: 2px solid var(--red-on-dark); }
+  }
+  .mr-list h4 { margin-bottom: 14px; }
+  .mr-yes h4 { color: #8fd1aa; }
+  .mr-no h4 { color: var(--red-on-dark); }
+  .mr-list ul { list-style: none; display: grid; gap: 12px; }
+  .mr-list li { display: grid; grid-template-columns: 18px 1fr; gap: 12px; color: var(--dark-text); }
+  .mr-list li :global(svg) { margin-top: 4px; }
+  .mr-yes li :global(svg) { color: #8fd1aa; }
+  .mr-no li :global(svg) { color: var(--red-on-dark); }
+
+  .mr-evidence { display: grid; gap: 24px; }
+  @media (min-width: 900px) { .mr-evidence { grid-template-columns: 1fr 1fr; align-items: start; } }
+  .mr-photo :global(img) { aspect-ratio: 3 / 2; object-fit: cover; }
+
+  .mr-cases { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; color: var(--dark-muted); }
+</style>

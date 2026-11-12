@@ -1,0 +1,146 @@
+---
+import Icon from "./Icon.astro";
+import CaseTag from "./CaseTag.astro";
+import { shameParts, shameOriginal as o, shameRedesign as r } from "../data/demos";
+const mark = (n: number) => {
+  const p = shameParts.find((x) => x.n === n)!;
+  return { n, label: `Truco ${n}: ${p.trick}` };
+};
+---
+<section class="sm" id="demo-verguenza" aria-labelledby="sm-title" data-shame>
+  <p class="label sm-kicker">Demo · Antes y después</p>
+  <h4 id="sm-title" class="h3">La vergüenza de confirmación</h4>
+  <p class="sm-intro">
+    Una farmacia en línea con suscripción mensual. Para cerrar la ventana de cobro había que pulsar
+    “No, prefiero arriesgar mi salud, pagar más caro y ser irresponsable”. El reto: venderla sin culpa.
+    Toca los números del original para ver qué truco usa cada parte.
+  </p>
+
+  <div class="sm-grid">
+    <div class="sm-col">
+      <p class="label sm-ver sm-ver-bad">Como venía en el caso</p>
+      <div class="sm-device" aria-label="Maqueta del modal original" role="group">
+        <div class="sm-modal sm-bad">
+          <span class="sm-x" data-part="5" aria-hidden="true"><Icon name="x" size={10} /></span>
+          <button type="button" class="sm-mark sm-mark-x" data-mark="5" aria-pressed="false" aria-label={mark(5).label}>5</button>
+
+          <div class="sm-part" data-part="1">
+            <button type="button" class="sm-mark" data-mark="1" aria-pressed="false" aria-label={mark(1).label}>1</button>
+            <p class="sm-bad-title">{o.title}</p>
+          </div>
+          <div class="sm-part" data-part="2">
+            <button type="button" class="sm-mark" data-mark="2" aria-pressed="false" aria-label={mark(2).label}>2</button>
+            <p class="sm-bad-social">{o.social}</p>
+          </div>
+          <div class="sm-part" data-part="3">
+            <button type="button" class="sm-mark" data-mark="3" aria-pressed="false" aria-label={mark(3).label}>3</button>
+            <p class="sm-bad-price">{o.price}</p>
+            <p class="sm-bad-fine">{o.fine}</p>
+          </div>
+          <span class="sm-mock sm-mock-primary">{o.accept}</span>
+          <div class="sm-part" data-part="4">
+            <button type="button" class="sm-mark" data-mark="4" aria-pressed="false" aria-label={mark(4).label}>4</button>
+            <span class="sm-mock sm-mock-shame">{o.reject}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sm-col">
+      <p class="label sm-ver sm-ver-good">Nuestro rediseño</p>
+      <div class="sm-device" aria-label="Maqueta del modal rediseñado" role="group">
+        <div class="sm-modal sm-good">
+          <span class="sm-close" aria-hidden="true"><Icon name="x" size={18} /> Cerrar</span>
+          <p class="sm-good-title">{r.title}</p>
+          <ul class="sm-facts">{r.facts.map((f) => <li><Icon name="check" size={16} /><span>{f}</span></li>)}</ul>
+          <div class="sm-pair">
+            <span class="sm-mock sm-even">{r.accept}</span>
+            <span class="sm-mock sm-even">{r.reject}</span>
+          </div>
+          <p class="sm-note">{r.note}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ol class="sm-tricks" aria-label="Los trucos del modal original">
+    {shameParts.map((p) => (
+      <li data-trick={p.n}>
+        <span class="mono sm-n" aria-hidden="true">{p.n}</span>
+        <div><strong>{p.trick}.</strong> {p.why}</div>
+      </li>
+    ))}
+  </ol>
+  <p class="sm-live sr-only" aria-live="polite" data-shame-live></p>
+  <CaseTag id="verguenza" />
+</section>
+
+<style>
+  .sm { display: grid; gap: 16px; container-type: inline-size; }
+  .sm-kicker { color: var(--red-on-dark); }
+  .sm-intro { color: var(--dark-muted); max-width: 62ch; }
+  .sm-grid { display: grid; gap: 24px; margin-top: 8px; }
+  @container (min-width: 600px) { .sm-grid { grid-template-columns: 1fr 1fr; } }
+  .sm-col { display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .sm-ver-bad { color: var(--red-on-dark); }
+  .sm-ver-good { color: #8fd1aa; }
+
+  .sm-device { background: #cfcec7; border-radius: 22px; padding: 22px 16px; border: 6px solid #2e2f2b; height: 100%; }
+  .sm-modal { position: relative; background: #fff; color: var(--ink); border-radius: 14px; padding: 26px 18px 18px; display: grid; gap: 12px; }
+
+  .sm-part { position: relative; border-radius: 6px; transition: box-shadow 160ms var(--ease), background-color 160ms var(--ease); }
+  .sm-part.is-hl, .sm-x.is-hl { box-shadow: 0 0 0 2px var(--red); background: var(--red-soft); }
+
+  .sm-x { position: absolute; top: 8px; right: 10px; color: #c9c9c9; padding: 2px; border-radius: 4px; }
+  .sm-bad-title { font-weight: 800; font-size: 1.1rem; color: #b3261e; text-transform: uppercase; letter-spacing: -.01em; line-height: 1.2; padding-right: 28px; }
+  .sm-bad-social { font-size: .875rem; color: var(--graphite); }
+  .sm-bad-price { font-size: 1.75rem; font-weight: 700; letter-spacing: -.02em; }
+  .sm-bad-fine { font-size: 10px; color: #686868; line-height: 1.3; }
+  .sm-mock { display: block; text-align: center; border-radius: 10px; }
+  .sm-mock-primary { background: #1f8f3a; color: #fff; font-weight: 700; padding: 14px 10px; }
+  .sm-mock-shame { font-size: .75rem; color: var(--graphite); text-decoration: underline; padding: 4px 18px; line-height: 1.35; }
+
+  .sm-mark {
+    position: absolute; left: -12px; top: -10px; z-index: 1;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--ink); color: #fff; border: 2px solid #fff;
+    font-family: var(--font-mono); font-size: .75rem; font-weight: 500; line-height: 1;
+    display: none; place-items: center; cursor: pointer; padding: 0;
+  }
+  :global(.js) .sm-mark { display: grid; }
+  .sm-mark::after { content: ""; position: absolute; inset: -9px; }
+  .sm-mark[aria-pressed="true"] { background: var(--red); }
+  .sm-mark-x { left: auto; right: 28px; top: -10px; }
+
+  .sm-good { gap: 14px; }
+  .sm-close { position: absolute; top: 10px; right: 12px; display: inline-flex; align-items: center; gap: 4px; font-size: .8125rem; color: var(--graphite); }
+  .sm-good-title { font-weight: 600; font-size: 1.15rem; letter-spacing: -.01em; padding-right: 72px; line-height: 1.25; }
+  .sm-facts { list-style: none; display: grid; gap: 8px; font-size: .9375rem; }
+  .sm-facts li { display: grid; grid-template-columns: 16px 1fr; gap: 8px; }
+  .sm-facts :global(svg) { margin-top: 4px; color: var(--positive); }
+  .sm-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .sm-even { border: 1px solid var(--ink); padding: 12px 8px; font-weight: 600; font-size: .9375rem; }
+  .sm-note { font-size: .8125rem; color: var(--graphite); }
+
+  .sm-tricks { list-style: none; display: grid; gap: 4px; margin-top: 8px; border-top: 1px solid #3a3b37; }
+  .sm-tricks li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 12px 8px; color: var(--dark-muted); border-radius: 8px; transition: background-color 160ms var(--ease); }
+  .sm-tricks strong { color: var(--dark-text); font-weight: 600; }
+  .sm-n { color: var(--red-on-dark); font-weight: 500; }
+  .sm-tricks li.is-hl { background: var(--dark-surface); box-shadow: inset 3px 0 0 var(--red-on-dark); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-shame]").forEach((root) => {
+    const marks = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-mark]"));
+    const live = root.querySelector<HTMLElement>("[data-shame-live]")!;
+    marks.forEach((m) => m.addEventListener("click", () => {
+      const n = m.dataset.mark!;
+      const on = m.getAttribute("aria-pressed") !== "true";
+      marks.forEach((x) => x.setAttribute("aria-pressed", String(on && x === m)));
+      root.querySelectorAll<HTMLElement>("[data-part]").forEach((p) => p.classList.toggle("is-hl", on && p.dataset.part === n));
+      root.querySelectorAll<HTMLElement>("[data-trick]").forEach((t) => t.classList.toggle("is-hl", on && t.dataset.trick === n));
+      const t = root.querySelector<HTMLElement>(`[data-trick="${n}"]`);
+      live.textContent = on && t ? t.textContent ?? "" : "";
+    }));
+  });
+</script>

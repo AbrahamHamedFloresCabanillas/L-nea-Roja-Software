@@ -1,0 +1,26 @@
+---
+import Cite from "./Cite.astro";
+import CaseTag from "./CaseTag.astro";
+import type { RealCase as RC } from "../data/rules";
+interface Props { data: RC }
+const { data } = Astro.props;
+---
+<article class="rc" data-reveal>
+  <p class="label rc-label">Caso real · {data.year}</p>
+  <h4 class="h4 rc-title">{data.title}</h4>
+  <p class="rc-what">{data.what}<Cite ids={data.sources} /></p>
+  <p class="rc-learned"><span class="label">Qué aprendimos</span> {data.learned}</p>
+  <CaseTag id={data.caseId} prefix="Respalda el caso" />
+</article>
+
+<style>
+  .rc {
+    border: 1px solid #3a3b37; border-radius: var(--radius-md);
+    padding: 24px; display: grid; gap: 12px;
+    background: var(--dark-surface);
+  }
+  .rc-label { color: var(--red-on-dark); }
+  .rc-what { color: var(--dark-text); }
+  .rc-learned { color: var(--dark-muted); }
+  .rc-learned .label { color: var(--dark-text); margin-right: 6px; }
+</style>

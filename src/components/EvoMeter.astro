@@ -1,0 +1,143 @@
+---
+import Cite from "./Cite.astro";
+import CaseTag from "./CaseTag.astro";
+import Icon from "./Icon.astro";
+import { evoToggles, evoFacts, gateSteps } from "../data/demos";
+const total = evoToggles.reduce((a, t) => a + t.weight, 0);
+---
+<section class="evo" id="demo-evophone" aria-labelledby="evo-title" data-evo>
+  <p class="label evo-kicker">Demo · Medidor</p>
+  <h4 id="evo-title" class="h3">EvoPhone: cuánto pesa una decisión de diseño</h4>
+  <p class="evo-intro">
+    {evoFacts.diagnosis} Su modelo de negocio era volver lentos sus propios teléfonos cada año.
+    Esta versión acumula sus decisiones. Apaga las que no le sirven al usuario.
+  </p>
+
+  <div class="evo-grid">
+    <fieldset class="evo-toggles">
+      <legend class="sr-only">Decisiones de diseño activas</legend>
+      {evoToggles.map((t) => (
+        <label class="evo-tg">
+          <input type="checkbox" checked data-w={t.weight} />
+          <span>
+            <span class="evo-tg-label">{t.label}</span>
+            <span class="evo-tg-note">{t.note}</span>
+          </span>
+          <span class="mono evo-tg-w">+{t.weight}</span>
+        </label>
+      ))}
+    </fieldset>
+
+    <div class="evo-meter-box">
+      <p class="label" id="evo-meter-label">Presión para cambiar de teléfono</p>
+      <p class="evo-val mono"><output data-evo-val aria-live="polite" aria-labelledby="evo-meter-label">{total}</output><span> / {total}</span></p>
+      <div class="evo-meter" aria-hidden="true"><i data-evo-bar></i></div>
+      <p class="small evo-note">{evoFacts.note}</p>
+      <button type="button" class="btn btn-primary evo-apply" data-evo-apply hidden>Aplicar Línea Roja</button>
+      <p class="evo-promise">“{evoFacts.promise}”</p>
+    </div>
+  </div>
+
+  <section class="gate" aria-labelledby="gate-title">
+    <p class="label gate-kicker" id="gate-title">La compuerta de rendimiento (P5)</p>
+    <ol class="gate-flow">
+      {gateSteps.map((s) => (
+        <li class:list={["gate-step", { "gate-q": "question" in s }]}>
+          <span class="gate-label">{s.label}</span>
+          <span class="gate-detail">{s.detail}</span>
+        </li>
+      ))}
+    </ol>
+    <div class="gate-out">
+      <p class="gate-no"><Icon name="x" size={18} /><span><strong>Sí:</strong> la versión no se publica. Se corrige o se publica un perfil ligero para ese modelo.</span></p>
+      <p class="gate-yes"><Icon name="check" size={18} /><span><strong>No:</strong> se publica, con actualización delta en horario de menor intensidad de carbono.</span></p>
+    </div>
+  </section>
+
+  <div class="evo-facts">
+    <p>{evoFacts.manufacturing}<Cite ids="apple-per" /></p>
+    <p>{evoFacts.ewaste}<Cite ids="ewaste" /></p>
+    <p>{evoFacts.eu}<Cite ids={["eu-ecodesign", "eu-batteries"]} /></p>
+  </div>
+  <CaseTag id="evophone" />
+</section>
+
+<style>
+  .evo { display: grid; gap: 16px; container-type: inline-size; }
+  .evo-kicker { color: var(--red-on-dark); }
+  .evo-intro { color: var(--dark-muted); max-width: 62ch; }
+  .evo-grid { display: grid; gap: 20px; margin-top: 8px; }
+  @container (min-width: 640px) { .evo-grid { grid-template-columns: 1.4fr 1fr; align-items: start; } }
+
+  .evo-toggles { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; min-width: 0; }
+  .evo-tg {
+    display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; align-items: start;
+    padding: 14px 16px; border-radius: var(--radius-md);
+    background: var(--dark-surface); border: 1px solid #3a3b37; cursor: pointer;
+  }
+  .evo-tg:hover { border-color: var(--dark-muted); }
+  .evo-tg input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--red-on-dark); }
+  .evo-tg > span:nth-child(2) { display: grid; gap: 2px; }
+  .evo-tg-label { color: var(--dark-text); font-weight: 500; }
+  .evo-tg-note { color: var(--dark-muted); font-size: .875rem; }
+  .evo-tg-w { color: var(--dark-muted); font-size: .8125rem; padding-top: 2px; }
+  .evo-tg:has(input:not(:checked)) .evo-tg-label { color: var(--dark-muted); text-decoration: line-through; text-decoration-color: #8fd1aa; }
+
+  .evo-meter-box { background: var(--paper); color: var(--ink); border-radius: var(--radius-md); padding: 22px; display: grid; gap: 12px; }
+  @container (min-width: 640px) { .evo-meter-box { position: sticky; top: calc(var(--header-h) + 24px); } }
+  .evo-meter-box .label { color: var(--graphite); }
+  .evo-val { font-size: 3rem; line-height: 1; font-weight: 500; letter-spacing: -.03em; }
+  .evo-val span { font-size: 1rem; color: var(--graphite); }
+  .evo-meter { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+  .evo-meter i { display: block; height: 100%; width: 100%; background: var(--red); border-radius: 5px; transition: width 300ms var(--ease), background-color 300ms var(--ease); }
+  .evo-meter i.is-low { background: var(--positive); }
+  .evo-note { color: var(--graphite); }
+  .evo-apply[hidden] { display: none; }
+  .evo-promise { font-weight: 600; letter-spacing: -.01em; padding-top: 12px; border-top: 1px solid var(--line); }
+
+  .gate { margin-top: 16px; padding: 20px; border: 1px solid #3a3b37; border-radius: var(--radius-md); display: grid; gap: 16px; }
+  .gate-kicker { color: var(--dark-text); }
+  .gate-flow { list-style: none; display: grid; gap: 8px; counter-reset: g; }
+  @container (min-width: 640px) { .gate-flow { grid-template-columns: repeat(4, 1fr); gap: 0; } }
+  .gate-step { position: relative; display: grid; gap: 4px; padding: 12px 14px; border: 1px solid #46473f; border-radius: var(--radius-md); background: var(--dark); }
+  @container (min-width: 640px) {
+    .gate-step { margin-right: 22px; }
+    .gate-step:not(:last-child)::after { content: "→"; position: absolute; right: -18px; top: 50%; transform: translateY(-50%); color: var(--dark-muted); font-family: var(--font-mono); }
+    .gate-step:last-child { margin-right: 0; }
+  }
+  .gate-q { border-color: #e0a457; }
+  .gate-label { color: var(--dark-text); font-weight: 500; font-size: .9375rem; line-height: 1.3; }
+  .gate-detail { color: var(--dark-muted); font-size: .8125rem; }
+  .gate-out { display: grid; gap: 10px; }
+  @container (min-width: 640px) { .gate-out { grid-template-columns: 1fr 1fr; gap: 16px; } }
+  .gate-out p { display: grid; grid-template-columns: 18px 1fr; gap: 10px; color: var(--dark-muted); font-size: .9375rem; }
+  .gate-out :global(svg) { margin-top: 3px; }
+  .gate-no { padding-left: 12px; border-left: 2px solid var(--red-on-dark); }
+  .gate-no :global(svg), .gate-no strong { color: var(--red-on-dark); }
+  .gate-yes { padding-left: 12px; border-left: 2px solid #8fd1aa; }
+  .gate-yes :global(svg), .gate-yes strong { color: #8fd1aa; }
+
+  .evo-facts { display: grid; gap: 12px; color: var(--dark-muted); max-width: 72ch; }
+  @container (min-width: 640px) { .evo-facts { grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: none; font-size: .9375rem; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-evo]").forEach((root) => {
+    const boxes = Array.from(root.querySelectorAll<HTMLInputElement>("input[data-w]"));
+    const total = boxes.reduce((a, b) => a + Number(b.dataset.w), 0);
+    const val = root.querySelector<HTMLOutputElement>("[data-evo-val]")!;
+    const bar = root.querySelector<HTMLElement>("[data-evo-bar]")!;
+    const apply = root.querySelector<HTMLButtonElement>("[data-evo-apply]")!;
+    const update = () => {
+      const v = boxes.reduce((a, b) => a + (b.checked ? Number(b.dataset.w) : 0), 0);
+      val.value = String(v);
+      bar.style.width = `${(v / total) * 100}%`;
+      bar.classList.toggle("is-low", v <= 30);
+      apply.disabled = v === 0;
+    };
+    boxes.forEach((b) => b.addEventListener("change", update));
+    apply.hidden = false;
+    apply.addEventListener("click", () => { boxes.forEach((b) => (b.checked = false)); update(); });
+    update();
+  });
+</script>

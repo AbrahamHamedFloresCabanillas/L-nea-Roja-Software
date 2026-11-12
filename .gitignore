@@ -6,3 +6,4 @@ dist/
 *.log
 /shots/
 /reference/
+/.claude/

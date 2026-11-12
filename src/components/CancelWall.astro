@@ -1,0 +1,230 @@
+---
+import CaseTag from "./CaseTag.astro";
+import { cancelWall, cancelFair, cancelBot } from "../data/demos";
+---
+<section class="cw" id="demo-cancelacion" aria-labelledby="cw-title" data-cancel
+  data-bot-waiting={cancelBot.waiting} data-bot-error={cancelBot.error} data-bot-retry={cancelBot.retry}>
+  <p class="label cw-kicker">Demo · Flujo clicable</p>
+  <h4 id="cw-title" class="h3">El muro de la cancelación</h4>
+  <p class="cw-intro">
+    El CEO pidió siete pantallas, un bot que simula fallas técnicas y el botón final en gris claro, porque “cancela demasiada gente”.
+    Intenta cancelar en las dos versiones. El contador corre desde tu primer clic.
+  </p>
+
+  <div class="cw-devices">
+    <!-- Versión del CEO -->
+    <div class="cw-col" data-flow="ceo">
+      <div class="cw-head">
+        <p class="label cw-ver cw-ver-bad">Versión que pidió el CEO</p>
+        <p class="mono cw-count" aria-live="off"><span data-steps>0</span> pasos · <span data-secs>0</span> s</p>
+      </div>
+      <div class="device" role="group" aria-label="Simulación: cancelar con la versión del CEO">
+        <ol class="cw-screens">
+          {cancelWall.map((s, i) => (
+            <li class="cw-screen" data-screen={i} data-kind={s.kind ?? "plain"}>
+              <p class="mono cw-step" aria-hidden="true">Pantalla {i + 1} de 7</p>
+              <p class="cw-title">{s.title}</p>
+              <p class="cw-body">{s.body}</p>
+              {s.kind === "survey" && (
+                <fieldset class="cw-survey">
+                  <legend class="sr-only">¿Por qué te vas?</legend>
+                  {s.options!.map((o) => <label><input type="radio" name="cw-why" value={o} /> {o}</label>)}
+                  <p class="cw-warn" data-survey-warn hidden>Selecciona una opción para continuar.</p>
+                </fieldset>
+              )}
+              {s.kind === "bot" && (
+                <p class="cw-bot" data-bot aria-live="polite" hidden></p>
+              )}
+              <button type="button" class="cw-primary" data-action="stay">{s.primary}</button>
+              <button type="button" class:list={["cw-exit", { "cw-exit-ghost": i === 6 }]} data-action="next">{s.exit}</button>
+            </li>
+          ))}
+          <li class="cw-screen cw-done" data-screen="done">
+            <p class="cw-title">Cancelaste.</p>
+            <p class="cw-body" data-summary>Te costó siete pantallas.</p>
+            <button type="button" class="cw-exit" data-action="reset">Volver a intentar</button>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Versión Línea Roja -->
+    <div class="cw-col" data-flow="fair">
+      <div class="cw-head">
+        <p class="label cw-ver cw-ver-good">Versión Línea Roja</p>
+        <p class="mono cw-count" aria-live="off"><span data-steps>0</span> pasos · <span data-secs>0</span> s</p>
+      </div>
+      <div class="device" role="group" aria-label="Simulación: cancelar con la versión Línea Roja">
+        <ol class="cw-screens">
+          <li class="cw-screen" data-screen="0">
+            <p class="mono cw-step" aria-hidden="true">Pantalla 1 de 1</p>
+            <p class="cw-title">{cancelFair.title}</p>
+            <p class="cw-body">{cancelFair.body}</p>
+            <div class="cw-pair">
+              <button type="button" class="cw-even" data-action="next">{cancelFair.cancel}</button>
+              <button type="button" class="cw-even" data-action="keep">{cancelFair.keep}</button>
+            </div>
+          </li>
+          <li class="cw-screen cw-done" data-screen="done">
+            <p class="cw-title">Listo.</p>
+            <p class="cw-body" data-summary>Un paso.</p>
+            <button type="button" class="cw-exit" data-action="reset">Volver a intentar</button>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <p class="cw-result" aria-live="polite" data-compare></p>
+  <p class="small cw-foot">
+    Nuestra regla: cancelar cuesta lo mismo que contratar. Mismos pasos, mismo tamaño de botón.
+    Si la gente se va, se arregla el producto, no la salida.
+  </p>
+  <CaseTag id="cancelacion" />
+
+</section>
+
+<style>
+  .cw { display: grid; gap: 16px; container-type: inline-size; }
+  .cw-kicker { color: var(--red-on-dark); }
+  .cw-intro { color: var(--dark-muted); max-width: 62ch; }
+  .cw-devices { display: grid; gap: 24px; margin-top: 8px; }
+  @container (min-width: 600px) { .cw-devices { grid-template-columns: 1fr 1fr; } }
+  .cw-col { display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .cw-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .cw-ver-bad { color: var(--red-on-dark); }
+  .cw-ver-good { color: #8fd1aa; }
+  .cw-count { font-size: .8125rem; color: var(--dark-text); }
+
+  .device {
+    background: var(--paper); color: var(--ink);
+    border-radius: 22px; padding: 20px;
+    border: 6px solid #2e2f2b;
+    min-height: 330px;
+  }
+  .cw-screens { list-style: none; display: grid; gap: 12px; }
+  .cw-screen { display: grid; gap: 10px; align-content: start; padding-bottom: 12px; border-bottom: 1px dashed var(--line); }
+  .cw-done { display: none; }
+  :global(.js) .cw-screen { display: none; border: 0; padding: 0; }
+  :global(.js) .cw-screen.is-current { display: grid; }
+
+  .cw-step { font-size: .6875rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .cw-title { font-weight: 600; font-size: 1.125rem; letter-spacing: -.01em; }
+  .cw-body { color: var(--graphite); font-size: .9375rem; }
+
+  .cw-primary {
+    min-height: 48px; padding: 0 16px; border-radius: 10px; border: 0;
+    background: var(--ink); color: var(--paper); font-weight: 600; cursor: pointer;
+  }
+  .cw-exit {
+    justify-self: center; background: none; border: 0; cursor: pointer;
+    min-height: 44px; padding: 0 8px;
+    font-size: .8125rem; color: #6b6d67; text-decoration: underline;
+  }
+  /* El botón final escondido es parte del argumento: pequeño, en minúsculas y sin subrayado (pero legible, AA). */
+  .cw-exit-ghost { font-size: .75rem; text-decoration: none; letter-spacing: .01em; }
+  .cw-done .cw-exit { color: var(--ink); }
+
+  .cw-survey { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; font-size: .9375rem; }
+  .cw-survey label { display: flex; gap: 8px; align-items: center; min-height: 32px; cursor: pointer; }
+  .cw-warn { color: var(--red); font-size: .875rem; }
+  .cw-bot { font-family: var(--font-mono); font-size: .8125rem; padding: 10px 12px; background: var(--surface); border-radius: 8px; }
+  .cw-bot.is-error { background: var(--red-soft); color: #8d2a22; }
+
+  .cw-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .cw-even {
+    min-height: 48px; padding: 8px 10px; border-radius: 10px; cursor: pointer;
+    background: var(--paper); border: 1px solid var(--ink); color: var(--ink); font-weight: 600; font-size: .9375rem; line-height: 1.25;
+  }
+  .cw-even:hover, .cw-primary:hover { outline: 2px solid var(--red); outline-offset: 1px; }
+
+  .cw-result { color: var(--dark-text); font-weight: 500; }
+  .cw-result:empty { display: none; }
+  .cw-foot { color: var(--dark-muted); max-width: 62ch; }
+</style>
+
+<script>
+  type Flow = "ceo" | "fair";
+  const root = document.querySelector<HTMLElement>("[data-cancel]");
+  if (root) {
+    const botText = { waiting: root.dataset.botWaiting!, error: root.dataset.botError!, retry: root.dataset.botRetry! };
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const results: Partial<Record<Flow, { steps: number; secs: number }>> = {};
+    const compare = root.querySelector<HTMLElement>("[data-compare]")!;
+
+    root.querySelectorAll<HTMLElement>("[data-flow]").forEach((col) => {
+      const flow = col.dataset.flow as Flow;
+      const screens = Array.from(col.querySelectorAll<HTMLElement>("[data-screen]"));
+      const stepsEl = col.querySelector<HTMLElement>("[data-steps]")!;
+      const secsEl = col.querySelector<HTMLElement>("[data-secs]")!;
+      let current = 0, steps = 0, start = 0, timer = 0, botTries = 0, busy = false;
+
+      const show = (i: number | "done", focus = true) => {
+        screens.forEach((s) => s.classList.toggle("is-current", s.dataset.screen === String(i)));
+        if (focus) screens.find((s) => s.classList.contains("is-current"))?.querySelector<HTMLElement>("button")?.focus();
+      };
+      const tick = () => { secsEl.textContent = String(Math.round((performance.now() - start) / 1000)); };
+      const count = () => {
+        if (!start) { start = performance.now(); timer = window.setInterval(tick, 250); }
+        steps += 1; stepsEl.textContent = String(steps);
+      };
+      const finish = () => {
+        window.clearInterval(timer); tick();
+        const secs = Number(secsEl.textContent);
+        results[flow] = { steps, secs };
+        const sum = col.querySelector<HTMLElement>('[data-screen="done"] [data-summary]')!;
+        sum.textContent = `${steps} ${steps === 1 ? "paso" : "pasos"} y ${secs} ${secs === 1 ? "segundo" : "segundos"}.`;
+        show("done");
+        const c = results.ceo, f = results.fair;
+        if (c && f) compare.textContent = `La versión del CEO te pidió ${c.steps - f.steps} pasos y ${Math.max(0, c.secs - f.secs)} segundos más para hacer exactamente lo mismo.`;
+      };
+      const reset = () => {
+        window.clearInterval(timer); current = 0; steps = 0; start = 0; botTries = 0; busy = false;
+        stepsEl.textContent = "0"; secsEl.textContent = "0";
+        col.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((r) => (r.checked = false));
+        col.querySelectorAll<HTMLElement>("[data-bot]").forEach((b) => { b.hidden = true; b.textContent = ""; b.classList.remove("is-error"); });
+        col.querySelectorAll<HTMLElement>("[data-survey-warn]").forEach((w) => (w.hidden = true));
+        col.querySelectorAll<HTMLButtonElement>('[data-action="next"]').forEach((b) => { if (b.dataset.label) b.textContent = b.dataset.label; });
+        delete results[flow]; compare.textContent = "";
+        show(0);
+      };
+
+      col.addEventListener("click", (e) => {
+        const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-action]");
+        if (!btn || busy) return;
+        const action = btn.dataset.action;
+        if (action === "reset") { reset(); return; }
+        count();
+        const screen = btn.closest<HTMLElement>("[data-screen]")!;
+
+        if (flow === "fair") {
+          if (action === "next") finish();
+          else { screen.querySelector<HTMLElement>(".cw-body")!.textContent = "Tu plan sigue activo. Puedes cancelar cuando quieras desde aquí mismo."; }
+          return;
+        }
+
+        if (action === "stay") { current = 0; show(0); return; } // el botón grande te regresa al inicio
+        const kind = screen.dataset.kind;
+        if (kind === "survey" && !screen.querySelector<HTMLInputElement>("input:checked")) {
+          screen.querySelector<HTMLElement>("[data-survey-warn]")!.hidden = false; return;
+        }
+        if (kind === "bot") {
+          const bot = screen.querySelector<HTMLElement>("[data-bot]")!;
+          if (!btn.dataset.label) btn.dataset.label = btn.textContent ?? "";
+          busy = true; bot.hidden = false; bot.classList.remove("is-error"); bot.textContent = botText.waiting;
+          window.setTimeout(() => {
+            busy = false;
+            botTries += 1;
+            if (botTries === 1) { bot.classList.add("is-error"); bot.textContent = botText.error; btn.textContent = botText.retry; btn.focus(); }
+            else { current += 1; show(current); }
+          }, reduce ? 1200 : 3000);
+          return;
+        }
+        if (current >= 6) { finish(); return; }
+        current += 1; show(current);
+      });
+
+      show(0, false);
+    });
+  }
+</script>
