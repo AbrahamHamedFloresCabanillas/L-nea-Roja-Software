@@ -1,0 +1,62 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import CaseTag from "./CaseTag.astro";
+import Cite from "./Cite.astro";
+import Icon from "./Icon.astro";
+import { investorsIntro, investorGroups, originLabel } from "../data/investors";
+const total = investorGroups.reduce((a, g) => a + g.items.length, 0);
+---
+<section class="section" id="inversores" aria-labelledby="inversores-title">
+  <div class="container">
+    <SectionHeader section="inversores" titleId="inversores-title" title={investorsIntro.title} intro={investorsIntro.intro}>
+      <p class="label inv-count">{total} preguntas</p>
+    </SectionHeader>
+
+    <div class="inv">
+      {investorGroups.map((g) => (
+        <div class="inv-group">
+          <h3 class="label inv-group-title">{g.title}</h3>
+          <div class="inv-list">
+            {g.items.map((qa) => (
+              <details class="inv-q" id={qa.id}>
+                <summary>
+                  <span class="inv-q-text">{qa.q}</span>
+                  <Icon name="plus" class="chev" />
+                </summary>
+                <div class="inv-a">
+                  <p class="inv-stance">{qa.stance}</p>
+                  <p class="inv-arg">{qa.argument}{qa.sources && <Cite ids={qa.sources} />}</p>
+                  <p class="inv-meta">
+                    <span class="label">{originLabel[qa.origin]}</span>
+                    <CaseTag id={qa.caseId} prefix="Caso" />
+                  </p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .inv-count { color: var(--graphite); }
+  .inv { display: grid; gap: 48px; }
+  .inv-group { display: grid; gap: 12px; }
+  @media (min-width: 1024px) { .inv-group { grid-template-columns: 4fr 8fr; gap: 48px; } }
+  .inv-group-title { color: var(--red); padding-top: 22px; }
+  .inv-list { border-top: 1px solid var(--ink); }
+  .inv-q { border-bottom: 1px solid var(--line); }
+  .inv-q summary {
+    display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start;
+    padding: 20px 0; font-size: clamp(1.0625rem, 1.3vw, 1.25rem); font-weight: 500; line-height: 1.4; letter-spacing: -.01em;
+  }
+  .inv-q summary:hover .inv-q-text { text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: .2em; }
+  .inv-q .chev { margin-top: 4px; }
+  .inv-a { display: grid; gap: 10px; padding: 0 40px 24px 0; max-width: 72ch; }
+  .inv-stance { font-weight: 700; font-size: 1.125rem; padding-left: 14px; border-left: 3px solid var(--ink); }
+  .inv-arg { color: var(--graphite); padding-left: 17px; }
+  .inv-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: center; padding-left: 17px; }
+  .inv-meta > .label { color: var(--muted); }
+</style>
