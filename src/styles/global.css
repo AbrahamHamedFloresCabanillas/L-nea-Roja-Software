@@ -25,7 +25,6 @@
   --red-on-dark: #E8574B;
 
   --font-sans: "Inter Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -112,16 +111,17 @@ button { font: inherit; color: inherit; }
 }
 .skip-link:focus { top: 12px; }
 
-.label {
-  font-family: var(--font-mono);
-  font-size: .75rem;
-  line-height: 1.4;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  font-weight: 500;
-}
+/* Texto secundario: Inter, tipo oración, tamaño small. Sin mayúsculas forzadas ni tracking amplio. */
+.meta { font-size: .875rem; line-height: 1.5; color: var(--graphite); }
+.on-dark .meta { color: var(--dark-muted); }
+/* islas claras dentro de la sección oscura (demos) */
+.on-dark :is(.pc, .evo-meter-box, .device, .sm-device) .meta { color: var(--graphite); }
 
-.mono { font-family: var(--font-mono); }
+/* Subtítulo interno (h4/h5): Inter semibold, tipo oración. */
+.sub { font-size: 1rem; line-height: 1.35; font-weight: 600; letter-spacing: -.005em; }
+
+/* Números que se alinean. */
+.tnum { font-variant-numeric: tabular-nums; }
 
 .lead {
   font-size: clamp(1.15rem, 1.5vw, 1.4rem);

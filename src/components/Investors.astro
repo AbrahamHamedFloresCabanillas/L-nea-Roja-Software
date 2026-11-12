@@ -1,21 +1,19 @@
 ---
 import SectionHeader from "./SectionHeader.astro";
+import { sectionName } from "../data/site";
 import CaseTag from "./CaseTag.astro";
 import Cite from "./Cite.astro";
 import Icon from "./Icon.astro";
-import { investorsIntro, investorGroups, originLabel } from "../data/investors";
-const total = investorGroups.reduce((a, g) => a + g.items.length, 0);
+import { investorsIntro, investorGroups } from "../data/investors";
 ---
 <section class="section cv" id="inversores" aria-labelledby="inversores-title">
   <div class="container">
-    <SectionHeader section="inversores" titleId="inversores-title" title={investorsIntro.title} intro={investorsIntro.intro}>
-      <p class="label inv-count">{total} preguntas</p>
-    </SectionHeader>
+    <SectionHeader titleId="inversores-title" name={sectionName("inversores")} subtitle={investorsIntro.title} intro={investorsIntro.intro} />
 
     <div class="inv">
       {investorGroups.map((g) => (
-        <div class="inv-group">
-          <h3 class="label inv-group-title">{g.title}</h3>
+        <div class="inv-group cv">
+          <h3 class="h4 inv-group-title">{g.title}</h3>
           <div class="inv-list">
             {g.items.map((qa) => (
               <details class="inv-q" id={qa.id}>
@@ -26,10 +24,7 @@ const total = investorGroups.reduce((a, g) => a + g.items.length, 0);
                 <div class="inv-a">
                   <p class="inv-stance">{qa.stance}</p>
                   <p class="inv-arg">{qa.argument}{qa.sources && <Cite ids={qa.sources} />}</p>
-                  <p class="inv-meta">
-                    <span class="label">{originLabel[qa.origin]}</span>
-                    <CaseTag id={qa.caseId} prefix="Caso" />
-                  </p>
+                  <p class="inv-meta"><CaseTag id={qa.caseId} /></p>
                 </div>
               </details>
             ))}
@@ -41,11 +36,10 @@ const total = investorGroups.reduce((a, g) => a + g.items.length, 0);
 </section>
 
 <style>
-  .inv-count { color: var(--graphite); }
   .inv { display: grid; gap: 48px; }
   .inv-group { display: grid; gap: 12px; }
   @media (min-width: 1024px) { .inv-group { grid-template-columns: 4fr 8fr; gap: 48px; } }
-  .inv-group-title { color: var(--red); padding-top: 22px; }
+  .inv-group-title { padding-top: 20px; max-width: 18ch; }
   .inv-list { border-top: 1px solid var(--ink); }
   .inv-q { border-bottom: 1px solid var(--line); }
   .inv-q summary {
@@ -58,5 +52,4 @@ const total = investorGroups.reduce((a, g) => a + g.items.length, 0);
   .inv-stance { font-weight: 700; font-size: 1.125rem; padding-left: 14px; border-left: 3px solid var(--ink); }
   .inv-arg { color: var(--graphite); padding-left: 17px; }
   .inv-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: center; padding-left: 17px; }
-  .inv-meta > .label { color: var(--muted); }
 </style>

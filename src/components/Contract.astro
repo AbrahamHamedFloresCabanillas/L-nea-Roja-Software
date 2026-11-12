@@ -1,5 +1,6 @@
 ---
 import SectionHeader from "./SectionHeader.astro";
+import { sectionName } from "../data/site";
 import CaseTag from "./CaseTag.astro";
 import Icon from "./Icon.astro";
 import { promiseIntro, clauses, breach } from "../data/promise";
@@ -8,11 +9,10 @@ import { site } from "../data/site";
 ---
 <section class="section cv" id="promesa" aria-labelledby="promesa-title">
   <div class="container">
-    <SectionHeader section="promesa" titleId="promesa-title" title={promiseIntro.title} intro={promiseIntro.intro} />
+    <SectionHeader titleId="promesa-title" name={sectionName("promesa")} subtitle={promiseIntro.title} intro={promiseIntro.intro} />
 
-    <article class="doc" aria-labelledby="doc-title" data-reveal>
+    <article class="doc cv" aria-labelledby="doc-title" data-reveal>
       <header class="doc-head">
-        <p class="label doc-ref">LRS-PROMESA · Versión 1.0 · {site.year}</p>
         <h3 id="doc-title" class="h3">{promiseIntro.documentTitle}</h3>
         <p class="doc-parties">Entre <strong>Línea Roja Software</strong> y cada persona que usa lo que construimos.</p>
       </header>
@@ -21,12 +21,12 @@ import { site } from "../data/site";
         {clauses.map((c) => (
           <li class="clause" id={c.id}>
             <div class="clause-name">
-              <p class="label clause-num">{c.num}</p>
+              <p class="meta clause-num tnum">{c.num}</p>
               <h4 class="h4">{c.name}</h4>
             </div>
             <div class="clause-body">
               <p class="clause-promise">{c.promise}</p>
-              <p class="clause-check"><span class="label">Cómo lo compruebas</span> {c.check}</p>
+              <div class="clause-check"><h5 class="sub">Cómo lo compruebas</h5><p>{c.check}</p></div>
               <details class="clause-more">
                 <summary class="btn btn-secondary clause-btn">
                   <Icon name="eye" size={18} /> Ver en el producto
@@ -35,7 +35,7 @@ import { site } from "../data/site";
                   {c.product.map((p) => <li><Icon name="check" size={16} /><span>{p}</span></li>)}
                 </ul>
               </details>
-              <p class="clause-cases">{c.caseIds.map((id) => <CaseTag id={id} prefix="Sale de" />)}</p>
+              <p class="clause-cases"><CaseTag ids={c.caseIds} /></p>
             </div>
           </li>
         ))}
@@ -44,12 +44,12 @@ import { site } from "../data/site";
       <p class="breach">{breach}</p>
 
       <footer class="sign">
-        <p class="label sign-label">Firmado por</p>
+        <p class="meta sign-label">Firmado por</p>
         <ul class="sign-names">
           {team.map((m) => <li>{m.name}</li>)}
         </ul>
         <span class="sign-line" aria-hidden="true"></span>
-        <p class="mono sign-place">Línea Roja Software · {site.place} · {site.year}</p>
+        <p class="meta sign-place">Línea Roja Software · {site.place} · {site.year}</p>
       </footer>
     </article>
   </div>
@@ -65,17 +65,17 @@ import { site } from "../data/site";
     max-width: 1080px;
   }
   .doc-head { display: grid; gap: 10px; padding-bottom: 28px; border-bottom: 1px solid var(--ink); }
-  .doc-ref { color: var(--graphite); }
   .doc-parties { color: var(--graphite); }
 
   .clauses { list-style: none; }
   .clause { display: grid; gap: 16px; padding-block: 32px; border-bottom: 1px solid #cfcec6; }
   @media (min-width: 900px) { .clause { grid-template-columns: 220px 1fr; gap: 40px; } }
-  .clause-num { color: var(--red-text); margin-bottom: 4px; }
+  .clause-num { margin-bottom: 2px; }
   .clause-body { display: grid; gap: 14px; }
   .clause-promise { font-size: 1.125rem; line-height: 1.55; max-width: 60ch; }
   .clause-check { color: var(--graphite); max-width: 62ch; }
-  .clause-check .label { color: var(--ink); margin-right: 6px; }
+  .clause-check { display: grid; gap: 4px; }
+  .clause-check p { color: var(--graphite); }
 
   .clause-more summary { width: fit-content; }
   .clause-more[open] summary { border-color: var(--ink); }

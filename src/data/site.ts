@@ -6,6 +6,7 @@ export const site = {
   // PENDIENTE (equipo): confirmar el nombre exacto de la materia antes de entregar.
   course: "Ética y Desarrollo Profesional",
   school: "Facultad de Ingeniería Mexicali · UABC",
+  schoolShort: "FIM-UABC",
   career: "Licenciatura en Sistemas Computacionales",
   place: "Mexicali, B.C.",
   year: 2026,
@@ -26,7 +27,6 @@ export const nav = [
 
 export type SectionId = (typeof nav)[number]["id"];
 
-export function sectionLabel(id: SectionId): string {
-  const s = nav.find((n) => n.id === id)!;
-  return `${s.num} / ${s.label}`;
+export function sectionName(id: SectionId): string {
+  return nav.find((n) => n.id === id)!.label;
 }

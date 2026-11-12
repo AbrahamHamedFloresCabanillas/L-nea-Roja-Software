@@ -6,7 +6,6 @@ import metro from "../assets/photos/metro-kuala-lumpur.jpg";
 <section class="hero" id="inicio" aria-labelledby="hero-title">
   <div class="container hero-grid">
     <div class="hero-text">
-      <p class="label hero-kicker">LSC / Manifiesto 2026 · FIM-UABC</p>
       <h1 id="hero-title" class="hero-title">No escribimos software a cualquier costo.</h1>
       <span class="hero-line" aria-hidden="true"></span>
       <p class="lead hero-lead">
@@ -14,7 +13,6 @@ import metro from "../assets/photos/metro-kuala-lumpur.jpg";
         Este documento dice dónde termina ese punto y qué hacemos cuando alguien nos pide cruzarlo.
       </p>
       <a class="btn-text hero-cta" href="#filosofia">Leer el manifiesto <Icon name="arrow-down" size={18} /></a>
-      <p class="label hero-meta">IA generativa · Patrones oscuros · Impacto ambiental</p>
     </div>
     <figure class="photo hero-photo">
       <Image
@@ -35,7 +33,6 @@ import metro from "../assets/photos/metro-kuala-lumpur.jpg";
   .hero-grid { display: grid; gap: 48px; }
   @media (min-width: 1024px) { .hero-grid { grid-template-columns: 7fr 4fr; align-items: center; gap: 64px; } }
 
-  .hero-kicker { color: var(--muted); margin-bottom: 28px; }
   .hero-title {
     font-size: clamp(2.6rem, 11vw, 7rem);
     line-height: .94; letter-spacing: -.055em; font-weight: 600;
@@ -50,7 +47,6 @@ import metro from "../assets/photos/metro-kuala-lumpur.jpg";
   }
   .hero-lead { margin-bottom: 32px; }
   .hero-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 1.0625rem; min-height: 44px; }
-  .hero-meta { color: var(--graphite); margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); }
 
   .hero-photo { display: none; }
   @media (min-width: 1024px) { .hero-photo { display: block; } }

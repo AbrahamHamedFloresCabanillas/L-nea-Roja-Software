@@ -2,9 +2,8 @@
 import CaseTag from "./CaseTag.astro";
 import { cancelWall, cancelFair, cancelBot } from "../data/demos";
 ---
-<section class="cw" id="demo-cancelacion" aria-labelledby="cw-title" data-cancel
+<section class="cw cv" id="demo-cancelacion" aria-labelledby="cw-title" data-cancel
   data-bot-waiting={cancelBot.waiting} data-bot-error={cancelBot.error} data-bot-retry={cancelBot.retry}>
-  <p class="label cw-kicker">Demo · Flujo clicable</p>
   <h4 id="cw-title" class="h3">El muro de la cancelación</h4>
   <p class="cw-intro">
     El CEO pidió siete pantallas, un bot que simula fallas técnicas y el botón final en gris claro, porque “cancela demasiada gente”.
@@ -15,14 +14,14 @@ import { cancelWall, cancelFair, cancelBot } from "../data/demos";
     <!-- Versión del CEO -->
     <div class="cw-col" data-flow="ceo">
       <div class="cw-head">
-        <p class="label cw-ver cw-ver-bad">Versión que pidió el CEO</p>
-        <p class="mono cw-count" aria-live="off"><span data-steps>0</span> pasos · <span data-secs>0</span> s</p>
+        <h5 class="sub cw-ver cw-ver-bad">Versión que pidió el CEO</h5>
+        <p class="cw-count tnum" aria-live="off"><span data-steps>0</span> pasos · <span data-secs>0</span> s</p>
       </div>
       <div class="device" role="group" aria-label="Simulación: cancelar con la versión del CEO">
         <ol class="cw-screens">
           {cancelWall.map((s, i) => (
             <li class="cw-screen" data-screen={i} data-kind={s.kind ?? "plain"}>
-              <p class="mono cw-step" aria-hidden="true">Pantalla {i + 1} de 7</p>
+              <p class="cw-step tnum" aria-hidden="true">Pantalla {i + 1} de 7</p>
               <p class="cw-title">{s.title}</p>
               <p class="cw-body">{s.body}</p>
               {s.kind === "survey" && (
@@ -51,13 +50,13 @@ import { cancelWall, cancelFair, cancelBot } from "../data/demos";
     <!-- Versión Línea Roja -->
     <div class="cw-col" data-flow="fair">
       <div class="cw-head">
-        <p class="label cw-ver cw-ver-good">Versión Línea Roja</p>
-        <p class="mono cw-count" aria-live="off"><span data-steps>0</span> pasos · <span data-secs>0</span> s</p>
+        <h5 class="sub cw-ver cw-ver-good">Versión Línea Roja</h5>
+        <p class="cw-count tnum" aria-live="off"><span data-steps>0</span> pasos · <span data-secs>0</span> s</p>
       </div>
       <div class="device" role="group" aria-label="Simulación: cancelar con la versión Línea Roja">
         <ol class="cw-screens">
           <li class="cw-screen" data-screen="0">
-            <p class="mono cw-step" aria-hidden="true">Pantalla 1 de 1</p>
+            <p class="cw-step tnum" aria-hidden="true">Pantalla 1 de 1</p>
             <p class="cw-title">{cancelFair.title}</p>
             <p class="cw-body">{cancelFair.body}</p>
             <div class="cw-pair">
@@ -86,7 +85,6 @@ import { cancelWall, cancelFair, cancelBot } from "../data/demos";
 
 <style>
   .cw { display: grid; gap: 16px; container-type: inline-size; }
-  .cw-kicker { color: var(--red-on-dark); }
   .cw-intro { color: var(--dark-muted); max-width: 62ch; }
   .cw-devices { display: grid; gap: 24px; margin-top: 8px; }
   @container (min-width: 600px) { .cw-devices { grid-template-columns: 1fr 1fr; } }
@@ -108,7 +106,7 @@ import { cancelWall, cancelFair, cancelBot } from "../data/demos";
   :global(.js) .cw-screen { display: none; border: 0; padding: 0; }
   :global(.js) .cw-screen.is-current { display: grid; }
 
-  .cw-step { font-size: .6875rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .cw-step { font-size: .8125rem; color: var(--graphite); }
   .cw-title { font-weight: 600; font-size: 1.125rem; letter-spacing: -.01em; }
   .cw-body { color: var(--graphite); font-size: .9375rem; }
 
@@ -122,13 +120,13 @@ import { cancelWall, cancelFair, cancelBot } from "../data/demos";
     font-size: .8125rem; color: #6b6d67; text-decoration: underline;
   }
   /* El botón final escondido es parte del argumento: pequeño, en minúsculas y sin subrayado (pero legible, AA). */
-  .cw-exit-ghost { font-size: .75rem; text-decoration: none; letter-spacing: .01em; }
+  .cw-exit-ghost { font-size: .75rem; text-decoration: none; }
   .cw-done .cw-exit { color: var(--ink); }
 
   .cw-survey { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; font-size: .9375rem; }
   .cw-survey label { display: flex; gap: 8px; align-items: center; min-height: 32px; cursor: pointer; }
   .cw-warn { color: var(--red); font-size: .875rem; }
-  .cw-bot { font-family: var(--font-mono); font-size: .8125rem; padding: 10px 12px; background: var(--surface); border-radius: 8px; }
+  .cw-bot { font-size: .875rem; padding: 10px 12px; background: var(--surface); border-radius: 8px; }
   .cw-bot.is-error { background: var(--red-soft); color: #8d2a22; }
 
   .cw-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }

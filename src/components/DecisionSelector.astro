@@ -5,25 +5,24 @@ import { verdictLabel, type DecisionCase } from "../data/decisions";
 
 interface Props {
   data: DecisionCase;
-  kicker: string;
   headingLevel?: "h3" | "h4";
   dark?: boolean;
 }
-const { data, kicker, headingLevel = "h3", dark = false } = Astro.props;
+const { data, headingLevel = "h3", dark = false } = Astro.props;
 const H = headingLevel;
+const SubH = headingLevel === "h3" ? "h4" : "h5";
 const titleId = `${data.id}-title`;
 ---
-<section class:list={["ds", { "ds-dark": dark }]} id={data.id} aria-labelledby={titleId} data-decision>
-  <p class="label ds-kicker">{kicker}</p>
+<section class:list={["ds", "cv", { "ds-dark": dark }]} id={data.id} aria-labelledby={titleId} data-decision>
   <H id={titleId} class:list={[headingLevel === "h3" ? "h3" : "h4", "ds-title"]}>{data.title}</H>
   <p class="ds-situation">{data.situation}</p>
 
-  <p class="label ds-prompt" id={`${data.id}-prompt`}>¿Qué harías tú?</p>
+  <p class="meta ds-prompt" id={`${data.id}-prompt`}>¿Qué harías tú?</p>
   <ol class="ds-opts" aria-labelledby={`${data.id}-prompt`}>
     {data.options.map((o) => (
       <li>
         <button type="button" class="ds-opt" aria-pressed="false" data-key={o.key} data-verdict={o.verdict} disabled>
-          <span class="mono ds-key" aria-hidden="true">{o.key}</span>
+          <span class="ds-key" aria-hidden="true">{o.key}</span>
           <span><span class="sr-only">Opción {o.key}: </span>{o.text}</span>
         </button>
       </li>
@@ -34,14 +33,14 @@ const titleId = `${data.id}-title`;
 
   <details class="ds-answer" data-answer>
     <summary class="ds-answer-sum">
-      <span class="label">Ver nuestra decisión y por qué las otras no</span>
+      <span class="ds-answer-link">Ver nuestra decisión y por qué las otras no</span>
     </summary>
     <div class="ds-answer-body">
-      <p class="ds-decision"><span class="label">Nuestra decisión</span>{data.decision}</p>
+      <div class="ds-decision"><SubH class="sub">Nuestra decisión</SubH><p>{data.decision}</p></div>
       <ul class="ds-verdicts">
         {data.options.map((o) => (
           <li class={`v-${o.verdict}`} data-verdict-for={o.key}>
-            <span class="mono">{o.key}</span>
+            <span class="ds-vkey">{o.key}</span>
             <div>
               <strong>{verdictLabel[o.verdict]}.</strong> {o.why}
             </div>
@@ -60,12 +59,10 @@ const titleId = `${data.id}-title`;
 
 <style>
   .ds { display: grid; gap: 16px; }
-  .ds-kicker { color: var(--red-text); }
-  .ds-dark .ds-kicker { color: var(--red-on-dark); }
   .ds-title { max-width: 26ch; }
   .ds-situation { max-width: 62ch; color: var(--graphite); font-size: 1.0625rem; }
   .ds-dark .ds-situation { color: var(--dark-text); }
-  .ds-prompt { margin-top: 8px; color: var(--muted); }
+  .ds-prompt { margin-top: 8px; }
   .ds-dark .ds-prompt { color: var(--dark-muted); }
 
   .ds-opts { list-style: none; display: grid; gap: 10px; }
@@ -79,7 +76,7 @@ const titleId = `${data.id}-title`;
   }
   .ds-opt:disabled { cursor: default; color: inherit; opacity: 1; }
   .ds-opt:not(:disabled):hover { border-color: var(--ink); }
-  .ds-key { font-size: .875rem; font-weight: 500; padding-top: 1px; }
+  .ds-key { font-weight: 600; }
   .ds-opt[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
   .ds-opt[aria-pressed="true"][data-verdict="nuestra"] { background: var(--positive-soft); border-color: var(--positive); box-shadow: inset 0 0 0 1px var(--positive); }
   .ds-opt[aria-pressed="true"][data-verdict="cruza"] { background: var(--red-soft); border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
@@ -91,7 +88,7 @@ const titleId = `${data.id}-title`;
 
   .ds-feedback:empty { display: none; }
   .ds-feedback { padding: 16px 18px; border-radius: var(--radius-md); border-left: 3px solid; }
-  .ds-feedback :global(strong) { display: block; font-family: var(--font-mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+  .ds-feedback :global(strong) { display: block; font-weight: 600; margin-bottom: 2px; }
   .ds-feedback.f-nuestra { background: var(--positive-soft); border-color: var(--positive); color: var(--ink); }
   .ds-feedback.f-cruza { background: var(--red-soft); border-color: var(--red); color: var(--ink); }
   .ds-feedback.f-no-alcanza { background: #F4EBDD; border-color: var(--warning); color: var(--ink); }
@@ -102,20 +99,20 @@ const titleId = `${data.id}-title`;
   .ds-answer { border-top: 1px solid var(--line); }
   .ds-dark .ds-answer { border-top-color: #3a3b37; }
   .ds-answer-sum { padding: 14px 0; min-height: 44px; display: flex; align-items: center; }
-  .ds-answer-sum .label { border-bottom: 1px solid currentColor; }
-  .ds-answer-sum:hover .label { color: var(--red); }
-  .ds-dark .ds-answer-sum:hover .label { color: var(--red-on-dark); }
+  .ds-answer-link { font-size: .9375rem; font-weight: 500; text-decoration: underline; text-underline-offset: .2em; }
+  .ds-answer-sum:hover .ds-answer-link { text-decoration-color: var(--red); }
+  .ds-dark .ds-answer-sum:hover .ds-answer-link { text-decoration-color: var(--red-on-dark); }
   .ds-answer-body { display: grid; gap: 16px; padding-bottom: 8px; }
   .ds-decision { font-size: 1.125rem; font-weight: 500; line-height: 1.45; padding-left: 16px; border-left: 3px solid var(--positive); max-width: 62ch; }
-  .ds-decision .label { display: block; color: var(--positive-text); margin-bottom: 4px; }
+  .ds-decision .sub { color: var(--positive-text); margin-bottom: 4px; }
   .ds-dark .ds-decision { border-left-color: #8fd1aa; color: var(--dark-text); }
-  .ds-dark .ds-decision .label { color: #8fd1aa; }
+  .ds-dark .ds-decision .sub { color: #8fd1aa; }
 
   .ds-verdicts { list-style: none; display: grid; gap: 10px; }
   .ds-verdicts li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; color: var(--graphite); max-width: 70ch; }
   .ds-dark .ds-verdicts li { color: var(--dark-muted); }
-  .ds-verdicts .mono { font-weight: 500; color: var(--ink); }
-  .ds-dark .ds-verdicts .mono { color: var(--dark-text); }
+  .ds-vkey { font-weight: 600; color: var(--ink); }
+  .ds-dark .ds-vkey { color: var(--dark-text); }
   .ds-verdicts .v-cruza strong { color: var(--red-text); }
   .ds-verdicts .v-no-alcanza strong { color: #8a520d; }
   .ds-verdicts .v-nuestra strong { color: var(--positive-text); }

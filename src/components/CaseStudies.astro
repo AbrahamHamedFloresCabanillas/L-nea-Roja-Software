@@ -1,20 +1,21 @@
 ---
 import SectionHeader from "./SectionHeader.astro";
+import { sectionName } from "../data/site";
 import DecisionSelector from "./DecisionSelector.astro";
 import { decisionCases } from "../data/decisions";
 ---
 <section class="section cv" id="casos" aria-labelledby="casos-title">
   <div class="container">
     <SectionHeader
-      section="casos"
       titleId="casos-title"
-      title="Pon a prueba nuestro criterio."
+      name={sectionName("casos")}
+      subtitle="Pon a prueba nuestro criterio."
       intro="Cuatro casos del semestre. Elige qué harías antes de ver nuestra respuesta. No hay puntos: lo que importa es el razonamiento."
     />
     <div class="cases">
       {decisionCases.map((c) => (
         <div class="case" data-reveal>
-          <DecisionSelector data={c} kicker={`Caso ${c.num}`} />
+          <DecisionSelector data={c} />
         </div>
       ))}
     </div>

@@ -32,7 +32,7 @@ import { nav } from "../data/site";
         {nav.map((n) => (
           <li>
             <a href={`#${n.id}`} data-menu-link>
-              <span class="mono mm-num">{n.num}</span>
+              <span class="mm-num tnum">{n.num}</span>
               <span>{n.label}</span>
             </a>
           </li>
@@ -57,7 +57,7 @@ import { nav } from "../data/site";
   .brand-line { width: 24px; height: 3px; background: var(--red); }
   .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
   .brand-name { font-weight: 600; font-size: 1.0625rem; letter-spacing: -.02em; }
-  .brand-sub { font-family: var(--font-mono); font-size: .6875rem; color: var(--muted); letter-spacing: .02em; }
+  .brand-sub { font-size: .75rem; color: var(--graphite); }
 
   .hdr-nav { display: none; }
   .hdr-nav ul { list-style: none; display: flex; gap: clamp(14px, 1.4vw, 24px); }
@@ -103,7 +103,7 @@ import { nav } from "../data/site";
     text-decoration: none;
   }
   .mm-list a:hover { color: var(--red); }
-  .mm-num { font-size: .8125rem; color: var(--red); letter-spacing: .06em; font-weight: 500; }
+  .mm-num { font-size: .875rem; color: var(--graphite); font-weight: 500; min-width: 1.5em; letter-spacing: 0; }
 </style>
 
 <script>

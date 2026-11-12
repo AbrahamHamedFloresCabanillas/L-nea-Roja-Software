@@ -1,19 +1,21 @@
 ---
-import { sectionLabel, type SectionId } from "../data/site";
-/** Label "0X / NOMBRE" con trazo rojo + título editorial + intro opcional (§2, §9). */
+/**
+ * Encabezado de sección: el h2 es el nombre de la sección (con la línea roja corta al lado)
+ * y la frase editorial va debajo como subtítulo grande.
+ */
 interface Props {
-  section: SectionId;
   titleId: string;
-  title: string;
+  name: string;
+  subtitle?: string;
   intro?: string;
   dark?: boolean;
 }
-const { section, titleId, title, intro, dark = false } = Astro.props;
+const { titleId, name, subtitle, intro, dark = false } = Astro.props;
 ---
 <header class:list={["sh", { "sh-dark": dark }]} data-reveal>
-  <p class="label sh-label"><span class="sh-line" aria-hidden="true"></span>{sectionLabel(section)}</p>
+  <h2 id={titleId} class="sh-name"><span class="sh-line" aria-hidden="true"></span>{name}</h2>
   <div class="sh-grid">
-    <h2 id={titleId} class="h2 sh-title">{title}</h2>
+    {subtitle && <p class="h2 sh-sub">{subtitle}</p>}
     {intro && <p class="lead sh-intro">{intro}</p>}
     <slot />
   </div>
@@ -22,13 +24,17 @@ const { section, titleId, title, intro, dark = false } = Astro.props;
 <style>
   .sh { margin-bottom: 48px; }
   @media (min-width: 1024px) { .sh { margin-bottom: 72px; } }
-  .sh-label { display: flex; align-items: center; gap: 12px; color: var(--red); margin-bottom: 24px; }
-  .sh-line { width: 32px; height: 2px; background: currentColor; flex: none; }
-  .sh-dark .sh-label { color: var(--red-on-dark); }
+  .sh-name {
+    display: flex; align-items: center; gap: 14px;
+    font-size: clamp(1.25rem, 1.6vw, 1.5rem); line-height: 1.2; letter-spacing: -.015em; font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .sh-line { width: 32px; height: 3px; background: var(--red); flex: none; }
+  .sh-dark .sh-line { background: var(--red-on-dark); }
   .sh-grid { display: grid; gap: 20px; }
-  .sh-title { max-width: 20ch; }
+  .sh-sub { max-width: 20ch; font-weight: 600; }
   @media (min-width: 1024px) {
-    .sh-grid { grid-template-columns: 7fr 5fr; gap: 48px; align-items: end; }
+    .sh-grid { grid-template-columns: 7fr 5fr; gap: 48px; align-items: start; }
   }
   .sh-dark .sh-intro { color: var(--dark-muted); }
 </style>

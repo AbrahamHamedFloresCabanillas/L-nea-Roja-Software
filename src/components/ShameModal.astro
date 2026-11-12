@@ -7,8 +7,7 @@ const mark = (n: number) => {
   return { n, label: `Truco ${n}: ${p.trick}` };
 };
 ---
-<section class="sm" id="demo-verguenza" aria-labelledby="sm-title" data-shame>
-  <p class="label sm-kicker">Demo · Antes y después</p>
+<section class="sm cv" id="demo-verguenza" aria-labelledby="sm-title" data-shame>
   <h4 id="sm-title" class="h3">La vergüenza de confirmación</h4>
   <p class="sm-intro">
     Una farmacia en línea con suscripción mensual. Para cerrar la ventana de cobro había que pulsar
@@ -18,7 +17,7 @@ const mark = (n: number) => {
 
   <div class="sm-grid">
     <div class="sm-col">
-      <p class="label sm-ver sm-ver-bad">Como venía en el caso</p>
+      <h5 class="sub sm-ver sm-ver-bad">Como venía en el caso</h5>
       <div class="sm-device" aria-label="Maqueta del modal original" role="group">
         <div class="sm-modal sm-bad">
           <span class="sm-x" data-part="5" aria-hidden="true"><Icon name="x" size={10} /></span>
@@ -47,7 +46,7 @@ const mark = (n: number) => {
     </div>
 
     <div class="sm-col">
-      <p class="label sm-ver sm-ver-good">Nuestro rediseño</p>
+      <h5 class="sub sm-ver sm-ver-good">Nuestro rediseño</h5>
       <div class="sm-device" aria-label="Maqueta del modal rediseñado" role="group">
         <div class="sm-modal sm-good">
           <span class="sm-close" aria-hidden="true"><Icon name="x" size={18} /> Cerrar</span>
@@ -67,7 +66,7 @@ const mark = (n: number) => {
   <ol class="sm-tricks">
     {shameParts.map((p) => (
       <li data-trick={p.n}>
-        <span class="mono sm-n" aria-hidden="true">{p.n}</span>
+        <span class="sm-n tnum" aria-hidden="true">{p.n}</span>
         <div><strong>{p.trick}.</strong> {p.why}</div>
       </li>
     ))}
@@ -78,7 +77,6 @@ const mark = (n: number) => {
 
 <style>
   .sm { display: grid; gap: 16px; container-type: inline-size; }
-  .sm-kicker { color: var(--red-on-dark); }
   .sm-intro { color: var(--dark-muted); max-width: 62ch; }
   .sm-grid { display: grid; gap: 24px; margin-top: 8px; }
   @container (min-width: 600px) { .sm-grid { grid-template-columns: 1fr 1fr; } }
@@ -94,7 +92,7 @@ const mark = (n: number) => {
   .sm-part.is-hl, .sm-x.is-hl { box-shadow: 0 0 0 2px var(--red); background: var(--red-soft); }
 
   .sm-x { position: absolute; top: 8px; right: 10px; color: #c9c9c9; padding: 2px; border-radius: 4px; }
-  .sm-bad-title { font-weight: 800; font-size: 1.1rem; color: #b3261e; text-transform: uppercase; letter-spacing: -.01em; line-height: 1.2; padding-right: 28px; }
+  .sm-bad-title { font-weight: 800; font-size: 1.1rem; color: #b3261e; letter-spacing: -.01em; line-height: 1.2; padding-right: 28px; }
   .sm-bad-social { font-size: .875rem; color: var(--graphite); }
   .sm-bad-price { font-size: 1.75rem; font-weight: 700; letter-spacing: -.02em; }
   .sm-bad-fine { font-size: 10px; color: #686868; line-height: 1.3; }
@@ -106,7 +104,7 @@ const mark = (n: number) => {
     position: absolute; left: -28px; top: -4px; z-index: 1;
     width: 26px; height: 26px; border-radius: 50%;
     background: var(--ink); color: #fff; border: 2px solid #fff;
-    font-family: var(--font-mono); font-size: .75rem; font-weight: 500; line-height: 1;
+    font-size: .75rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums;
     display: none; place-items: center; cursor: pointer; padding: 0;
   }
   :global(.js) .sm-mark { display: grid; }

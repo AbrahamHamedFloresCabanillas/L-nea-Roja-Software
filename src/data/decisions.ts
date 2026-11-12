@@ -5,7 +5,6 @@ export type Verdict = "cruza" | "no-alcanza" | "nuestra";
 export interface DecisionCase {
   id: string;
   caseId: CaseId;
-  num?: string;
   title: string;
   situation: string;
   options: { key: "A" | "B" | "C"; text: string; verdict: Verdict; why: string }[];
@@ -59,7 +58,6 @@ export const decisionCases: readonly DecisionCase[] = [
   {
     id: "caso-bossware",
     caseId: "bossware",
-    num: "01",
     title: "El Bossware",
     situation:
       "Una empresa nos pide instalar, sin avisar a sus empleados, un programa que toma una foto por webcam cada 5 minutos y registra cada pestaña abierta. Es el contrato más grande del año.",
@@ -80,7 +78,6 @@ export const decisionCases: readonly DecisionCase[] = [
   {
     id: "caso-tienda-apps",
     caseId: "tienda-apps",
-    num: "02",
     title: "El impuesto de la tienda de apps",
     situation:
       "La tienda dominante obliga a usar su pasarela con una comisión fija de 30% y prohíbe botones que lleven a pagar afuera. El cliente quiere ir más lejos: esconder que en su sitio web el mismo plan cuesta menos.",
@@ -99,7 +96,6 @@ export const decisionCases: readonly DecisionCase[] = [
   {
     id: "caso-buscador",
     caseId: "buscador",
-    num: "03",
     title: "La degradación del buscador",
     situation:
       "El cliente tiene un buscador. Los clics en anuncios bajaron y pide que los anuncios usen el mismo formato que los resultados normales, sin etiqueta visible, y que se llene la primera página con artículos generados por IA.",
@@ -118,7 +114,6 @@ export const decisionCases: readonly DecisionCase[] = [
   {
     id: "caso-rockstar",
     caseId: "rockstar",
-    num: "04",
     title: "El Rockstar arrogante",
     situation:
       "El mejor programador del equipo se aprueba sus propios PRs, no documenta, maltrata a los juniors y dice que las reglas de accesibilidad son “para diseñadores débiles”. Si se va, se lleva medio sistema en la cabeza.",

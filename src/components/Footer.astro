@@ -6,15 +6,15 @@ import { site, nav } from "../data/site";
   <div class="container ftr-grid">
     <div class="ftr-id">
       <p class="ftr-name"><span class="ftr-line" aria-hidden="true"></span>{site.name}</p>
-      <p>Manifiesto de Identidad Profesional · LSC {site.year}</p>
-      <p>{site.course} · {site.school}</p>
+      <p>Manifiesto de Identidad Profesional, {site.year}</p>
+      <p>{site.course} · {site.career} · {site.schoolShort}</p>
       <p class="ftr-ai">{site.aiNotice}</p>
     </div>
     <nav id="indice" aria-label="Índice del manifiesto" class="ftr-nav">
-      <p class="label">Índice</p>
+      <p class="ftr-nav-title">Índice</p>
       <ol>
-        {nav.map((n) => <li><a href={`#${n.id}`}><span class="mono">{n.num}</span> {n.label}</a></li>)}
-        <li><a href="#fuentes"><span class="mono">··</span> Fuentes</a></li>
+        {nav.map((n) => <li><a href={`#${n.id}`}><span class="ftr-num tnum">{n.num}</span> {n.label}</a></li>)}
+        <li><a href="#fuentes"><span class="ftr-num" aria-hidden="true"></span> Fuentes</a></li>
       </ol>
     </nav>
     <a class="ftr-top" href="#inicio"><Icon name="arrow-up" size={16} /> Volver arriba</a>
@@ -29,11 +29,11 @@ import { site, nav } from "../data/site";
   .ftr-name { display: flex; align-items: center; gap: 10px; color: var(--dark-text); font-weight: 600; font-size: 1.25rem; letter-spacing: -.02em; margin-bottom: 8px; }
   .ftr-line { width: 24px; height: 3px; background: var(--red-on-dark); }
   .ftr-ai { margin-top: 12px; padding-top: 12px; border-top: 1px solid #34352f; color: var(--dark-text); max-width: 56ch; }
-  .ftr-nav .label { color: var(--dark-muted); margin-bottom: 10px; }
+  .ftr-nav-title { color: var(--dark-text); font-weight: 600; margin-bottom: 8px; }
   .ftr-nav ol { list-style: none; display: grid; gap: 2px; }
   .ftr-nav a { display: inline-flex; gap: 10px; padding: 6px 0; color: var(--dark-text); text-decoration: none; font-size: .9375rem; }
   .ftr-nav a:hover { text-decoration: underline; text-decoration-color: var(--red-on-dark); }
-  .ftr-nav .mono { color: var(--red-on-dark); font-size: .8125rem; }
+  .ftr-num { color: var(--dark-muted); font-size: .875rem; min-width: 1.6em; }
   .ftr-top { display: inline-flex; align-items: center; gap: 8px; color: var(--dark-text); text-decoration: none; min-height: 44px; font-weight: 500; }
   .ftr-top:hover { text-decoration: underline; text-decoration-color: var(--red-on-dark); }
 </style>

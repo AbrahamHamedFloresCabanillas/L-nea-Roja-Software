@@ -16,25 +16,22 @@ export const philosophy = {
 /** Ética · Moral · Deontología. "En el taller" sale de nuestra traducción del código ACM (A6). */
 export const concepts = [
   {
-    num: "01",
     term: "Ética",
     def: "La pregunta de qué debemos hacer y por qué, incluso cuando nadie nos obliga.",
     workshop: "Antes de programar, le preguntamos a quien va a usar el sistema: al almacenista, no solo al gerente.",
-    ref: "ACM 3.4",
+    ref: "Código de la ACM, 3.4",
   },
   {
-    num: "02",
     term: "Moral",
     def: "Lo que una comunidad acepta como correcto. Cambia entre culturas y épocas.",
     workshop: "Que toda la industria esconda el botón de cancelar no lo vuelve aceptable. El piso lo ponemos nosotros.",
-    ref: "ACM 3.5",
+    ref: "Código de la ACM, 3.5",
   },
   {
-    num: "03",
     term: "Deontología",
     def: "Los deberes propios de una profesión frente a quienes dependen de ella.",
     workshop: "Callar por no hacer olas también es una decisión. Nadie aprueba un PR con contraseñas en texto plano para no quedar mal.",
-    ref: "ACM 4.1",
+    ref: "Código de la ACM, 4.1",
   },
 ] as const;
 
@@ -81,19 +78,16 @@ export const internal = [
   {
     title: "No hay rockstars.",
     body: "Todo PR lleva revisión de otra persona y todo módulo, documentación mínima. La accesibilidad es requisito, no gusto. El talento no compra impunidad.",
-    from: "A4 · El Rockstar arrogante",
     caseId: "rockstar" as CaseId,
   },
   {
     title: "La conducta se nombra por sus efectos.",
     body: "No decimos “eres arrogante”; decimos “llevas once semanas sin aprobar un PR ajeno”. Hablamos con datos. La corrección es en privado; el reconocimiento, en público.",
-    from: "A4 · El Rockstar arrogante",
     caseId: "rockstar" as CaseId,
   },
   {
     title: "Cualquiera puede detener una tarea.",
     body: "Tenemos un botón de objeción técnica: si alguien del equipo cree que algo daña al usuario, se para y se revisa, sin represalias. Ningún LSC vuelve a programar la ralentización de un teléfono.",
-    from: "P5 · EvoPhone",
     caseId: "evophone" as CaseId,
   },
 ] as const;

@@ -1,5 +1,6 @@
 ---
 import SectionHeader from "./SectionHeader.astro";
+import { sectionName } from "../data/site";
 import ManifestoRule from "./ManifestoRule.astro";
 import DecisionSelector from "./DecisionSelector.astro";
 import PromptCalculator from "./PromptCalculator.astro";
@@ -13,11 +14,11 @@ const [ia, patrones, ambiental] = rules;
 ---
 <section class="section code on-dark" id="codigo" aria-labelledby="codigo-title">
   <div class="container">
-    <SectionHeader section="codigo" titleId="codigo-title" title={codeIntro.title} intro={codeIntro.intro} dark />
+    <SectionHeader titleId="codigo-title" name={sectionName("codigo")} subtitle={codeIntro.title} intro={codeIntro.intro} dark />
 
     <ManifestoRule rule={ia}>
       <div class="demo-stack">
-        <DecisionSelector data={deepfakeCase} kicker="Demo · Caso para decidir" headingLevel="h4" dark />
+        <DecisionSelector data={deepfakeCase} headingLevel="h4" dark />
         <PromptCalculator />
       </div>
     </ManifestoRule>

@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import SectionHeader from "./SectionHeader.astro";
+import { sectionName } from "../data/site";
 import CaseTag from "./CaseTag.astro";
 import Icon from "./Icon.astro";
 import { crisisIntro, nodes, nodeById, routes, type CrisisNode, type NodeId } from "../data/crisis";
@@ -39,22 +40,22 @@ for (const n of nodes) {
 const routeNodes = (r: string) => nodes.filter((n) => n.route === r);
 const groups = [
   { title: "Inicio", items: routeNodes("inicio") },
-  ...routes.map((r) => ({ title: r.title, from: r.from, caseId: r.caseId, items: routeNodes(r.id) })),
+  ...routes.map((r) => ({ title: r.title, caseId: r.caseId, items: routeNodes(r.id) })),
   { title: "Cierre de cualquier ruta", items: routeNodes("cierre") },
 ];
 const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, next, redline, final }) => ({ id, title, time, body, q, choices, next, redline, final })));
 ---
 <section class="section crisis cv" id="crisis" aria-labelledby="crisis-title">
   <div class="container">
-    <SectionHeader section="crisis" titleId="crisis-title" title={crisisIntro.title} intro={crisisIntro.intro} />
+    <SectionHeader titleId="crisis-title" name={sectionName("crisis")} subtitle={crisisIntro.title} intro={crisisIntro.intro} />
 
     <div class="cx-top" data-reveal>
       <div class="cx-counter" data-counter>
-        <p class="label cx-counter-label">El caso con el que lo probamos</p>
+        <p class="meta cx-counter-label">El caso con el que lo probamos</p>
         <ul class="cx-nums">
           {crisisIntro.counter.map((c) => (
             <li>
-              <span class="cx-num mono">{c.prefix}<span data-count={c.value} data-fmt={c.fmt}>{c.fmt === "decimal" ? c.value.toFixed(1) : c.value}</span></span>
+              <span class="cx-num tnum">{c.prefix}<span data-count={c.value} data-fmt={c.fmt}>{c.fmt === "decimal" ? c.value.toFixed(1) : c.value}</span></span>
               <span class="cx-num-label">{c.unit} {c.label}</span>
             </li>
           ))}
@@ -68,11 +69,11 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
       </figure>
     </div>
 
-    <div class="cx-board" data-walk-root>
+    <div class="cx-board cv" data-walk-root>
       <!-- Recorrido interactivo (solo con JS) -->
       <div class="cx-walk" data-walk hidden>
         <div class="cx-walk-head">
-          <p class="label">Recorrido interactivo</p>
+          <p class="sub">Recorrido interactivo</p>
           <button type="button" class="btn btn-secondary cx-reset" data-walk-reset><Icon name="rotate" size={16} /> Reiniciar</button>
         </div>
         <p class="sr-only">Pasos recorridos:</p>
@@ -106,8 +107,8 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
               </g>
             );
           })}
-          <text class="cx-route-label" x="124" y={TOP + 1 * ROW - 30} text-anchor="middle">RUTA DE VULNERABILIDAD</text>
-          <text class="cx-route-label" x="1032" y={TOP + 1 * ROW - 30} text-anchor="middle">RUTA AMBIENTAL</text>
+          <text class="cx-route-label" x="124" y={TOP + 1 * ROW - 30} text-anchor="middle">Ruta de vulnerabilidad</text>
+          <text class="cx-route-label" x="1032" y={TOP + 1 * ROW - 30} text-anchor="middle">Ruta ambiental</text>
         </svg>
         <figcaption class="small cx-legend">
           <span><i class="lg lg-red"></i> Línea roja: decisión que no negociamos</span>
@@ -120,18 +121,18 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
     <p class="cx-nojs">Sin JavaScript no hay recorrido interactivo, pero todos los pasos están aquí abajo.</p>
 
     <!-- Secuencia en texto: versión móvil del diagrama y lectura completa en escritorio -->
-    <div class="cx-steps">
+    <div class="cx-steps cv">
       <h3 class="h3 cx-steps-title">Cada paso, en detalle</h3>
       {groups.map((g) => (
         <section class="cx-group" aria-label={g.title}>
           <div class="cx-group-head">
-            <h4 class="label">{g.title}</h4>
-            {"caseId" in g && g.caseId && <CaseTag id={g.caseId} prefix="Sale de" />}
+            <h4 class="sub">{g.title}</h4>
+            {"caseId" in g && g.caseId && <CaseTag id={g.caseId} />}
           </div>
           <ol class="cx-list">
             {g.items.map((n) => (
               <li class:list={["cx-step", { "is-red": n.redline }]} id={`paso-${n.id}`}>
-                <p class="mono cx-step-time">{n.time}</p>
+                <p class="cx-step-time tnum">{n.time}</p>
                 <p class="cx-step-title">{n.title}</p>
                 <p class="cx-step-body">{n.body}</p>
                 {n.q && n.choices && (
@@ -157,11 +158,10 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
   .cx-top { display: grid; gap: 32px; margin-bottom: 64px; }
   @media (min-width: 1024px) { .cx-top { grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; } }
   .cx-counter { display: grid; gap: 16px; padding-top: 24px; border-top: 1px solid var(--ink); }
-  .cx-counter-label { color: var(--graphite); }
   .cx-nums { list-style: none; display: grid; gap: 16px; }
   @media (min-width: 640px) { .cx-nums { grid-template-columns: repeat(3, 1fr); } }
   .cx-nums li { display: grid; gap: 4px; }
-  .cx-num { font-size: clamp(2rem, 4vw, 3rem); line-height: 1; font-weight: 500; letter-spacing: -.03em; }
+  .cx-num { font-size: clamp(2rem, 4vw, 3rem); line-height: 1; font-weight: 600; letter-spacing: -.03em; }
   .cx-nums li:last-child .cx-num { color: var(--red); }
   .cx-num-label { font-size: .875rem; color: var(--graphite); }
   .cx-counter-note { color: var(--graphite); max-width: 60ch; }
@@ -176,16 +176,15 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
   .cx-walk { background: var(--surface); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 16px; align-content: start; }
   .cx-walk[hidden] { display: none; }
   .cx-walk-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .cx-walk-head .label { color: var(--graphite); }
   .cx-reset { min-height: 40px; padding: 0 14px; font-size: .875rem; background: var(--paper); }
   .cx-trail { list-style: none; display: grid; gap: 6px; }
   .cx-trail:empty { display: none; }
   .cx-trail :global(li) { font-size: .8125rem; color: var(--graphite); display: grid; grid-template-columns: 22px 1fr; gap: 8px; }
-  .cx-trail :global(.mono) { color: var(--muted); }
+  .cx-trail :global(.tnum) { color: var(--graphite); font-variant-numeric: tabular-nums; }
   .cx-trail :global(b) { color: var(--ink); font-weight: 500; }
   .cx-current { display: grid; gap: 10px; background: var(--paper); border: 2px solid var(--ink); border-radius: var(--radius-md); padding: 18px; }
   .cx-current.is-red { border-color: var(--red); }
-  .cx-current :global(.cx-c-time) { font-family: var(--font-mono); font-size: .75rem; color: var(--graphite); letter-spacing: .04em; }
+  .cx-current :global(.cx-c-time) { font-size: .875rem; color: var(--graphite); font-variant-numeric: tabular-nums; }
   .cx-current :global(.cx-c-title) { font-size: 1.25rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.2; }
   .cx-current.is-red .cx-c-title { color: var(--red); }
   .cx-current :global(.cx-c-title:focus) { outline: none; }
@@ -202,11 +201,11 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
 
   .cx-svg :global(text) { font-family: var(--font-sans); }
   .cx-edge path { fill: none; stroke: #B5B4AC; stroke-width: 1.5; transition: stroke 250ms var(--ease); }
-  .cx-edge text { font-family: var(--font-mono) !important; font-size: 12px; fill: var(--graphite); }
+  .cx-edge text { font-size: 12.5px; fill: var(--graphite); }
   .cx-edge.is-walked path { stroke: var(--ink); stroke-width: 2.25; marker-end: url(#cx-arrow-on); }
   .cx-edge.is-walked text { fill: var(--ink); font-weight: 600; }
   .cx-node rect { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1; transition: stroke 200ms var(--ease), fill 200ms var(--ease); }
-  .cx-t-time { font-family: var(--font-mono) !important; font-size: 11.5px; fill: var(--graphite); letter-spacing: .03em; }
+  .cx-t-time { font-size: 12.5px; fill: var(--graphite); font-variant-numeric: tabular-nums; }
   .cx-t-title { font-size: 15px; font-weight: 600; fill: var(--ink); letter-spacing: -.01em; }
   .cx-t-q { font-size: 12.5px; fill: var(--graphite); }
   .cx-node.is-red rect { stroke: var(--red); stroke-width: 1.5; fill: #FBF1EF; }
@@ -216,7 +215,7 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
   .cx-node.is-current rect { stroke: var(--ink); stroke-width: 2.5; fill: #fff; }
   .cx-node.is-red.is-current rect, .cx-node.is-red.is-past rect { stroke: var(--red); stroke-width: 2.5; }
   .cx-svg.is-walking .cx-node:not(.is-past):not(.is-current) { opacity: .55; }
-  .cx-route-label { font-family: var(--font-mono) !important; font-size: 11px; letter-spacing: .1em; fill: var(--graphite); }
+  .cx-route-label { font-size: 13px; font-weight: 600; fill: var(--graphite); }
 
   .cx-legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 12px; color: var(--graphite); }
   .cx-legend span { display: inline-flex; align-items: center; gap: 8px; }
@@ -240,7 +239,7 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
   @media (min-width: 1200px) { .cx-list { grid-template-columns: repeat(3, 1fr); } }
   .cx-step { display: grid; gap: 6px; align-content: start; padding: 20px 0 20px 16px; border-bottom: 1px solid var(--line); border-left: 2px solid var(--line); position: relative; }
   .cx-step.is-red { border-left-color: var(--red); }
-  .cx-step-time { font-size: .75rem; color: var(--graphite); }
+  .cx-step-time { font-size: .875rem; color: var(--graphite); }
   .cx-step-title { font-weight: 600; font-size: 1.0625rem; }
   .cx-step.is-red .cx-step-title { color: var(--red); }
   .cx-step-body { color: var(--graphite); font-size: .9375rem; }
@@ -284,7 +283,7 @@ const walkData = JSON.stringify(nodes.map(({ id, title, time, body, q, choices, 
       trail.innerHTML = "";
       path.slice(0, -1).forEach((p, i) => {
         const li = el("li");
-        li.append(el("span", "mono", String(i + 1).padStart(2, "0")));
+        li.append(el("span", "tnum", String(i + 1)));
         const t = el("span"); const b = el("b", undefined, N.get(p.id)!.title);
         t.append(b);
         const took = path[i + 1].took;

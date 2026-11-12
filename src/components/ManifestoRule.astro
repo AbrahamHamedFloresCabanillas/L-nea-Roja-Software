@@ -16,10 +16,9 @@ const titleId = `${rule.id}-title`;
 <article class="mr cv" id={rule.id} aria-labelledby={titleId}>
   <div class="mr-side">
     <div class="mr-sticky">
-      <p class="mr-num mono" aria-hidden="true">{rule.num}</p>
-      <p class="label mr-pillar"><span class="sr-only">Regla {rule.num}: </span>{rule.pillar}</p>
+      <p class="mr-num tnum" aria-hidden="true">{rule.num}</p>
+      <p class="mr-pillar"><span class="sr-only">Regla {rule.num}: </span>{rule.pillar}</p>
       <h3 id={titleId} class="h3 mr-rule">{rule.rule}</h3>
-      <p class="label mr-backing">Respaldo · {rule.backing}</p>
     </div>
   </div>
 
@@ -28,11 +27,11 @@ const titleId = `${rule.id}-title`;
 
     <div class="mr-lists" data-reveal>
       <div class="mr-list mr-yes">
-        <h4 class="label">Lo que sí hacemos</h4>
+        <h4 class="sub">Lo que sí hacemos</h4>
         <ul>{rule.yes.map((t) => <li><Icon name="check" size={18} /><span>{t}</span></li>)}</ul>
       </div>
       <div class="mr-list mr-no">
-        <h4 class="label">Lo que no haremos</h4>
+        <h4 class="sub">Lo que no haremos</h4>
         <ul>{rule.no.map((t) => <li><Icon name="x" size={18} /><span>{t}</span></li>)}</ul>
       </div>
     </div>
@@ -47,10 +46,10 @@ const titleId = `${rule.id}-title`;
 
     <slot />
 
-    <p class="mr-cases label">
-      <span>Casos que sostienen esta regla:</span>
-      {rule.caseIds.map((id) => <CaseTag id={id} prefix="Caso" />)}
-    </p>
+    <div class="mr-foot">
+      <p class="mr-backing">Respaldo: {rule.backing}.</p>
+      <p><CaseTag ids={rule.caseIds} /></p>
+    </div>
   </div>
 </article>
 
@@ -62,10 +61,9 @@ const titleId = `${rule.id}-title`;
     .mr-sticky { position: sticky; top: calc(var(--header-h) + 40px); }
   }
 
-  .mr-num { font-size: clamp(4.5rem, 10vw, 9rem); line-height: .85; color: var(--red-on-dark); letter-spacing: -.04em; font-weight: 500; }
-  .mr-pillar { color: var(--dark-muted); margin-top: 20px; }
+  .mr-num { font-size: clamp(4.5rem, 10vw, 9rem); line-height: .85; color: var(--red-on-dark); letter-spacing: -.05em; font-weight: 600; }
+  .mr-pillar { color: var(--dark-muted); margin-top: 20px; font-size: 1rem; }
   .mr-rule { margin-top: 12px; max-width: 18ch; color: var(--dark-text); }
-  .mr-backing { color: var(--dark-muted); margin-top: 20px; padding-top: 12px; border-top: 1px solid #3a3b37; }
 
   .mr-main { display: grid; gap: 48px; min-width: 0; }
   .mr-detail { font-size: clamp(1.15rem, 1.5vw, 1.4rem); line-height: 1.5; color: var(--dark-text); max-width: 52ch; }
@@ -79,9 +77,7 @@ const titleId = `${rule.id}-title`;
   @media (max-width: 767px) {
     .mr-no { margin-top: 24px; padding-top: 24px; border-top: 2px solid var(--red-on-dark); }
   }
-  .mr-list h4 { margin-bottom: 14px; }
-  .mr-yes h4 { color: #8fd1aa; }
-  .mr-no h4 { color: var(--red-on-dark); }
+  .mr-list h4 { margin-bottom: 14px; color: var(--dark-text); }
   .mr-list ul { list-style: none; display: grid; gap: 12px; }
   .mr-list li { display: grid; grid-template-columns: 18px 1fr; gap: 12px; color: var(--dark-text); }
   .mr-list li :global(svg) { margin-top: 4px; }
@@ -92,5 +88,6 @@ const titleId = `${rule.id}-title`;
   @media (min-width: 900px) { .mr-evidence { grid-template-columns: 1fr 1fr; align-items: start; } }
   .mr-photo :global(img) { aspect-ratio: 3 / 2; object-fit: cover; }
 
-  .mr-cases { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; color: var(--dark-muted); }
+  .mr-foot { display: grid; gap: 6px; padding-top: 20px; border-top: 1px solid #3a3b37; }
+  .mr-backing { color: var(--dark-text); font-size: .9375rem; }
 </style>

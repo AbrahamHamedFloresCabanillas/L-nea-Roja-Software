@@ -1,12 +1,8 @@
 ---
 import "@fontsource-variable/inter/wght.css";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
 import "../styles/global.css";
 import { site } from "../data/site";
 import interWoff from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
-import mono400 from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
-import mono500 from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2?url";
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -19,8 +15,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={site.description} />
     <link rel="canonical" href={canonical} />
     <link rel="preload" href={interWoff} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={mono400} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={mono500} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#F5F4EF" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content="website" />

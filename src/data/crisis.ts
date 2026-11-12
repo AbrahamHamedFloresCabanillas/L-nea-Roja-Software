@@ -39,7 +39,7 @@ export const crisisIntro = {
     { value: 0, unit: "dólares", label: "pagados por nosotros", prefix: "US$", fmt: "int" },
   ],
   counterNote:
-    "Cifras del Caso E (Crisis Room) que respondimos en clase: una plataforma que prometía discreción absoluta perdió los datos de 4.2 millones de cuentas y el atacante publicó la mitad.",
+    "Cifras del caso de la filtración que respondimos en clase: una plataforma que prometía discreción absoluta perdió los datos de 4.2 millones de cuentas y el atacante publicó la mitad.",
 };
 
 const A = 124, B = 400, C = 676, D = 912, M = 1032, E = 1152;
@@ -163,6 +163,6 @@ export const nodes: readonly CrisisNode[] = [
 export const nodeById = (id: NodeId) => nodes.find((n) => n.id === id)!;
 
 export const routes = [
-  { id: "vulnerabilidad", title: "Ruta de vulnerabilidad", from: "Caso E · La filtración de infieles", caseId: "filtracion" as CaseId },
-  { id: "ambiental", title: "Ruta ambiental", from: "P5 · EvoPhone y A8 · el gato astronauta", caseId: "evophone" as CaseId },
+  { id: "vulnerabilidad", title: "Ruta de vulnerabilidad", caseId: "filtracion" as CaseId },
+  { id: "ambiental", title: "Ruta ambiental", caseId: "evophone" as CaseId },
 ] as const;

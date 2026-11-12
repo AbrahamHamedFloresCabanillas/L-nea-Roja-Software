@@ -1,7 +1,7 @@
 # DESIGN SYSTEM — Línea Roja Software
 ## Manifiesto de Identidad Profesional y Ética · LSC 2026
 
-**Versión:** 2.1 (ajustada al proyecto y al material del semestre)
+**Versión:** 2.2 (sin etiquetas monoespaciadas; todo en Inter)
 **Producto:** sitio web editorial interactivo de una sola página
 **Stack:** Astro (salida estática) + CSS propio con variables + TypeScript vanilla para la interacción. Sin frameworks de UI, sin Tailwind, sin librerías de animación.
 **Deploy:** Vercel, conectado al repositorio en GitHub.
@@ -31,7 +31,7 @@ El contenido es el protagonista. Mucho espacio, jerarquía tipográfica fuerte, 
 El nombre de la agencia es el concepto visual. **Una línea roja horizontal representa un límite que no se cruza.** Es el único motivo gráfico recurrente del sitio:
 
 - se dibuja (de izquierda a derecha) bajo el título del hero al cargar;
-- marca el inicio de cada sección junto al label `01 / FILOSOFÍA`;
+- marca el inicio de cada sección, junto al `h2` con el nombre de la sección (sin texto al lado);
 - separa "lo que sí hacemos" de "lo que no hacemos";
 - en el diagrama de crisis, marca el nodo donde la agencia se niega (ocultar una brecha);
 - en el contrato, subraya la firma.
@@ -50,7 +50,7 @@ Base neutra cálida, nunca blanco puro ni negro puro.
 | `--surface` | `#ECEBE5` | Bloques secundarios, diagramas, casos |
 | `--ink` | `#161616` | Texto principal, bordes fuertes, botones primarios |
 | `--graphite` | `#3F403C` | Texto secundario |
-| `--muted` | `#73756F` | Labels, metadata, captions (solo en tamaños ≥ 14px) |
+| `--muted` | `#696B65` | Texto secundario y captions (solo en tamaños ≥ 14px). Se oscureció de `#73756F` para pasar AA. |
 | `--line` | `#D8D7D0` | Bordes y divisores |
 
 ### Color de identidad: Línea
@@ -60,7 +60,7 @@ Base neutra cálida, nunca blanco puro ni negro puro.
 | `--red` | `#C23A2F` |
 | `--red-soft` | `#F6E3E0` (fondos de feedback negativo) |
 
-Es el **único color de acento** del sitio y significa *límite / no cruzamos / daño*. Úsalo con moderación: la línea, los labels de sección, el estado activo de navegación, el nodo "línea roja" del diagrama, el feedback de una decisión que viola el manifiesto. Nunca grandes superficies rojas.
+Es el **único color de acento** del sitio y significa *límite / no cruzamos / daño*. Úsalo con moderación: la línea junto al nombre de cada sección, el estado activo de navegación, el nodo "línea roja" del diagrama, el feedback de una decisión que viola el manifiesto. Nunca grandes superficies rojas.
 
 **No hay azul.** La interacción (botones, enlaces, estados activos) se resuelve con `--ink`, subrayados y peso tipográfico. El hover de un botón primario cambia a `--red`.
 
@@ -90,10 +90,13 @@ Una sola sección oscura: **02 / Código LSC.** El sitio no tiene modo oscuro gl
 
 ## 4. Tipografía
 
-- **Inter** (variable, 400–700) para todo: títulos, cuerpo, UI. Fallback `"Helvetica Neue", Arial, sans-serif`.
-- **IBM Plex Mono** (400/500) solo para labels, números, metadata, tiempos del diagrama, cláusulas. Nunca párrafos.
-
-Autohospedar las fuentes con `@fontsource` (no depender de Google Fonts en runtime).
+- **Inter** (variable, 400–700) es la **única** familia del sitio: títulos, cuerpo, UI, números, tiempos del diagrama y cláusulas. Fallback `"Helvetica Neue", Arial, sans-serif`. Autohospedada con `@fontsource-variable/inter` (no depender de Google Fonts en runtime).
+- **No hay fuente monoespaciada.** No se usa IBM Plex Mono ni ninguna otra, y no existe la variable `--font-mono`.
+- **No hay etiquetas** (eyebrows, kickers, "labels"): nada de texto pequeño en mayúsculas forzadas (`text-transform: uppercase`) ni con `letter-spacing` positivo. El único tracking permitido es el negativo de los títulos.
+- El texto secundario que sí aporta va en Inter, **tipo oración**, tamaño small (`.875rem`), color `--graphite` o `--muted` (clase `.meta`).
+- Los subtítulos internos ("Lo que sí hacemos", "Lo que no haremos", "Lo que empuja el dinero", "Lo que hacemos", "Cómo lo compruebas", "Nuestra decisión", "Lo que aprendimos") son `h4`/`h5` en Inter semibold, tipo oración (clase `.sub`).
+- Los números (01/02/03 de las reglas, cifras, tiempos del diagrama, numeración de fuentes) van en Inter con `font-variant-numeric: tabular-nums` cuando se alinean (clase `.tnum`).
+- Antes de agregar un texto chico, pregúntate si es decoración. Si solo repite lo que ya dice el título, no va.
 
 | Estilo | Valor |
 |---|---|
@@ -104,8 +107,8 @@ Autohospedar las fuentes con `@fontsource` (no depender de Google Fonts en runti
 | H4 | `1.25rem` · lh 1.25 · 600 |
 | Lead | `clamp(1.15rem, 1.5vw, 1.4rem)` · lh 1.55 |
 | Body | `1rem` · lh 1.65 |
-| Small | `.875rem` · lh 1.5 |
-| Label | Plex Mono · `.75rem` · ls .08em · uppercase |
+| Small / meta | `.875rem` · lh 1.5 · `--graphite` o `--muted` · tipo oración |
+| Sub (h4/h5 internos) | `1rem` · lh 1.35 · 600 · tipo oración |
 
 Párrafos: `max-width: 68ch`. Intros: `52ch`. Títulos del hero: `18ch`.
 
@@ -155,23 +158,23 @@ En los primeros segundos el visitante debe entender: quiénes somos, qué defend
 Desktop (72px, sticky, `background: rgba(245,244,239,.92)`, `backdrop-filter: blur(16px)`, borde inferior fino, sin sombra):
 
 ```
-— Línea Roja/           Filosofía  Código  Promesa  Casos  Crisis  Inversores  Semestre
-  software practice
+— Línea Roja/      Nuestra Filosofía  El Código LSC Moderno  La Promesa al Usuario  Casos
+  software practice  Plan de Acción de Crisis  Inversores  De dónde sale esto
 ```
+
+Las cuatro secciones obligatorias usan el nombre exacto de la actividad. "software practice" va en Inter `.75rem`, `--graphite`, sin mayúsculas. La navegación completa se muestra desde 1280px; abajo de eso, botón "Menú".
 
 El wordmark es texto en Inter 600 precedido de un trazo rojo corto (24×3px). Nada de isotipos complejos ni símbolos de IA o robots.
 
 El enlace de la sección visible se marca con un subrayado rojo (IntersectionObserver).
 
-Mobile: `Línea Roja/` + botón "Menú" (texto, no hamburguesa animada) que abre un panel a pantalla completa con `01 Filosofía … 07 Semestre`. `aria-expanded`, cierre con Esc y al elegir enlace, foco atrapado mientras está abierto.
+Mobile: `Línea Roja/` + botón "Menú" (texto, no hamburguesa animada) que abre un panel a pantalla completa con la lista de secciones (los números 1–7 van en Inter `--graphite` con `tabular-nums`, nunca en rojo ni en mono). `aria-expanded`, cierre con Esc y al elegir enlace, foco atrapado mientras está abierto.
 
 ---
 
 ## 8. Hero (80–95vh en desktop, libre en mobile)
 
 ```
-LSC / MANIFIESTO 2026 · FIM-UABC
-
 No escribimos software
 a cualquier costo.
 ━━━━━━━━━━━━━━━━━━━━  ← línea roja que se dibuja
@@ -180,25 +183,27 @@ Construimos lo que el cliente necesita hasta donde la ética lo
 permite. Este documento dice dónde termina ese punto.
 
 [Leer el manifiesto ↓]
-
-IA generativa · Patrones oscuros · Impacto ambiental   ← metadata en mono
 ```
+
+Sin kicker arriba del título ni línea de metadata abajo: el `h1` abre la página.
 
 Composición tipográfica sobre grid. A la derecha (solo ≥1024px) puede ir **una** fotografía documental en blanco y negro ligero relacionada con el concepto (ver §16).
 
 ---
 
-## 9. 01 / Filosofía
+## 9. Nuestra Filosofía
 
 Responde: *¿quiénes somos y cómo entendemos la diferencia entre hacer dinero y hacer buen software?*
 
-1. Título: **"Cobrar está bien. Cobrar con trampa, no."** + intro a la derecha en desktop.
+**Encabezado de todas las secciones:** el `h2` es el nombre de la sección ("Nuestra Filosofía", "El Código LSC Moderno", "La Promesa al Usuario", "Casos", "Plan de Acción de Crisis", "Inversores", "De dónde sale esto", "Equipo", "Fuentes"), con la línea roja corta a la izquierda y sin texto al lado. Justo debajo, la frase editorial de la sección como subtítulo grande (tamaño H2, `<p>`), y a la derecha la intro. No hay eyebrows tipo `01 / …`.
+
+1. Subtítulo: **"Cobrar está bien. Cobrar con trampa, no."** + intro a la derecha en desktop.
 2. Declaración editorial grande:
    > Un producto que funciona solo porque el usuario no entiende lo que acepta es una deuda que paga alguien más.
-3. **Ética / Moral / Deontología** en composición horizontal separada por líneas verticales (no tres tarjetas idénticas): número, término, definición corta, y "En el taller" con la aplicación práctica.
+3. **Ética / Moral / Deontología** en composición horizontal separada por líneas verticales (no tres tarjetas idénticas): término (sin número encima), definición corta, y "En el taller" (subtítulo `.sub`) con la aplicación práctica y la referencia al código de la ACM en texto `.meta`.
    La columna "En el taller" usa ejemplos de nuestra traducción del código ACM (`semestre.md` · A6): p. ej. Deontología → *"Callar por no hacer olas también es una decisión"* (4.1).
 4. **"Dinero contra buen software, en cuatro decisiones":** las 4 situaciones del HTML original como acordeón. Al abrir, dos columnas: *Lo que empuja el dinero* (borde izquierdo rojo) / *Lo que hacemos* (borde izquierdo verde). `<details>` nativo o botón con `aria-expanded`. Las cuatro decisiones se reescriben con los casos oficiales: retención (`cancelacion`), métricas de clics contra respuestas útiles (`buscador`), comisión del 30% y pagos externos (`tienda-apps`) y rastrear empleados sin avisarles (`bossware`). La declaración editorial grande puede usar el caso del buscador: el producto empeoró mientras los números subían.
-5. **"Cómo trabajamos por dentro"** (sale del caso Rockstar, A4): tres compromisos internos en una fila separada por líneas:
+5. **"Cómo trabajamos por dentro"** (sale del caso del Rockstar): tres compromisos internos en una fila separada por líneas:
    - **No hay rockstars.** Todo PR lleva revisión y todo módulo, documentación mínima. El talento no compra impunidad.
    - **La conducta se nombra por sus efectos.** Hablamos con datos, no con adjetivos. La corrección es en privado; el reconocimiento, en público.
    - **Cualquiera puede detener una tarea.** Botón de objeción técnica: si alguien del equipo cree que algo daña al usuario, se para y se revisa (EvoPhone, P5).
@@ -207,7 +212,7 @@ Responde: *¿quiénes somos y cómo entendemos la diferencia entre hacer dinero 
 
 ## 10. 02 / Código LSC (sección oscura)
 
-Título: **"Tres reglas que no negociamos."** Intro: por qué elegimos estos tres dilemas.
+Subtítulo: **"Tres reglas que no negociamos."** Intro: por qué elegimos estos tres dilemas.
 
 Los tres pilares, en este orden:
 
@@ -217,21 +222,21 @@ Los tres pilares, en este orden:
 | 02 | Patrones oscuros y diseño adictivo | Si el usuario no lo aceptaría viendo el cuadro completo, no lo diseñamos. Cancelar cuesta lo mismo que contratar, y no medimos el éxito en minutos atrapados. |
 | 03 | Impacto ambiental | Todo lo que ponemos en producción tiene un presupuesto de recursos y una fecha de retiro. Nunca volvemos lento un equipo que funciona. |
 
-Cada regla lleva una línea de **respaldo** en Plex Mono con los artículos que la sostienen (de `semestre.md`): 01 → ACM 1.2 · 1.3 · 4.1; 02 → ACM 1.1 · 1.2 · 3.5; 03 → ACM/IEEE-CS 1.03 · 1.06 · 3.10.
+Cada regla cierra con una línea de **respaldo** en texto normal: "Respaldo: Código de la ACM 1.2, 1.3 y 4.1." (02 → 1.1, 1.2 y 3.5; 03 → código ACM/IEEE-CS 1.03, 1.06 y 3.10), seguida de "De los casos: …" con enlaces.
 
 Cada regla ocupa casi un bloque completo:
 
 ```
-01                                   ← número enorme, Plex Mono, rojo sobre oscuro
-IA GENERATIVA
+01                                   ← número enorme, Inter 600 tabular-nums, rojo sobre oscuro
+IA generativa                        ← nombre del pilar en texto normal, tipo oración
 La IA propone, una persona responde.
 
 Lo que sí hacemos      │  Lo que no haremos
 · …                    │  · …
 ━━━━━━━ (línea roja entre columnas en mobile)
 
-[Caso real]  → tarjeta corta: qué pasó, año, fuente.  (ver §17)
-[Demo]       → el interactivo de ese pilar
+[Caso real]  → tarjeta corta: el año va en el título o en la primera frase.  (ver §17)
+[Demo]       → el interactivo de ese pilar, sin etiqueta "Demo · …": su título basta
 ```
 
 **Interacción desktop (≥1024px):** sticky storytelling. La columna izquierda (número + título del pilar) queda fija mientras el contenido de la derecha avanza; el número cambia al entrar cada regla. **Mobile:** las reglas se apilan, sin sticky.
@@ -245,9 +250,9 @@ Lo que sí hacemos      │  Lo que no haremos
 
 ## 11. 03 / Promesa al usuario
 
-Título: **"Esto es lo que puedes exigirnos."**
+Subtítulo: **"Esto es lo que puedes exigirnos."**
 
-Debe parecer un documento firmado: fondo `--surface`, borde `--ink`, una línea roja de 4px arriba, cláusulas numeradas en Plex Mono.
+Debe parecer un documento firmado: fondo `--surface`, borde `--ink`, una línea roja de 4px arriba, cláusulas numeradas ("Cláusula 1") en Inter `.meta`. Sin código de documento tipo "LRS-PROMESA · Versión 1.0".
 
 Tres cláusulas obligatorias (texto del HTML original): **Autonomía, Dinero, Salud mental.** Cada una con: la promesa, *Cómo lo compruebas*, y un botón **"Ver en el producto"** que despliega 2–3 decisiones concretas de producto (ej. Salud mental → notificaciones apagadas por defecto, sin rachas que castigan, límite de tiempo visible). Nada de checkboxes falsos.
 
@@ -271,14 +276,14 @@ Casos de decisión sin puntuación ni gamificación. El objetivo es comunicar cr
 Formato de cada caso:
 
 ```
-CASO 0X
+[Título del caso]                ← sin "Caso 0X" encima
 [Situación en 2–3 líneas]
 
 A — …
 B — …
 C — …
 
-→ al elegir: "NUESTRA DECISIÓN" + razonamiento, y por qué las otras no.
+→ al elegir: "Nuestra decisión" (h4, tipo oración) + razonamiento, y por qué las otras no.
 ```
 
 Cuatro casos de la lista oficial (`semestre.md`), los que no se usan como demo en otra sección:
@@ -293,14 +298,14 @@ Selector con `role="radiogroup"` o botones `aria-pressed`, navegable con teclado
 
 ## 13. 05 / Protocolo de crisis
 
-Título: **"Cuando el problema es nuestro, la prioridad cambia."**
+Subtítulo: **"Cuando el problema es nuestro, la prioridad cambia."**
 
 Dos vistas de lo mismo:
 
 1. **Diagrama completo** (SVG generado en código, no imagen): todos los nodos y ramas visibles a la vez, incluida la ruta ambiental. Así el profesor ve el árbol entero.
 2. **Recorrido interactivo:** "Inicia el incidente". El usuario elige en cada bifurcación; el nodo actual se resalta en el diagrama (borde `--ink` 2px), el camino recorrido se dibuja con trazo `--ink`, y el nodo **"Línea roja: no se oculta"** usa `--red`. Botón "Reiniciar".
 
-Nodos y tiempos: los del HTML original (Alerta 0–15 min → Contener 0–1 h / Medir 48 h → … → Postmortem público 30 días), **reforzados con nuestra respuesta al Caso E (Crisis Room)**:
+Nodos y tiempos: los del HTML original (Alerta 0–15 min → Contener 0–1 h / Medir 48 h → … → Postmortem público 30 días), **reforzados con nuestra respuesta al caso de la filtración**:
 - *Contener* incluye sacar el servidor de internet, rotar llaves, cerrar sesiones y dejar de almacenar lo que no debíamos guardar.
 - Nuevo nodo **Investigación raíz**: qué falló de verdad (credenciales reutilizadas, sin segundo factor, datos de más, sin monitoreo).
 - Nueva bifurcación **"¿Nos extorsionan?"** → *Línea roja: no pagamos.* Pagar no revierte la copia y financia el siguiente ataque; ese dinero se va a las personas afectadas.
@@ -310,7 +315,7 @@ Nodos y tiempos: los del HTML original (Alerta 0–15 min → Contener 0–1 h /
 
 Debajo del diagrama, un **contador de ejemplo** con el caso real: "2.1 millones de cuentas publicadas · US$1 M exigido · US$0 pagado".
 
-Estilo de nodo: `border: 1px solid var(--line); border-radius: 10px; background: var(--paper);` tiempo en Plex Mono arriba. Nada de diagramas estilo PowerPoint, sombras ni flechas gruesas.
+Estilo de nodo: `border: 1px solid var(--line); border-radius: 10px; background: var(--paper);` tiempo en Inter small (`tabular-nums`) arriba. Las etiquetas de ruta del SVG van en tipo oración ("Ruta ambiental"), no en mayúsculas. Nada de diagramas estilo PowerPoint, sombras ni flechas gruesas.
 
 Mobile: el diagrama se convierte en secuencia vertical; el recorrido interactivo se mantiene.
 
@@ -318,24 +323,27 @@ Mobile: el diagrama se convierte en secuencia vertical; el recorrido interactivo
 
 ## 14. 06 / Sala de inversores
 
-Título: **"Las preguntas que nos harán."** Acordeón con las preguntas del HTML original más las nuevas (ver prompt) y las que ya respondimos en clase: el escrutinio de la Mesa Directiva de EvoPhone (P5) y las contrarréplicas del caso Rockstar (A4). Cada respuesta: postura en una línea en negritas + argumento en 2–4 líneas. Tono firme, sin ceder.
+Subtítulo: **"Las preguntas que nos harán."** Acordeón con las preguntas del HTML original más las nuevas y las que ya respondimos en clase: el escrutinio de la Mesa Directiva de EvoPhone y las contrarréplicas del caso del Rockstar. Sin etiquetas de origen ("Pregunta original", "Contrarréplica…") ni contador de preguntas; cada respuesta cierra con "Del caso: …". Cada respuesta: postura en una línea en negritas + argumento en 2–4 líneas. Tono firme, sin ceder.
 
 ---
 
 ## 14b. 07 / De dónde sale esto
 
-Título: **"Diez casos, un manifiesto."** Es la prueba de que el manifiesto sintetiza el semestre (lo pide la actividad).
+Subtítulo: **"Diez casos, un manifiesto."** Es la prueba de que el manifiesto sintetiza el semestre (lo pide la actividad).
 
 Línea de tiempo horizontal en desktop y vertical en mobile, con la línea roja como eje. Cada parada:
 
 ```
-CASO · EL ROCKSTAR ARROGANTE
-Código brillante, equipo roto
-Lo que aprendimos: el talento no compra impunidad.
-→ alimentó: Cómo trabajamos por dentro
+El Rockstar arrogante            ← h3, nombre del caso (sin número ni "CASO ·")
+Código brillante, equipo roto    ← frase del caso
+Lo que aprendimos                ← h4 .sub
+El talento no compra impunidad.
+→ Filosofía · cómo trabajamos por dentro
 ```
 
-Paradas: los 10 casos de la lista oficial de `semestre.md`, con su título del caso. A6 (Traductor deontológico) y A7 (Addiction UX) aparecen al final como "Herramientas que usamos", no como casos. Cada una enlaza (ancla) a la sección del sitio que alimentó. La tabla "Cómo se conecta todo" al final de `semestre.md` define las conexiones.
+Paradas: los 10 casos de la lista oficial de `semestre.md`, con su título del caso. El traductor deontológico y el desfase ético (diseño adictivo) aparecen al final como "Herramientas que usamos", no como casos. Cada parada enlaza (ancla) a la sección del sitio que alimentó. La tabla "Cómo se conecta todo" al final de `semestre.md` define las conexiones.
+
+**Nunca** aparecen en texto visible los códigos internos de clase (A4, A6, A7, A8, P5, Caso D, Caso E, "mapa mental", "Crisis Room"). Al lector le basta el nombre del caso; los códigos solo pueden vivir en comentarios del código o en este documento.
 
 ---
 
@@ -393,7 +401,7 @@ Cada pilar lleva una tarjeta con un hecho real **que respalda uno de los 10 caso
 
 Todo dato se verifica con búsqueda web antes de publicarlo; si no se sostiene, se quita.
 
-Formato: `CASO REAL · AÑO` en label, título en H4, qué pasó en 2 líneas, "Qué aprendimos" en 1 línea, enlace a la fuente.
+Formato: título en H4 con el año dentro ("Hong Kong, 2024: …"), qué pasó en 2 líneas, "Qué aprendimos:" en 1 línea, referencia numerada a Fuentes y "Del caso: …". Sin etiqueta "Caso real · año".
 
 ---
 
@@ -438,6 +446,12 @@ Prohibido: "revolucionamos", "transformamos el mundo", "potenciamos soluciones",
 Siempre convertir:
 "Creemos firmemente en la importancia de la privacidad." → **"Si no necesitamos un dato, no lo pedimos."**
 
+Sin etiquetas: el sitio no usa eyebrows, kickers ni rótulos en mayúsculas ("DEMO · …", "CASO 01", "PREGUNTA ORIGINAL", "LRS-PROMESA"). Si un dato vale la pena, se escribe como frase en tipo oración:
+- "Caso del semestre · X" / "Respalda el caso · X" → "Del caso: X" (enlace en texto normal).
+- "Respaldo · ACM 1.2 · 1.3" → "Respaldo: Código de la ACM 1.2 y 1.3."
+- "Caso real · 2024" → el año dentro del título o de la primera frase.
+- Nada de códigos internos de clase en texto visible.
+
 ---
 
 ## 22. Prohibido
@@ -454,7 +468,7 @@ Gradientes, glassmorphism (salvo el blur leve del header), glow, blobs, partícu
   --surface: #ECEBE5;
   --ink: #161616;
   --graphite: #3F403C;
-  --muted: #73756F;
+  --muted: #696B65;
   --line: #D8D7D0;
 
   --red: #C23A2F;
@@ -470,7 +484,6 @@ Gradientes, glassmorphism (salvo el blur leve del header), glow, blobs, partícu
   --red-on-dark: #E8574B;
 
   --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -486,7 +499,7 @@ Gradientes, glassmorphism (salvo el blur leve del header), glow, blobs, partícu
 ## 24. Componentes (Astro)
 
 ```
-Header · MobileMenu · SectionLabel · SectionHeader · RedLine
+Header · MobileMenu · SectionHeader · RedLine · CaseTag ("Del caso: …")
 Statement · ConceptRow · DecisionAccordion
 ManifestoRule · RealCase · AICaseDemo · DarkPatternDemo · EnvDemo
 PromiseClause · Contract

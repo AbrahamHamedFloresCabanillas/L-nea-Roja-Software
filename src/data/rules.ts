@@ -1,7 +1,6 @@
 import type { CaseId } from "./cases";
 
 export interface RealCase {
-  year: string;
   title: string;
   what: string;
   learned: string;
@@ -37,7 +36,7 @@ export const rules: readonly Rule[] = [
     rule: "La IA propone, una persona responde.",
     detail:
       "Nada generado sale sin revisión humana ni sin avisar que lo es, nadie es clonado sin su consentimiento, y usamos el modelo más pequeño que resuelva la tarea.",
-    backing: "ACM 1.2 · 1.3 · 4.1",
+    backing: "Código de la ACM 1.2, 1.3 y 4.1",
     yes: [
       "Avisamos cuando un texto, una imagen o una voz se generó con IA.",
       "Una persona del equipo lee, entiende y firma todo lo que la IA produce antes de entregarlo.",
@@ -51,8 +50,7 @@ export const rules: readonly Rule[] = [
       "Entrenar modelos con datos de usuarios que no lo aceptaron.",
     ],
     realCase: {
-      year: "2024",
-      title: "La videollamada donde todos eran falsos",
+      title: "Hong Kong, 2024: la videollamada donde todos eran falsos",
       what:
         "Un empleado de Arup en Hong Kong entró a una videollamada con el director financiero y otros colegas. Todos, menos él, eran deepfakes. Hizo 15 transferencias por HK$200 millones, unos US$25 millones.",
       learned: "La voz y la cara ya no prueban identidad. Por eso no hay clonación sin consentimiento ni sin marca de agua.",
@@ -72,7 +70,7 @@ export const rules: readonly Rule[] = [
     pillar: "Patrones oscuros y diseño adictivo",
     rule: "Si el usuario no lo aceptaría viendo el cuadro completo, no lo diseñamos.",
     detail: "Cancelar cuesta lo mismo que contratar, y no medimos el éxito en minutos atrapados.",
-    backing: "ACM 1.1 · 1.2 · 3.5",
+    backing: "Código de la ACM 1.1, 1.2 y 3.5",
     yes: [
       "Cancelar toma los mismos pasos que contratar, con botones del mismo tamaño.",
       "El rechazo dice “No, gracias”. Sin culpa y sin miedo.",
@@ -86,8 +84,7 @@ export const rules: readonly Rule[] = [
       "Scroll infinito o recompensas variables en productos para menores.",
     ],
     realCase: {
-      year: "2025",
-      title: "La cancelación de Prime le costó US$2,500 millones a Amazon",
+      title: "Amazon, 2025: cancelar Prime le costó US$2,500 millones",
       what:
         "La FTC demandó a Amazon por inscribir gente en Prime sin consentimiento claro y por complicar la cancelación. En septiembre de 2025 Amazon aceptó pagar US$1,000 millones de multa civil y US$1,500 millones en reembolsos, y cambiar su flujo de cancelación.",
       learned: "Esconder la salida no retiene clientes: aplaza una factura que llega con intereses.",
@@ -107,7 +104,7 @@ export const rules: readonly Rule[] = [
     pillar: "Impacto ambiental",
     rule: "Todo lo que ponemos en producción tiene un presupuesto de recursos y una fecha de retiro.",
     detail: "Nunca volvemos lento un equipo que funciona.",
-    backing: "ACM/IEEE-CS 1.03 · 1.06 · 3.10",
+    backing: "Código de ética de ingeniería de software ACM/IEEE-CS 1.03, 1.06 y 3.10",
     yes: [
       "Probamos cada versión en teléfonos de hasta 7 años antes de publicarla.",
       "Si limitamos el rendimiento por la batería, lo avisamos y el usuario decide.",
@@ -121,8 +118,7 @@ export const rules: readonly Rule[] = [
       "Llamar “verde” a un producto sin publicar el método.",
     ],
     realCase: {
-      year: "2020",
-      title: "Batterygate",
+      title: "Apple, 2017–2020: batterygate",
       what:
         "Apple limitó el rendimiento de iPhones con baterías desgastadas sin avisar con claridad. En 2020 aceptó un acuerdo de hasta US$500 millones en EE. UU. y una multa de €25 millones en Francia por práctica comercial engañosa por omisión.",
       learned: "Limitar el rendimiento puede tener una razón técnica. Esconderlo, no.",
